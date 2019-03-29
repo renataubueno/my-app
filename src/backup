@@ -1,0 +1,51 @@
+import React, {Component} from 'react';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+
+export default class MenuParada extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 'Condição de parada'
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+      this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event) {
+      alert('Your favorite flavor is: ' + this.state.value);
+      event.preventDefault();
+    }
+
+
+  paradaTempo = (event) => {
+    alert('Your favorite flavor is: ' + this.state.value);
+    this.setState({value: event.target.value});
+  };
+
+  paradaChegadas = (event) => {
+    alert('Your favorite flavor is: ' + this.state.value);
+    this.setState({value: event.target.value});
+  };
+
+  render(){
+    return(
+      <div>
+      <InputLabel htmlFor="stop-helper">Condição de Parada</InputLabel>
+      <Select value={this.state.value} onChange={this.paradaTempo}>
+        <MenuItem value={this.state.value} onChange={this.paradaTempo}>Tempo</MenuItem>
+        <MenuItem value={this.state.value} onChange={this.paradaChegadas}>Número de Chegadas</MenuItem>
+      </Select>
+      </div>
+    );
+  }
+}
+
+//1 para tempo
+//2 para número de chegadas

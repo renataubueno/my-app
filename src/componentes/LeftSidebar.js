@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -7,30 +6,23 @@ import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
-import Input from '@material-ui/core/Input';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import ExportXML from './ExportXML.js';
+import ImportXML from './ImportXML.js';
+import Simulacao from './Simulacao.js';
+import MenuDistribuicao from './MenuDistribuicao.js';
+import MenuParada from './MenuParada.js';
 
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
     display: 'flex',
-    marginRight: 50,
-  	padding: '0 8px',
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -87,7 +79,7 @@ const styles = theme => ({
 
 class PersistentDrawerLeft extends React.Component {
   state = {
-    open: false,
+    open: false
   };
 
   handleDrawerOpen = () => {
@@ -99,7 +91,7 @@ class PersistentDrawerLeft extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     const { open } = this.state;
 
     return (
@@ -113,11 +105,12 @@ class PersistentDrawerLeft extends React.Component {
         >
           <Toolbar disableGutters={!open}>
             <IconButton
-              color="secondary"
+              color="default"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
               className={classNames(classes.menuButton, open && classes.hide)}
             >
+            <NavigationIcon/>
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
               Queue Network Simulator
@@ -134,57 +127,22 @@ class PersistentDrawerLeft extends React.Component {
           }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton color="secondary" onClick={this.handleDrawerClose}>
+            <IconButton color="primary" onClick={this.handleDrawerClose}>
+            	<NavigationIcon/>
             </IconButton>
           </div>
           <Divider />
           <div>
-          Objetos
+            Objetos
           </div>
           <Divider />
-          <InputLabel htmlFor="stop-helper">Condição de Parada</InputLabel>
-          <Select
-            value={this.state.stop}
-            onChange={this.handleChange}
-          >
-            <MenuItem value="">
-              <em>Condição de Parada</em>
-            </MenuItem>
-            <MenuItem value={1}>Tempo</MenuItem> //1 para tempo
-            <MenuItem value={2}>Número de Chegadas</MenuItem> //2 para número de chegadas
-          </Select>
-          <InputLabel htmlFor="type-helper">Tipo de Distriuição</InputLabel>
-          <Select
-            value={this.state.type}
-            onChange={this.handleChange}
-          >
-            <MenuItem value="">
-              <em>Tipo de Distriuição</em>
-            </MenuItem>
-            <MenuItem value={1}>Uniforme</MenuItem> //1 para uniforme
-            <MenuItem value={2}>Exponencial</MenuItem> //2 para exponencial
-            <MenuItem value={3}>Geométrica</MenuItem> //3 para geométrica
-            <MenuItem value={4}>Binomial</MenuItem> //4 para binomial
-          </Select>
-          <Button variant="contained" className={classes.button}>
-        	Iniciar Simulação
-      	  </Button>
+          <MenuParada />
+          <MenuDistribuicao />
+          <Simulacao />
           <Divider />
-          <Button variant="contained" className={classes.button}>
-        	Exportar XML
-      	  </Button>
-      	  <Button variant="contained" className={classes.button}>
-        	Importar XML
-      	  </Button>
+          <ExportXML />
+          <ImportXML />
         </Drawer>
-        <main
-          className={classNames(classes.content, {
-            [classes.contentShift]: open,
-          })}
-        >
-          <div className={classes.drawerHeader} />
-          EDITOR
-        </main>
       </div>
     );
   }
