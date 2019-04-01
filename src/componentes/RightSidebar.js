@@ -32,18 +32,15 @@ const styles = theme => ({
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
+    marginRight: drawerWidth,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   menuButton: {
-    marginLeft: 12,
+    marginRight: 12,
     marginRight: 20,
-  },
-  hide: {
-    display: 'none',
   },
   drawer: {
     width: drawerWidth,
@@ -66,22 +63,21 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: -drawerWidth,
+    marginRight: -drawerWidth,
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: 0,
+    marginRight: 0,
+  },
+  margin: {
+    margin: theme.spacing.unit,
   },
 });
 
-class PersistentDrawerLeft extends React.Component {
-  constructor(props){
-    super(props);
-  }
-
+class PersistentDrawerRight extends React.Component {
   state = {
     open: false
   };
@@ -101,22 +97,20 @@ class PersistentDrawerLeft extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-          <Toolbar disableGutters={!open}>
-            <IconButton
-              color="default"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerOpen}
-              className={classNames(classes.menuButton, open && classes.hide)}
-            >
-            <Typography variant="button" color="inherit" noWrap>
-              Parâmetros
-            </Typography>
-            </IconButton>
-          </Toolbar>
+        <IconButton
+          color="default"
+          aria-label="Open drawer"
+          onClick={this.handleDrawerOpen}
+          className={classes.margin}
+        >
+        <Typography variant="button" color="inherit" noWrap>
+          Relatório
+        </Typography>
+        </IconButton>
         <Drawer
           className={classes.drawer}
           variant="persistent"
-          anchor="left"
+          anchor="right"
           open={open}
           classes={{
             paper: classes.drawerPaper,
@@ -127,26 +121,15 @@ class PersistentDrawerLeft extends React.Component {
             	<NavigationIcon/>
             </IconButton>
           </div>
-          <Divider />
-          <div>
-            Objetos
-          </div>
-          <Divider />
-          <MenuParada />
-          <MenuDistribuicao />
-          <Simulacao />
-          <Divider />
-          <ExportXML />
-          <ImportXML />
         </Drawer>
       </div>
     );
   }
 }
 
-PersistentDrawerLeft.propTypes = {
+PersistentDrawerRight.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(PersistentDrawerLeft);
+export default withStyles(styles, { withTheme: true })(PersistentDrawerRight);

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   drawerHeader: {
@@ -19,7 +20,9 @@ class Editor extends React.Component{
     return(
       <main>
         <div className={classes.drawerHeader} />
-        EDITOR
+        <Typography variant="h5" component="h3">
+          EDITOR
+        </Typography>
       </main>
     );
   }

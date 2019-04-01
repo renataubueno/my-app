@@ -1,51 +1,24 @@
-import React, {Component} from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
+import React from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import classNames from 'classnames';
+import PersistentDrawerLeft from './LeftSidebar.js';
+import Editor from './Editor.js';
+import PersistentDrawerRight from './RightSidebar.js';
+import Typography from '@material-ui/core/Typography';
 
-export default class MenuParada extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 'Condição de parada'
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-      this.setState({value: event.target.value});
-    }
-
-    handleSubmit(event) {
-      alert('Your favorite flavor is: ' + this.state.value);
-      event.preventDefault();
-    }
-
-
-  paradaTempo = (event) => {
-    alert('Your favorite flavor is: ' + this.state.value);
-    this.setState({value: event.target.value});
-  };
-
-  paradaChegadas = (event) => {
-    alert('Your favorite flavor is: ' + this.state.value);
-    this.setState({value: event.target.value});
-  };
-
+export default class App extends React.Component {
   render(){
     return(
       <div>
-      <InputLabel htmlFor="stop-helper">Condição de Parada</InputLabel>
-      <Select value={this.state.value} onChange={this.paradaTempo}>
-        <MenuItem value={this.state.value} onChange={this.paradaTempo}>Tempo</MenuItem>
-        <MenuItem value={this.state.value} onChange={this.paradaChegadas}>Número de Chegadas</MenuItem>
-      </Select>
+      <AppBar position="fixed">
+      <Typography align="center" variant="h6" color="inherit" noWrap>
+        Queue Network Simulator
+      </Typography>
+        <PersistentDrawerLeft />
+        <PersistentDrawerRight />
+      </AppBar>
+      <Editor />
       </div>
     );
   }
 }
-
-//1 para tempo
-//2 para número de chegadas
