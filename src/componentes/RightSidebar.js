@@ -1,22 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import ExportXML from './ExportXML.js';
-import ImportXML from './ImportXML.js';
-import Simulacao from './Simulacao.js';
-import MenuDistribuicao from './MenuDistribuicao.js';
-import MenuParada from './MenuParada.js';
+import ButtonRightSidebar from './ButtonRightSidebar.js';
+import DrawerRightSidebar from './DrawerRightSidebar.js'
 
 const drawerWidth = 240;
 
@@ -32,14 +19,14 @@ const styles = theme => ({
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
-    marginRight: drawerWidth,
+    margin: drawerWidth,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   menuButton: {
-    marginRight: 12,
+    margin: 12,
     marginRight: 20,
   },
   drawer: {
@@ -78,9 +65,10 @@ const styles = theme => ({
 });
 
 class PersistentDrawerRight extends React.Component {
-  state = {
-    open: false
-  };
+  constructor(props){
+    super(props);
+    this.state = {open: false};
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -96,31 +84,9 @@ class PersistentDrawerRight extends React.Component {
 
     return (
       <div className={classes.root}>
-        <CssBaseline />
-        <IconButton
-          color="default"
-          aria-label="Open drawer"
-          onClick={this.handleDrawerOpen}
-          className={classes.margin}
-        >
-        <Typography variant="button" color="inherit" noWrap>
-          Relatório
-        </Typography>
-        </IconButton>
-        <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="right"
-          open={open}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.drawerHeader}>
-            <IconButton color="primary" onClick={this.handleDrawerClose}>
-            	<NavigationIcon/>
-            </IconButton>
-          </div>
+        <ButtonRightSidebar buttonrsbopen={this.handleDrawerOpen}/>
+        <Drawer className={classes.drawer} variant="persistent" anchor="right" open={open} classes={{paper: classes.drawerPaper,}}>
+          <DrawerRightSidebar buttonrsbclose={this.handleDrawerClose}/>
         </Drawer>
       </div>
     );
