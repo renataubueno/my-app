@@ -1,74 +1,16 @@
-import React, {Component} from 'react';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
 
-export default class Relatorio extends Component{
-  constructor(props){
-    super(props);
-    this.post = {
-      idFila: 0,
-      numChegadas: 0,
-      numAtendimentos: 0,
-      tempoOcupada: 0,
-      taxaChegada: 0,
-      vazao: 0,
-      utilizacao: 0,
-      tempoMedioServico: 0
-    };
-    this.feed = {
-      postList: []
-    }
-  }
-
-  render(){
-    let idFila = this.post.idFila;
-    let numChegadas = this.post.numChegadas;
-    let numAtendimentos = this.post.numAtendimentos;
-    let tempoOcupada = this.post.tempoOcupada;
-    let taxaChegada = this.post.taxaChegada;
-    let vazao = this.post.vazao;
-    let utilizacao = this.post.utilizacao;
-    let tempoMedioServico = this.post.tempoMedioServico;
-
-    let post1 = {
-      idFila: this.post.idFila,
-      numChegadas: this.post.numChegadas,
-      numAtendimentos: this.post.numAtendimentos,
-      tempoOcupada: this.post.tempoOcupada,
-      taxaChegada: this.post.taxaChegada,
-      vazao: this.post.vazao,
-      utilizacao: this.post.utilizacao,
-      tempoMedioServico: this.post.tempoMedioServico
-    }
-
-    return(
-      <div color="primary">
-        <Typography align="center" variant="subtitle1" color="primary" noWrap>
-          Fila {idFila}
-        </Typography>
-        <Typography align="center" variant="body1" color="primary" noWrap>
-          Número de Chegadas: {numChegadas}
-        </Typography>
-        <Typography align="center" variant="body1" color="primary" noWrap>
-          Número de Atendimentos: {numAtendimentos}
-        </Typography>
-        <Typography align="center" variant="body1" color="primary" noWrap>
-          Tempo Ocupada: {tempoOcupada}
-        </Typography>
-        <Typography align="center" variant="body1" color="primary" noWrap>
-          Taxa de Chegada: {taxaChegada}
-        </Typography>
-        <Typography align="center" variant="body1" color="primary" noWrap>
-          Vazão: {vazao}
-        </Typography>
-        <Typography align="center" variant="body1" color="primary" noWrap>
-          Utilização: {utilizacao}
-        </Typography>
-        <Typography align="center" variant="body1" color="primary" noWrap>
-          Tempo Médio de Serviço: {tempoMedioServico}
-        </Typography>
-        <Divider />
-      </div>
-    );
-  }
-}
+<Button variant="contained" onClick={this.handleClickOpen} /*className={classes.button}*/>
+  Submit
+</Button>
+<Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+<DialogContent>
+  <DialogContentText id="alert-dialog-description">
+    Parâmetro Salvo
+  </DialogContentText>
+</DialogContent>
+<DialogActions>
+  <Button onClick={this.handleClose} color="primary">
+    Fechar Janela
+  </Button>
+  </DialogActions>
+ </Dialog>

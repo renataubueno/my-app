@@ -28,7 +28,9 @@ export default class DrawerLeftSidebar extends Component{
         </div>
         <Divider />
         <MenuParada />
+        <Divider />
         <MenuDistribuicao />
+        <Divider />
         <Simulacao />
         <Divider />
         <ExportJSON />
