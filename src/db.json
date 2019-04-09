@@ -1,0 +1,24 @@
+{
+  "fila": [
+    {
+    "id": 1,
+    "numChegadas": 10,
+    "numAtendimentos": 100,
+    "tempoOcupada": 20,
+    "taxaChegada": 30,
+    "vazao": 5,
+    "utilizacao": 15,
+    "tempoMedioServico": 2
+  },
+  {
+  "id": 2,
+  "numChegadas": 1000,
+  "numAtendimentos": 200,
+  "tempoOcupada": 25,
+  "taxaChegada": 35,
+  "vazao": 50,
+  "utilizacao": 150,
+  "tempoMedioServico": 2000
+  }
+  ]
+}
