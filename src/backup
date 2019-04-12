@@ -1,67 +1,84 @@
 //json-server --watch db.json
 
-
-
-import React, {Component} from 'react';
-import Divider from '@material-ui/core/Divider';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 import Pubsub from 'pubsub-js';
+import circleImage from '../images/circle.png';
+import Draggable from 'react-draggable';
 
-export default class Relatorio extends Component{
+const styles = theme => ({
+  drawerHeader: {
+    width: '300px',
+    height: '100px',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '100px 50px 75px 100px',
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },root: {
+    width: '800px',
+    height: '400px',
+    alignItems: 'center',
+    marginLeft: '245px',
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 5,
+  },
+});
+
+class Editor extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      feed: [
-        {idFila: 1, numChegadas: 10, numAtendimentos: 120, tempoOcupada: 122, taxaChegada: 14, vazao: 52, utilizacao: 42,   tempoMedioServico: 13},
-        {idFila: 2, numChegadas: 15, numAtendimentos: 66, tempoOcupada: 19, taxaChegada: 1, vazao: 13, utilizacao: 24,   tempoMedioServico: 55}
-      ],
-      filas: []
+      filaCirculos: []
     }
   }
 
   componentWillMount(){
-      Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
-        console.log('Chegou : ', dadosDaFila.resposta[0]);
-        this.setState({filas: dadosDaFila.resposta[0]});
-        console.log('Conteúdo da fila: ', this.state.filas);
+      Pubsub.subscribe('retorno-circulo', (topico, dadosDoCirculo) => {
+        console.log('Chegou : ', dadosDoCirculo.resposta);
+        this.setState({filaCirculos: dadosDoCirculo.resposta});
+        console.log('Conteúdo da fila de círculos: ', this.state.filaCirculos);
      });
  }
 
   render(){
+    const { classes } = this.props;
+
     return(
-      <div color="primary">
-        {
-          this.state.feed.map(item => (
-            <div>
-              <Typography key={item.idFila} align="center" variant="subtitle1" color="primary" noWrap >
-                Fila {item.idFila}
-              </Typography>
-              <Typography key={item.numChegadas + item.idFila} align="center" variant="body1" color="primary" noWrap>
-                Número de Chegadas: {item.numChegadas}
-              </Typography>
-              <Typography key={item.numAtendimentos + item.idFila} align="center" variant="body1" color="primary" noWrap>
-                Número de Atendimentos: {item.numAtendimentos}
-              </Typography>
-              <Typography key={item.tempoOcupada + item.idFila} align="center" variant="body1" color="primary" noWrap>
-                Tempo Ocupada: {item.tempoOcupada}
-              </Typography>
-              <Typography key={item.taxaChegada + item.idFila} align="center" variant="body1" color="primary" noWrap>
-                Taxa de Chegada: {item.taxaChegada}
-              </Typography>
-              <Typography key={item.vazao + item.idFila}  align="center" variant="body1" color="primary" noWrap>
-                Vazão: {item.vazao}
-              </Typography>
-              <Typography key={item.utilizacao + item.idFila} align="center" variant="body1" color="primary" noWrap>
-                Utilização: {item.utilizacao}
-              </Typography>
-              <Typography key={item.tempoMedioServico + item.idFila} align="center" variant="body1" color="primary" noWrap>
-                Tempo Médio de Serviço: {item.tempoMedioServico}
-              </Typography>
-              <Divider />
-            </div>
-          ))
-        }
-      </div>
+      <main>
+        <div className={classes.drawerHeader} />
+        <Paper className={classes.root} elevation={1}>
+        <Typography variant="h5" component="h3">
+          EDITOR <br />
+        </Typography>
+        <Draggable
+          axis="both"
+          bounds={{left:0, top: -50, right: 700, bottom: 250}}
+          defaultPosition={{x: 0, y: 0}}
+          position={null}
+          grid={[10, 10]}
+          scale={1}
+          onStart={this.handleStart}
+          onDrag={this.handleDrag}
+          onStop={this.handleStop}>
+          <div>
+            <img src={circleImage} alt="CIRCLE" id={this.state.filaCirculos.idCirculo} height={this.state.filaCirculos.height} width={this.state.filaCirculos.width}/>
+          </div>
+        </Draggable>
+        <Typography component="p">
+        </Typography>
+      </Paper>
+      </main>
     );
   }
 }
+
+Editor.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles, { withTheme: true })(Editor);
