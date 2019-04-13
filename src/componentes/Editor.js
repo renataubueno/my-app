@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Pubsub from 'pubsub-js';
 import Draggable from 'react-draggable';
@@ -13,7 +12,7 @@ import arrowImage from '../images/arrow.png';
 const styles = theme => ({
   drawerHeader: {
     width: '300px',
-    height: '100px',
+    height: '120px',
     display: 'flex',
     alignItems: 'center',
     padding: '100px 50px 75px 100px',
@@ -77,6 +76,14 @@ class Editor extends React.Component{
       console.log('Height do objeto 1: ', this.state.filaArrow[0].height);
       console.log('Width do objeto 1: ', this.state.filaArrow[0].width);
     });
+
+    Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
+      console.log('Vamos');
+      this.setState({filaCirculos: []});
+      this.setState({filaQuadrados: []});
+      this.setState({filaTriangulos: []});
+      this.setState({filaArrow: []});
+    });
  }
 
   render(){
@@ -86,17 +93,13 @@ class Editor extends React.Component{
       <main>
         <div className={classes.drawerHeader} />
         <Paper className={classes.root} elevation={1}>
-        <Typography variant="h5" component="h3">
-          EDITOR <br />
-        </Typography>
         {
           this.state.filaCirculos.map(item => (
             <div>
             <Draggable
               axis="both"
-              bounds={{left:0, top: -50, right: 700, bottom: 250}}
+              bounds={{left:0, top: -35, right: 700, bottom: 300}}
               defaultPosition={{x: 0, y: 0}}
-              position={null}
               grid={[1, 1]}
               scale={1}
               onStart={this.handleStart}
@@ -114,9 +117,8 @@ class Editor extends React.Component{
             <div>
             <Draggable
               axis="both"
-              bounds={{left:0, top: -50, right: 700, bottom: 250}}
+              bounds={{left:0, top: -35, right: 700, bottom: 300}}
               defaultPosition={{x: 0, y: 0}}
-              position={null}
               grid={[1, 1]}
               scale={1}
               onStart={this.handleStart}
@@ -134,9 +136,8 @@ class Editor extends React.Component{
             <div>
             <Draggable
               axis="both"
-              bounds={{left:0, top: -50, right: 700, bottom: 250}}
+              bounds={{left:0, top: -35, right: 700, bottom: 300}}
               defaultPosition={{x: 0, y: 0}}
-              position={null}
               grid={[1, 1]}
               scale={1}
               onStart={this.handleStart}
@@ -154,9 +155,8 @@ class Editor extends React.Component{
             <div>
             <Draggable
               axis="both"
-              bounds={{left:0, top: -50, right: 700, bottom: 250}}
+              bounds={{left:0, top: -35, right: 700, bottom: 300}}
               defaultPosition={{x: 0, y: 0}}
-              position={null}
               grid={[1, 1]}
               scale={1}
               onStart={this.handleStart}
@@ -169,8 +169,6 @@ class Editor extends React.Component{
             </div>
           ))
         }
-        <Typography component="p">
-        </Typography>
       </Paper>
       </main>
     );

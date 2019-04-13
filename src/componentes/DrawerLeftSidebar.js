@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ExportJSON from './ExportJSON.js';
 import ImportJSON from './ImportJSON.js';
 import Simulacao from './Simulacao.js';
+import ResetEditor from './ResetEditor.js';
 import Typography from '@material-ui/core/Typography';
 import MenuDistribuicao from './MenuDistribuicao.js';
 import MenuParada from './MenuParada.js';
@@ -39,6 +40,8 @@ export default class DrawerLeftSidebar extends Component{
         <MenuDistribuicao />
         <Divider />
         <Simulacao />
+        <Divider />
+        <ResetEditor />
         <Divider />
         <ExportJSON />
         <ImportJSON />
