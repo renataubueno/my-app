@@ -14,7 +14,7 @@ export default class Circle extends Component{
 
   handleClickCircle = control => event => {
     console.log('Estou no Circle com o id ', this.state.idCircle);
-    this.setState({id: this.state.idCircle});
+    this.setState({id: ++this.state.idCircle});
 
     Pubsub.publish('retorno-circulo', {
       id: this.state.idCircle,

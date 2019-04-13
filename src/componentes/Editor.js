@@ -43,38 +43,34 @@ class Editor extends React.Component{
   componentWillMount(){
       Pubsub.subscribe('retorno-circulo', (topico, dadosDoCirculo) => {
         console.log('Chegou : ', dadosDoCirculo.resposta);
-        this.setState({filaCirculos: [dadosDoCirculo.resposta]});
+        var itemsCirculos = [ ].concat(this.state.filaCirculos);
+        itemsCirculos.push(dadosDoCirculo.resposta);
+        this.setState({filaCirculos: itemsCirculos});
         console.log('Conteúdo da fila de círculos: ', this.state.filaCirculos);
-        console.log('Id do objeto 1: ', this.state.filaCirculos[0].idCircle);
-        console.log('Height do objeto 1: ', this.state.filaCirculos[0].height);
-        console.log('Width do objeto 1: ', this.state.filaCirculos[0].width);
      });
 
      Pubsub.subscribe('retorno-quadrado', (topico, dadosDoQuadrado) => {
        console.log('Chegou : ', dadosDoQuadrado.resposta);
-       this.setState({filaQuadrados: [dadosDoQuadrado.resposta]});
+       var itemsQuadrados = [ ].concat(this.state.filaQuadrados);
+       itemsQuadrados.push(dadosDoQuadrado.resposta);
+       this.setState({filaQuadrados: itemsQuadrados});
        console.log('Conteúdo da fila de quadrados: ', this.state.filaQuadrados);
-       console.log('Id do objeto 1: ', this.state.filaQuadrados[0].idSquare);
-       console.log('Height do objeto 1: ', this.state.filaQuadrados[0].height);
-       console.log('Width do objeto 1: ', this.state.filaQuadrados[0].width);
     });
 
     Pubsub.subscribe('retorno-triangulo', (topico, dadosDoTriangulo) => {
       console.log('Chegou : ', dadosDoTriangulo.resposta);
-      this.setState({filaTriangulos: [dadosDoTriangulo.resposta]});
+      var itemsTriangulo = [ ].concat(this.state.filaTriangulos);
+      itemsTriangulo.push(dadosDoTriangulo.resposta);
+      this.setState({filaTriangulos: itemsTriangulo});
       console.log('Conteúdo da fila de triangulos: ', this.state.filaTriangulos);
-      console.log('Id do objeto 1: ', this.state.filaTriangulos[0].idTriangle);
-      console.log('Height do objeto 1: ', this.state.filaTriangulos[0].height);
-      console.log('Width do objeto 1: ', this.state.filaTriangulos[0].width);
    });
 
     Pubsub.subscribe('retorno-arrow', (topico, dadosDaArrow) => {
       console.log('Chegou : ', dadosDaArrow.resposta);
-      this.setState({filaArrow: [dadosDaArrow.resposta]});
+      var itemsArrow = [ ].concat(this.state.filaArrow);
+      itemsArrow.push(dadosDaArrow.resposta);
+      this.setState({filaArrow: itemsArrow});
       console.log('Conteúdo da fila de arrows: ', this.state.filaArrow);
-      console.log('Id do objeto 1: ', this.state.filaArrow[0].idArrow);
-      console.log('Height do objeto 1: ', this.state.filaArrow[0].height);
-      console.log('Width do objeto 1: ', this.state.filaArrow[0].width);
     });
 
     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {

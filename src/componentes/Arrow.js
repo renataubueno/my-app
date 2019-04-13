@@ -14,7 +14,7 @@ export default class Arrow extends Component{
 
   handleClickArrow = control => event => {
     console.log('Cliquei na Flecha');
-    this.setState({id: this.state.idArrow});
+    this.setState({id: ++this.state.idArrow});
 
     Pubsub.publish('retorno-arrow', {
       id: this.state.idArrow,

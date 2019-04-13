@@ -14,6 +14,7 @@ export default class Square extends Component{
 
   handleClickSquare = control => event => {
     console.log('Cliquei no Quadrado');
+    this.setState({id: ++this.state.idSquare});
 
     Pubsub.publish('retorno-quadrado', {
       id: this.state.idSquare,

@@ -14,7 +14,7 @@ export default class Triangle extends Component{
 
   handleClickTriangle = control => event => {
     console.log('Cliquei no Triângulo');
-    this.setState({id: this.state.idTriangle});
+    this.setState({id: ++this.state.idTriangle});
 
     Pubsub.publish('retorno-triangulo', {
       id: this.state.idTriangle,
