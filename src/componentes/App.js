@@ -9,13 +9,11 @@ export default class App extends React.Component {
   render(){
     return(
       <div>
-      <AppBar position="fixed">
       <Typography align="center" variant="h6" color="inherit" noWrap>
         Queue Network Simulator
       </Typography>
         <PersistentDrawerLeft />
         <PersistentDrawerRight />
-      </AppBar>
       <Editor />
       </div>
     );

@@ -91,78 +91,41 @@ class Editor extends React.Component{
         <Paper className={classes.root} elevation={1}>
         {
           this.state.filaCirculos.map(item => (
-            <div>
             <Draggable
-              axis="both"
-              bounds={{left:0, top: -35, right: 700, bottom: 300}}
+              bounds="parent"
               defaultPosition={{x: 0, y: 0}}
-              grid={[1, 1]}
-              scale={1}
-              onStart={this.handleStart}
-              onDrag={this.handleDrag}
-              onStop={this.handleStop}>
-              <div>
-                <img src={circleImage} alt="CIRCLE" key={this.state.filaCirculos[0].idCircle} height={this.state.filaCirculos[0].height} width={this.state.filaCirculos[0].width}/>
-              </div>
+              >
+              <img src={circleImage} alt="CIRCLE" key={this.state.filaCirculos[0].idCircle} height={this.state.filaCirculos[0].height} width={this.state.filaCirculos[0].width}/>
             </Draggable>
-            </div>
           ))
         }
         {
           this.state.filaQuadrados.map(item => (
-            <div>
             <Draggable
-              axis="both"
-              bounds={{left:0, top: -35, right: 700, bottom: 300}}
+              bounds="parent"
               defaultPosition={{x: 0, y: 0}}
-              grid={[1, 1]}
-              scale={1}
-              onStart={this.handleStart}
-              onDrag={this.handleDrag}
-              onStop={this.handleStop}>
-              <div>
-                <img src={squareImage} alt="SQUARE" key={this.state.filaQuadrados[0].idSquare} height={this.state.filaQuadrados[0].height} width={this.state.filaQuadrados[0].width}/>
-              </div>
+              >
+              <img src={squareImage} alt="SQUARE" key={this.state.filaQuadrados[0].idSquare} height={this.state.filaQuadrados[0].height} width={this.state.filaQuadrados[0].width}/>
             </Draggable>
-            </div>
           ))
         }
         {
           this.state.filaTriangulos.map(item => (
-            <div>
             <Draggable
-              axis="both"
-              bounds={{left:0, top: -35, right: 700, bottom: 300}}
+              bounds="parent"
               defaultPosition={{x: 0, y: 0}}
-              grid={[1, 1]}
-              scale={1}
-              onStart={this.handleStart}
-              onDrag={this.handleDrag}
-              onStop={this.handleStop}>
-              <div>
-                <img src={triangleImage} alt="TRIANGLE" key={this.state.filaTriangulos[0].idTriangle} height={this.state.filaTriangulos[0].height} width={this.state.filaTriangulos[0].width}/>
-              </div>
+              >
+            <img src={triangleImage} alt="TRIANGLE" key={this.state.filaTriangulos[0].idTriangle} height={this.state.filaTriangulos[0].height} width={this.state.filaTriangulos[0].width}/>
             </Draggable>
-            </div>
           ))
         }
         {
           this.state.filaArrow.map(item => (
-            <div>
             <Draggable
-              axis="both"
-              bounds={{left:0, top: -35, right: 700, bottom: 300}}
-              defaultPosition={{x: 0, y: 0}}
-              grid={[1, 1]}
-              scale={1}
-              onStart={this.handleStart}
-              onDrag={this.handleDrag}
-              onStop={this.handleStop}>
-              <div>
-                <img src={arrowImage} alt="ARROW" key={this.state.filaArrow[0].idArrow} height={this.state.filaArrow[0].height} width={this.state.filaArrow[0].width}/>
-              </div>
+              bounds="parent"
+              defaultPosition={{x: 0, y: 0}}>
+              <img src={arrowImage} alt="ARROW" key={this.state.filaArrow[0].idArrow} height={this.state.filaArrow[0].height} width={this.state.filaArrow[0].width}/>
             </Draggable>
-            </div>
           ))
         }
       </Paper>

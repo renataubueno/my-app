@@ -7,10 +7,6 @@ export default class Relatorio extends Component{
   constructor(props){
     super(props);
     this.state = {
-      feed: [
-        {idFila: 1, numChegadas: 10, numAtendimentos: 120, tempoOcupada: 122, taxaChegada: 14, vazao: 52, utilizacao: 42,   tempoMedioServico: 13},
-        {idFila: 2, numChegadas: 15, numAtendimentos: 66, tempoOcupada: 19, taxaChegada: 1, vazao: 13, utilizacao: 24,   tempoMedioServico: 55}
-      ],
       filas: []
     }
   }
