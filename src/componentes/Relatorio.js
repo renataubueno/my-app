@@ -12,7 +12,7 @@ export default class Relatorio extends Component{
   }
 
   componentWillMount(){
-      Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
+      Pubsub.subscribe('retorno-fila-backend', (topico, dadosDaFila) => {
         console.log('Chegou : ', dadosDaFila.resposta);
         this.setState({filas: dadosDaFila.resposta});
         console.log('Conteúdo da fila: ', this.state.filas[0].id);

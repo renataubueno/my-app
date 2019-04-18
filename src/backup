@@ -4,10 +4,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Pubsub from 'pubsub-js';
 import Draggable from 'react-draggable';
-import circleImage from '../images/circle.png';
-import squareImage from '../images/square.png';
+import FilaImage from '../images/Fila.png';
+import ConectorImage from '../images/Conector.png';
 import triangleImage from '../images/triangle.png';
-import arrowImage from '../images/arrow.png';
+import EntradaImage from '../images/Entrada.png';
 
 const styles = theme => ({
   drawerHeader: {
@@ -35,8 +35,8 @@ class Editor extends React.Component{
     this.state = {
       filaCirculos: [],
       filaQuadrados: [],
-      filaTriangulos: [],
-      filaArrow: []
+      filaSaidas: [],
+      filaEntrada: []
     }
   }
 
@@ -57,28 +57,28 @@ class Editor extends React.Component{
        console.log('Conteúdo da fila de quadrados: ', this.state.filaQuadrados);
     });
 
-    Pubsub.subscribe('retorno-triangulo', (topico, dadosDoTriangulo) => {
-      console.log('Chegou : ', dadosDoTriangulo.resposta);
-      var itemsTriangulo = [ ].concat(this.state.filaTriangulos);
-      itemsTriangulo.push(dadosDoTriangulo.resposta);
-      this.setState({filaTriangulos: itemsTriangulo});
-      console.log('Conteúdo da fila de triangulos: ', this.state.filaTriangulos);
+    Pubsub.subscribe('retorno-Saida', (topico, dadosDoSaida) => {
+      console.log('Chegou : ', dadosDoSaida.resposta);
+      var itemsSaida = [ ].concat(this.state.filaSaidas);
+      itemsSaida.push(dadosDoSaida.resposta);
+      this.setState({filaSaidas: itemsSaida});
+      console.log('Conteúdo da fila de Saidas: ', this.state.filaSaidas);
    });
 
-    Pubsub.subscribe('retorno-arrow', (topico, dadosDaArrow) => {
-      console.log('Chegou : ', dadosDaArrow.resposta);
-      var itemsArrow = [ ].concat(this.state.filaArrow);
-      itemsArrow.push(dadosDaArrow.resposta);
-      this.setState({filaArrow: itemsArrow});
-      console.log('Conteúdo da fila de arrows: ', this.state.filaArrow);
+    Pubsub.subscribe('retorno-Entrada', (topico, dadosDaEntrada) => {
+      console.log('Chegou : ', dadosDaEntrada.resposta);
+      var itemsEntrada = [ ].concat(this.state.filaEntrada);
+      itemsEntrada.push(dadosDaEntrada.resposta);
+      this.setState({filaEntrada: itemsEntrada});
+      console.log('Conteúdo da fila de Entradas: ', this.state.filaEntrada);
     });
 
     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
       console.log('Vamos');
       this.setState({filaCirculos: []});
       this.setState({filaQuadrados: []});
-      this.setState({filaTriangulos: []});
-      this.setState({filaArrow: []});
+      this.setState({filaSaidas: []});
+      this.setState({filaEntrada: []});
     });
  }
 
@@ -102,7 +102,7 @@ class Editor extends React.Component{
               onDrag={this.handleDrag}
               onStop={this.handleStop}>
               <div>
-                <img src={circleImage} alt="CIRCLE" key={this.state.filaCirculos[0].idCircle} height={this.state.filaCirculos[0].height} width={this.state.filaCirculos[0].width}/>
+                <img src={FilaImage} alt="Fila" key={this.state.filaCirculos[0].idFila} height={this.state.filaCirculos[0].height} width={this.state.filaCirculos[0].width}/>
               </div>
             </Draggable>
             </div>
@@ -121,14 +121,14 @@ class Editor extends React.Component{
               onDrag={this.handleDrag}
               onStop={this.handleStop}>
               <div>
-                <img src={squareImage} alt="SQUARE" key={this.state.filaQuadrados[0].idSquare} height={this.state.filaQuadrados[0].height} width={this.state.filaQuadrados[0].width}/>
+                <img src={ConectorImage} alt="Conector" key={this.state.filaQuadrados[0].idConector} height={this.state.filaQuadrados[0].height} width={this.state.filaQuadrados[0].width}/>
               </div>
             </Draggable>
             </div>
           ))
         }
         {
-          this.state.filaTriangulos.map(item => (
+          this.state.filaSaidas.map(item => (
             <div>
             <Draggable
               axis="both"
@@ -140,14 +140,14 @@ class Editor extends React.Component{
               onDrag={this.handleDrag}
               onStop={this.handleStop}>
               <div>
-                <img src={triangleImage} alt="TRIANGLE" key={this.state.filaTriangulos[0].idTriangle} height={this.state.filaTriangulos[0].height} width={this.state.filaTriangulos[0].width}/>
+                <img src={triangleImage} alt="TRIANGLE" key={this.state.filaSaidas[0].idTriangle} height={this.state.filaSaidas[0].height} width={this.state.filaSaidas[0].width}/>
               </div>
             </Draggable>
             </div>
           ))
         }
         {
-          this.state.filaArrow.map(item => (
+          this.state.filaEntrada.map(item => (
             <div>
             <Draggable
               axis="both"
@@ -159,7 +159,7 @@ class Editor extends React.Component{
               onDrag={this.handleDrag}
               onStop={this.handleStop}>
               <div>
-                <img src={arrowImage} alt="ARROW" key={this.state.filaArrow[0].idArrow} height={this.state.filaArrow[0].height} width={this.state.filaArrow[0].width}/>
+                <img src={EntradaImage} alt="Entrada" key={this.state.filaEntrada[0].idEntrada} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width}/>
               </div>
             </Draggable>
             </div>

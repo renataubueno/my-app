@@ -10,7 +10,7 @@ export default class MenuDistribuicao extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Tipo de Distribuição',
+      value: 'Condição de parada',
       showUniforme: false,
       showExponencial: false
     };
@@ -34,7 +34,6 @@ export default class MenuDistribuicao extends Component{
           this.setState( { showUniforme: false } )
           this.setState( { showExponencial: false } )
         }
-        console.log('Distribuicao escolhida: ', this.state.value);
   }
 
   render(){
@@ -51,6 +50,8 @@ export default class MenuDistribuicao extends Component{
         <MenuItem value={'Binomial'}>Binomial</MenuItem>
       </Select>
       <Button onClick={ this.showForm}>Ok</Button>
+      { this.state.showUniforme && <FormMenuDistribuicaoUniforme/>}
+      { this.state.showExponencial && <FormMenuDistribuicaoExponencial/>}
       </div>
     );
   }

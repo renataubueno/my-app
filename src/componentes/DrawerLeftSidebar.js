@@ -9,10 +9,10 @@ import ResetEditor from './ResetEditor.js';
 import Typography from '@material-ui/core/Typography';
 import MenuDistribuicao from './MenuDistribuicao.js';
 import MenuParada from './MenuParada.js';
-import Circle from './Circle.js';
-import Square from './Square.js';
-import Triangle from './Triangle.js';
-import Arrow from './Arrow.js';
+import Fila from './Fila.js';
+import Conector from './Conector.js';
+import Saida from './Saida.js';
+import Entrada from './Entrada.js';
 
 export default class DrawerLeftSidebar extends Component{
   constructor(props){
@@ -28,10 +28,10 @@ export default class DrawerLeftSidebar extends Component{
         <Divider />
         <div>
         <Typography align="center" variant="h6" color="primary" noWrap>
-          <Circle /> <br />
-          <Square /> <br />
-          <Triangle /> <br />
-          <Arrow />
+          <Fila /> <br />
+          <Conector /> <br />
+          <Saida /> <br />
+          <Entrada />
         </Typography>
         </div>
         <Divider />

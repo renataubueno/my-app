@@ -19,7 +19,7 @@ export default class Simulacao extends Component{
     .then(fila => {
       console.log('Resposta: ', fila);
 
-      Pubsub.publish('retorno-fila', {
+      Pubsub.publish('retorno-fila-backend', {
         id: fila[0].id,
         resposta: fila
       });
