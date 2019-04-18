@@ -33,6 +33,8 @@ class Editor extends React.Component{
       filaSaida: [],
       filaEntrada: []
     }
+
+    this._handleDoubleClickItem = this._handleDoubleClickItem.bind(this);
   }
 
   componentWillMount(){
@@ -77,6 +79,10 @@ class Editor extends React.Component{
     });
  }
 
+ _handleDoubleClickItem(event): void {
+   	alert('I got double-clicked!');
+  }
+
   render(){
     const { classes } = this.props;
     const bound = "parent";
@@ -90,28 +96,28 @@ class Editor extends React.Component{
         {
           this.state.filaFilas.map(item => (
             <Draggable {...settings}>
-              <img src={FilaImage} alt="Fila" key={this.state.filaFilas[0].idFila} height={this.state.filaFilas[0].height} width={this.state.filaFilas[0].width}/>
+              <img src={FilaImage} alt="Fila" key={this.state.filaFilas[0].idFila} height={this.state.filaFilas[0].height} width={this.state.filaFilas[0].width} onDoubleClick={this._handleDoubleClickItem} />
             </Draggable>
           ))
         }
         {
           this.state.filaConector.map(item => (
             <Draggable {...settings}>
-              <img src={ConectorImage} alt="Conector" key={this.state.filaConector[0].idConector} height={this.state.filaConector[0].height} width={this.state.filaConector[0].width}/>
+              <img src={ConectorImage} alt="Conector" key={this.state.filaConector[0].idConector} height={this.state.filaConector[0].height} width={this.state.filaConector[0].width} onDoubleClick={this._handleDoubleClickItem}/>
             </Draggable>
           ))
         }
         {
           this.state.filaSaida.map(item => (
             <Draggable {...settings}>
-            <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idTriangle} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width}/>
+            <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idTriangle} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width} onDoubleClick={this._handleDoubleClickItem} />
             </Draggable>
           ))
         }
         {
           this.state.filaEntrada.map(item => (
             <Draggable {...settings}>
-              <img src={EntradaImage} alt="ARROW" key={this.state.filaEntrada[0].idArrow} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width}/>
+              <img src={EntradaImage} alt="ARROW" key={this.state.filaEntrada[0].idArrow} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width} onDoubleClick={this._handleDoubleClickItem}/>
             </Draggable>
           ))
         }

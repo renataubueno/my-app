@@ -12,9 +12,26 @@ export default class Conector extends Component{
     }
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('retorno-incremento-id-fila', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idConector});
+   });
+
+    Pubsub.subscribe('retorno-incremento-id-entrada', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idConector});
+   });
+
+    Pubsub.subscribe('retorno-incremento-id-saida', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idConector});
+   });
+  }
+
   handleClickConector = control => event => {
     console.log('Cliquei no Conector');
     this.setState({id: ++this.state.idConector});
+
+    Pubsub.publish('retorno-incremento-id-conector', {
+    });
 
     Pubsub.publish('retorno-conector', {
       id: this.state.idConector,

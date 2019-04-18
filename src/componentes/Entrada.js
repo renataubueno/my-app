@@ -12,9 +12,26 @@ export default class Entrada extends Component{
     }
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('retorno-incremento-id-fila', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idEntrada});
+   });
+
+    Pubsub.subscribe('retorno-incremento-id-conector', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idEntrada});
+   });
+
+    Pubsub.subscribe('retorno-incremento-id-saida', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idEntrada});
+   });
+  }
+
   handleClickEntrada = control => event => {
     console.log('Cliquei na Entrada');
     this.setState({id: ++this.state.idEntrada});
+
+    Pubsub.publish('retorno-incremento-id-entrada', {
+    });
 
     Pubsub.publish('retorno-entrada', {
       id: this.state.idEntrada,

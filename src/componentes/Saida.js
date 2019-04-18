@@ -12,9 +12,26 @@ export default class Saida extends Component{
     }
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('retorno-incremento-id-fila', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idSaida});
+   });
+
+    Pubsub.subscribe('retorno-incremento-id-conector', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idSaida});
+   });
+
+    Pubsub.subscribe('retorno-incremento-id-entrada', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idSaida});
+   });
+  }
+
   handleClickSaida = control => event => {
     console.log('Cliquei na Saida');
     this.setState({id: ++this.state.idSaida});
+
+    Pubsub.publish('retorno-incremento-id-saida', {
+    });
 
     Pubsub.publish('retorno-saida', {
       id: this.state.idSaida,

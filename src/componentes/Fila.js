@@ -12,9 +12,26 @@ export default class Fila extends Component{
     }
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('retorno-incremento-id-conector', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idFila});
+   });
+
+    Pubsub.subscribe('retorno-incremento-id-entrada', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idFila});
+   });
+
+    Pubsub.subscribe('retorno-incremento-id-saida', (topico, dadosDoID) => {
+      this.setState({id: ++this.state.idFila});
+   });
+  }
+
   handleClickFila = control => event => {
     console.log('Estou na Fila com o id ', this.state.idFila);
     this.setState({id: ++this.state.idFila});
+
+    Pubsub.publish('retorno-incremento-id-fila', {
+    });
 
     Pubsub.publish('retorno-fila', {
       id: this.state.idFila,
