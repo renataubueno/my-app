@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Pubsub from 'pubsub-js';
-import Draggable from 'react-draggable';
-import FilaImage from '../images/fila.png';
-import ConectorImage from '../images/conector.png';
-import SaidaImage from '../images/saida.png';
-import EntradaImage from '../images/entrada.png';
+import Draggable from 'react-draggable'
+import DialogFila from './DialogFila.js';
+import DialogConector from './DialogConector.js';
+import DialogSaida from './DialogSaida.js';
+import DialogEntrada from './DialogEntrada.js';
 
 const styles = theme => ({
   drawerHeader: {
@@ -27,60 +27,6 @@ const styles = theme => ({
 class Editor extends React.Component{
   constructor(props){
     super(props);
-    this.state = {
-      filaFilas: [],
-      filaConector: [],
-      filaSaida: [],
-      filaEntrada: []
-    }
-
-    this._handleDoubleClickItem = this._handleDoubleClickItem.bind(this);
-  }
-
-  componentWillMount(){
-      Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
-        console.log('Chegou : ', dadosDaFila.resposta);
-        var itemsFila = [ ].concat(this.state.filaFilas);
-        itemsFila.push(dadosDaFila.resposta);
-        this.setState({filaFilas: itemsFila});
-        console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
-     });
-
-     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
-       console.log('Chegou : ', dadosDoConector.resposta);
-       var itemsConector = [ ].concat(this.state.filaConector);
-       itemsConector.push(dadosDoConector.resposta);
-       this.setState({filaConector: itemsConector});
-       console.log('Conteúdo da fila de conectores: ', this.state.filaConector);
-    });
-
-    Pubsub.subscribe('retorno-saida', (topico, dadosDaSaida) => {
-      console.log('Chegou : ', dadosDaSaida.resposta);
-      var itemsSaida = [ ].concat(this.state.filaSaida);
-      itemsSaida.push(dadosDaSaida.resposta);
-      this.setState({filaSaida: itemsSaida});
-      console.log('Conteúdo da fila de saidas: ', this.state.filaSaida);
-   });
-
-    Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
-      console.log('Chegou : ', dadosDaEntrada.resposta);
-      var itemsEntrada = [ ].concat(this.state.filaEntrada);
-      itemsEntrada.push(dadosDaEntrada.resposta);
-      this.setState({filaEntrada: itemsEntrada});
-      console.log('Conteúdo da fila de entrada: ', this.state.filaEntrada);
-    });
-
-    Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
-      console.log('Vamos');
-      this.setState({filaFilas: []});
-      this.setState({filaConector: []});
-      this.setState({filaSaida: []});
-      this.setState({filaEntrada: []});
-    });
- }
-
- _handleDoubleClickItem(event): void {
-   	alert('I got double-clicked!');
   }
 
   render(){
@@ -93,34 +39,10 @@ class Editor extends React.Component{
       <main>
         <div className={classes.drawerHeader} />
         <Paper className={classes.root} elevation={2}>
-        {
-          this.state.filaFilas.map(item => (
-            <Draggable {...settings}>
-              <img src={FilaImage} alt="Fila" key={this.state.filaFilas[0].idFila} height={this.state.filaFilas[0].height} width={this.state.filaFilas[0].width} onDoubleClick={this._handleDoubleClickItem} />
-            </Draggable>
-          ))
-        }
-        {
-          this.state.filaConector.map(item => (
-            <Draggable {...settings}>
-              <img src={ConectorImage} alt="Conector" key={this.state.filaConector[0].idConector} height={this.state.filaConector[0].height} width={this.state.filaConector[0].width} onDoubleClick={this._handleDoubleClickItem}/>
-            </Draggable>
-          ))
-        }
-        {
-          this.state.filaSaida.map(item => (
-            <Draggable {...settings}>
-            <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idTriangle} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width} onDoubleClick={this._handleDoubleClickItem} />
-            </Draggable>
-          ))
-        }
-        {
-          this.state.filaEntrada.map(item => (
-            <Draggable {...settings}>
-              <img src={EntradaImage} alt="ARROW" key={this.state.filaEntrada[0].idArrow} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width} onDoubleClick={this._handleDoubleClickItem}/>
-            </Draggable>
-          ))
-        }
+          <DialogFila/>
+          <DialogConector/>
+          <DialogSaida/>
+          <DialogEntrada/>
       </Paper>
       </main>
     );

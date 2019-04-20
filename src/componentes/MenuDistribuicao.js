@@ -3,6 +3,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
+import Pubsub from 'pubsub-js';
 import FormMenuDistribuicaoUniforme from './FormMenuDistribuicaoUniforme.js';
 import FormMenuDistribuicaoExponencial from './FormMenuDistribuicaoExponencial.js'
 
@@ -35,6 +36,10 @@ export default class MenuDistribuicao extends Component{
           this.setState( { showExponencial: false } )
         }
         console.log('Distribuicao escolhida: ', this.state.value);
+
+        Pubsub.publish('retorno-tipo-distribuicao', {
+            distribuicao: this.state.value
+        });
   }
 
   render(){

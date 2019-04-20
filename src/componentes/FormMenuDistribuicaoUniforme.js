@@ -5,10 +5,10 @@ export default class FormMenuDistribuicaoUniforme extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      minChegada: 'valor inteiro',
-      maxChegada: 'valor inteiro',
-      minServico: 'valor inteiro',
-      maxServico: 'valor inteiro'
+      minChegada: 0,
+      maxChegada: 0,
+      minServico: 0,
+      maxServico: 0
     };
   }
 

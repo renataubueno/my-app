@@ -4,25 +4,20 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Pubsub from 'pubsub-js';
 import Draggable from 'react-draggable';
-import FilaImage from '../images/Fila.png';
-import ConectorImage from '../images/Conector.png';
-import triangleImage from '../images/triangle.png';
-import EntradaImage from '../images/Entrada.png';
+import FilaImage from '../images/fila.png';
+import ConectorImage from '../images/conector.png';
+import SaidaImage from '../images/saida.png';
+import EntradaImage from '../images/entrada.png';
 
 const styles = theme => ({
   drawerHeader: {
-    width: '300px',
-    height: '120px',
-    display: 'flex',
-    alignItems: 'center',
-    padding: '100px 50px 75px 100px',
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
   },root: {
     width: '800px',
-    height: '400px',
+    height: '450px',
     alignItems: 'center',
+    position: 'relative',
     marginLeft: '245px',
+    marginTop: '175px',
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 4,
     paddingBottom: theme.spacing.unit * 5,
@@ -33,136 +28,112 @@ class Editor extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      filaCirculos: [],
-      filaQuadrados: [],
-      filaSaidas: [],
+      filaFilas: [],
+      filaConector: [],
+      filaSaida: [],
       filaEntrada: []
     }
+
+    this._handleDoubleClickFila = this._handleDoubleClickFila.bind(this);
+    this._handleDoubleClickConector = this._handleDoubleClickConector.bind(this);
+    this._handleDoubleClickEntrada = this._handleDoubleClickEntrada.bind(this);
+    this._handleDoubleClickSaida = this._handleDoubleClickSaida.bind(this);
   }
 
   componentWillMount(){
-      Pubsub.subscribe('retorno-circulo', (topico, dadosDoCirculo) => {
-        console.log('Chegou : ', dadosDoCirculo.resposta);
-        var itemsCirculos = [ ].concat(this.state.filaCirculos);
-        itemsCirculos.push(dadosDoCirculo.resposta);
-        this.setState({filaCirculos: itemsCirculos});
-        console.log('Conteúdo da fila de círculos: ', this.state.filaCirculos);
+      Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
+        console.log('Chegou : ', dadosDaFila.resposta);
+        var itemsFila = [ ].concat(this.state.filaFilas);
+        itemsFila.push(dadosDaFila.resposta);
+        this.setState({filaFilas: itemsFila});
+        console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
      });
 
-     Pubsub.subscribe('retorno-quadrado', (topico, dadosDoQuadrado) => {
-       console.log('Chegou : ', dadosDoQuadrado.resposta);
-       var itemsQuadrados = [ ].concat(this.state.filaQuadrados);
-       itemsQuadrados.push(dadosDoQuadrado.resposta);
-       this.setState({filaQuadrados: itemsQuadrados});
-       console.log('Conteúdo da fila de quadrados: ', this.state.filaQuadrados);
+     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
+       console.log('Chegou : ', dadosDoConector.resposta);
+       var itemsConector = [ ].concat(this.state.filaConector);
+       itemsConector.push(dadosDoConector.resposta);
+       this.setState({filaConector: itemsConector});
+       console.log('Conteúdo da fila de conectores: ', this.state.filaConector);
     });
 
-    Pubsub.subscribe('retorno-Saida', (topico, dadosDoSaida) => {
-      console.log('Chegou : ', dadosDoSaida.resposta);
-      var itemsSaida = [ ].concat(this.state.filaSaidas);
-      itemsSaida.push(dadosDoSaida.resposta);
-      this.setState({filaSaidas: itemsSaida});
-      console.log('Conteúdo da fila de Saidas: ', this.state.filaSaidas);
+    Pubsub.subscribe('retorno-saida', (topico, dadosDaSaida) => {
+      console.log('Chegou : ', dadosDaSaida.resposta);
+      var itemsSaida = [ ].concat(this.state.filaSaida);
+      itemsSaida.push(dadosDaSaida.resposta);
+      this.setState({filaSaida: itemsSaida});
+      console.log('Conteúdo da fila de saidas: ', this.state.filaSaida);
    });
 
-    Pubsub.subscribe('retorno-Entrada', (topico, dadosDaEntrada) => {
+    Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
       console.log('Chegou : ', dadosDaEntrada.resposta);
       var itemsEntrada = [ ].concat(this.state.filaEntrada);
       itemsEntrada.push(dadosDaEntrada.resposta);
       this.setState({filaEntrada: itemsEntrada});
-      console.log('Conteúdo da fila de Entradas: ', this.state.filaEntrada);
+      console.log('Conteúdo da fila de entrada: ', this.state.filaEntrada);
     });
 
     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
       console.log('Vamos');
-      this.setState({filaCirculos: []});
-      this.setState({filaQuadrados: []});
-      this.setState({filaSaidas: []});
+      this.setState({filaFilas: []});
+      this.setState({filaConector: []});
+      this.setState({filaSaida: []});
       this.setState({filaEntrada: []});
     });
  }
 
+  _handleDoubleClickFila(event): void {
+   	alert('I got double-clicked - Fila!');
+  }
+
+  _handleDoubleClickConector(event): void {
+    	alert('I got double-clicked! - Conector');
+   }
+
+  _handleDoubleClickEntrada(event): void {
+     	alert('I got double-clicked! - Entrada');
+    }
+
+  _handleDoubleClickSaida(event): void {
+      alert('I got double-clicked! - Saida');
+  }
+
   render(){
     const { classes } = this.props;
+    const bound = "parent";
+    const position = {x: 0, y: 0};
+    const settings = {bounds: bound, defaultPosition: position}
 
     return(
       <main>
         <div className={classes.drawerHeader} />
-        <Paper className={classes.root} elevation={1}>
+        <Paper className={classes.root} elevation={2}>
         {
-          this.state.filaCirculos.map(item => (
-            <div>
-            <Draggable
-              axis="both"
-              bounds={{left:0, top: -35, right: 700, bottom: 300}}
-              defaultPosition={{x: 0, y: 0}}
-              grid={[1, 1]}
-              scale={1}
-              onStart={this.handleStart}
-              onDrag={this.handleDrag}
-              onStop={this.handleStop}>
-              <div>
-                <img src={FilaImage} alt="Fila" key={this.state.filaCirculos[0].idFila} height={this.state.filaCirculos[0].height} width={this.state.filaCirculos[0].width}/>
-              </div>
+          this.state.filaFilas.map(item => (
+            <Draggable {...settings}>
+              <img src={FilaImage} alt="Fila" key={this.state.filaFilas[0].idFila} height={this.state.filaFilas[0].height} width={this.state.filaFilas[0].width} onDoubleClick={this._handleDoubleClickFila}/>
             </Draggable>
-            </div>
           ))
         }
         {
-          this.state.filaQuadrados.map(item => (
-            <div>
-            <Draggable
-              axis="both"
-              bounds={{left:0, top: -35, right: 700, bottom: 300}}
-              defaultPosition={{x: 0, y: 0}}
-              grid={[1, 1]}
-              scale={1}
-              onStart={this.handleStart}
-              onDrag={this.handleDrag}
-              onStop={this.handleStop}>
-              <div>
-                <img src={ConectorImage} alt="Conector" key={this.state.filaQuadrados[0].idConector} height={this.state.filaQuadrados[0].height} width={this.state.filaQuadrados[0].width}/>
-              </div>
+          this.state.filaConector.map(item => (
+            <Draggable {...settings}>
+              <img src={ConectorImage} alt="Conector" key={this.state.filaConector[0].idConector} height={this.state.filaConector[0].height} width={this.state.filaConector[0].width} onDoubleClick={this._handleDoubleClickConector}/>
             </Draggable>
-            </div>
           ))
         }
         {
-          this.state.filaSaidas.map(item => (
-            <div>
-            <Draggable
-              axis="both"
-              bounds={{left:0, top: -35, right: 700, bottom: 300}}
-              defaultPosition={{x: 0, y: 0}}
-              grid={[1, 1]}
-              scale={1}
-              onStart={this.handleStart}
-              onDrag={this.handleDrag}
-              onStop={this.handleStop}>
-              <div>
-                <img src={triangleImage} alt="TRIANGLE" key={this.state.filaSaidas[0].idTriangle} height={this.state.filaSaidas[0].height} width={this.state.filaSaidas[0].width}/>
-              </div>
+          this.state.filaSaida.map(item => (
+            <Draggable {...settings}>
+            <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idTriangle} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width} onDoubleClick={this._handleDoubleClickSaida} />
             </Draggable>
-            </div>
           ))
         }
         {
           this.state.filaEntrada.map(item => (
-            <div>
-            <Draggable
-              axis="both"
-              bounds={{left:0, top: -35, right: 700, bottom: 300}}
-              defaultPosition={{x: 0, y: 0}}
-              grid={[1, 1]}
-              scale={1}
-              onStart={this.handleStart}
-              onDrag={this.handleDrag}
-              onStop={this.handleStop}>
-              <div>
-                <img src={EntradaImage} alt="Entrada" key={this.state.filaEntrada[0].idEntrada} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width}/>
-              </div>
+            <Draggable {...settings}>
+              <img src={EntradaImage} alt="ARROW" key={this.state.filaEntrada[0].idArrow} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width} onDoubleClick={this._handleDoubleClickEntrada}/>
             </Draggable>
-            </div>
           ))
         }
       </Paper>
