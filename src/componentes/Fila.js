@@ -8,7 +8,7 @@ export default class Fila extends Component{
     this.state = {
         idFila: 0,
         height: 60,
-        width: 100
+        width: 100,
     }
   }
 

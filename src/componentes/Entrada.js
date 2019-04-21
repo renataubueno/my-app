@@ -8,7 +8,8 @@ export default class Entrada extends Component{
     this.state = {
         idEntrada: 0,
         height: 40,
-        width: 50
+        width: 50,
+        chegada: 0
     }
   }
 
@@ -41,7 +42,7 @@ export default class Entrada extends Component{
 
   render(){
     return(
-      <img src={EntradaImage} alt="Entrada" id={this.state.idEntrada} height={this.state.height} width={this.state.width} onClick={ this.handleClickEntrada('control') } />
+      <img src={EntradaImage} alt="Entrada" id={this.state.idEntrada} height={this.state.height} width={this.state.width} chegada={this.state.chegada} onClick={ this.handleClickEntrada('control') } />
     );
   }
 }

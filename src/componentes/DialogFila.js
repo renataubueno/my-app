@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -6,27 +8,39 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Draggable from 'react-draggable';
-import FormMenuDistribuicaoExponencial from './FormMenuDistribuicaoExponencial.js';
-import FormMenuDistribuicaoUniforme from './FormMenuDistribuicaoUniforme.js';
 import Pubsub from 'pubsub-js';
 import TextField from '@material-ui/core/TextField';
 import FilaImage from '../images/fila.png';
+import FilaEditorExp from './FilaEditorExp.js';
+import FilaEditorUnif from './FilaEditorUnif.js';
 
-export default class DialogFila extends Component{
+const styles = theme => ({
+  drawerHeader: {
+  },root: {
+    position: 'relative',
+    //width: '800px',
+    //height: '450px',
+    //alignItems: 'center',
+    //marginLeft: '245px',
+    //marginTop: '175px',
+    //...theme.mixins.gutters(),
+    //paddingTop: theme.spacing.unit * 4,
+    //paddingBottom: theme.spacing.unit * 5,
+  },
+});
+
+class DialogFila extends Component{
   constructor(props){
     super(props);
     this.state = {
       filaFilas: [],
       open: false,
       value: '',
-      capacidade: 0,
-      servidores: 0,
       showUniforme: false,
-      showExponencial: false
+      showExponencial: false,
+      servidores: 0,
+      capacidade: 0
     };
-
-    this._handleDoubleClickFilaOpen = this._handleDoubleClickFilaOpen.bind(this);
-    this._handleDoubleClickFilaClose = this._handleDoubleClickFilaClose.bind(this);
   }
 
   componentWillMount(){
@@ -45,81 +59,53 @@ export default class DialogFila extends Component{
      Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
         this.setState({value: dadosDaDistribuicao.distribuicao});
     });
+
+    Pubsub.subscribe('deletar-fila-exp', (topico, deletarFila) => {
+       console.log('Valor recebido no deletar-fila de ID: ', deletarFila.id);
+       for( var i = this.state.filaFilas.length; i--;){
+         if ( this.state.filaFilas[i].idFila === deletarFila.id) {
+           console.log('Achei a fila que queria deletar');
+           this.state.filaFilas.splice(i, 1);
+         }
+       }
+       var itemsFila = [ ].concat(this.state.filaFilas);
+       this.setState({filaFilas: itemsFila});
+   });
+
+   Pubsub.subscribe('deletar-fila-unif', (topico, deletarFila) => {
+      console.log('Valor recebido no deletar-fila de ID: ', deletarFila.id);
+      for( var i = this.state.filaFilas.length; i--;){
+        if ( this.state.filaFilas[i].idFila === deletarFila.id) {
+          console.log('Achei a fila que queria deletar');
+          this.state.filaFilas.splice(i, 1);
+        }
+      }
+      var itemsFila = [ ].concat(this.state.filaFilas);
+      this.setState({filaFilas: itemsFila});
+  });
+
   }
 
-  _handleDoubleClickFilaOpen(event): void {
-    this.setState({open: true});
-    if(this.state.value === 'Uniforme'){
-      this.setState( { showUniforme: true } )
-      this.setState( { showExponencial: false } )
-    } else if (this.state.value === 'Exponencial'){
-      this.setState( { showUniforme: false } )
-      this.setState( { showExponencial: true } )
-    } else {
-      this.setState( { showUniforme: false } )
-      this.setState( { showExponencial: false } )
-    }
-  }
-
-  _handleDoubleClickFilaClose(event): void {
-    this.setState({open: false});
-  }
-
-  handleChangeCapacidade = capacidade => event => {
-    this.setState({ capacidade: parseInt(event.target.value, 10) });
-    console.log('Entrei aqui e meu valor da capacidade agora é: ', this.state.capacidade)
-  };
-
-  handleChangeServidores = servidores => event => {
-    this.setState({ servidores: parseInt(event.target.value, 10) });
-    console.log('Entrei aqui e meu valor de servidores agora é: ', this.state.servidores)
-  };
 
   render(){
-    const bound = "parent";
-    const position = {x: 0, y: 0};
-    const settings = {bounds: bound, defaultPosition: position};
+    const { classes } = this.props;
 
     return(
-      <div>
+      <div className={classes.root}>
       {
         this.state.filaFilas.map(item => (
-          <Draggable {...settings}>
-            <img src={FilaImage} alt="Fila" key={this.state.filaFilas[0].idFila} height={this.state.filaFilas[0].height} width={this.state.filaFilas[0].width} onDoubleClick={this._handleDoubleClickFilaOpen}/>
-          </Draggable>
+          <FilaEditorExp idFila={item.idFila}/>
+          //{this.state.showExponencial && <FilaEditorExp idFila={item.idFila}/>}
+          //{this.state.showUniforme && <FilaEditorUnif idFila={item.idFila}/>}
         ))
       }
-      <Dialog open={this.state.open} onClose={this._handleDoubleClickFilaClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">
-          {"Parâmetros da Fila"}
-        </DialogTitle>
-        <DialogContent>
-        <TextField
-           id="standard-name"
-           label="Capacidade"
-           className={'capacidade-text-field'}
-           value={this.state.capacidade}
-           onChange={this.handleChangeCapacidade('capacidade')}
-           margin="normal"
-         />
-         <TextField
-            id="standard-name"
-            label="Número de Servidores"
-            className={'servidores-text-field'}
-            value={this.state.servidores}
-            onChange={this.handleChangeServidores('servidores')}
-            margin="normal"
-          />
-        { this.state.showExponencial && <FormMenuDistribuicaoExponencial/> }
-        { this.state.showUniforme && <FormMenuDistribuicaoUniforme />}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this._handleDoubleClickFilaClose} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
       </div>
     );
   }
 }
+
+DialogFila.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles, { withTheme: true })(DialogFila);

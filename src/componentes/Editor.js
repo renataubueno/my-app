@@ -11,16 +11,16 @@ import DialogEntrada from './DialogEntrada.js';
 
 const styles = theme => ({
   drawerHeader: {
-  },root: {
+  },rootEditor: {
     width: '800px',
     height: '450px',
-    alignItems: 'center',
-    position: 'relative',
+    position: 'fixed',
     marginLeft: '245px',
     marginTop: '175px',
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 4,
-    paddingBottom: theme.spacing.unit * 5,
+    //alignItems: 'center',
+    //...theme.mixins.gutters(),
+    //paddingTop: theme.spacing.unit * 4,
+    //paddingBottom: theme.spacing.unit * 5,
   },
 });
 
@@ -36,15 +36,12 @@ class Editor extends React.Component{
     const settings = {bounds: bound, defaultPosition: position}
 
     return(
-      <main>
-        <div className={classes.drawerHeader} />
-        <Paper className={classes.root} elevation={2}>
-          <DialogFila/>
-          <DialogConector/>
-          <DialogSaida/>
-          <DialogEntrada/>
+      <Paper className={classes.rootEditor} elevation={2}>
+        <DialogFila />
+        <DialogConector/>
+        <DialogSaida/>
+        <DialogEntrada/>
       </Paper>
-      </main>
     );
   }
 }

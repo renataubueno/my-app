@@ -1,0 +1,13 @@
+1 - Como descobrir qual objeto triggou o onClick?
+  -- No DialogConector eu tenho um array de objetos, mas eu não sei qual dos objetos triggou um onClick
+     que ocasiona a sua deleção. Por exemplo, como eu sei que o objeto de id = 4 foi o que clicou no botão e,
+     consequentemente, será o que deverá ser deletado do array?
+  -- Essa mesma dúvida é válida pro caso de salvar os valores nos objetos. Tomando ainda o DialogConector, ele deve
+     ter um valor de probabilidade associado a cada objeto, mas como eu altero o valor do objeto em si e não de todo o
+     estado? A dúvida é a mesma pois eu não sei como descobrir qual foi o objeto que gerou o onClick ou o DoubleClick e
+     assim eu não sei qual objeto no array eu tenho que alterar
+  -- No DialogEntrada eu separei o componente em mais um, o EntradaEditor.js, para tentar fazer a criação de um objeto,
+     com a imagem e os seus parâmetros e a dialog box únicos de cada objeto a cada click, e não uma imagem apenas. Faz
+     sentido essa separação ou devo deixar como está no DialogConector por exemplo?
+2 - Refatorar o DialogFila.js pra ter os parâmetros de Exponencial e Uniforme etc etc, mas eu não sei se faço isso ainda
+    enquanto eu não souber a resposta pra primeira dúvida, pois daí preciso saber como refatorar como um todo isso.

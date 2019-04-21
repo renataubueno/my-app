@@ -10,7 +10,7 @@ export default class FormMenuDistribuicaoExponencial extends Component{
   }
 
   handleChange = media => event => {
-    this.setState({ media: parseFloat(event.target.value, 10) });
+    this.setState({ [media] : parseFloat(event.target.value, 10) });
     console.log('Entrei aqui e meu valor agora é: ', this.state.media)
   };
 

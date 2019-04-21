@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,6 +11,7 @@ import Draggable from 'react-draggable';
 import Pubsub from 'pubsub-js';
 import TextField from '@material-ui/core/TextField';
 import ConectorImage from '../images/conector.png';
+import ConectorEditor from './ConectorEditor.js';
 
 export default class DialogConector extends Component{
   constructor(props){
@@ -19,8 +22,6 @@ export default class DialogConector extends Component{
       probabilidade: 100
     };
 
-    this._handleDoubleClickConectorOpen = this._handleDoubleClickConectorOpen.bind(this);
-    this._handleDoubleClickConectorClose = this._handleDoubleClickConectorClose.bind(this);
   }
 
   componentWillMount(){
@@ -35,21 +36,22 @@ export default class DialogConector extends Component{
      Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
         this.setState({filaConector: []});
     });
-  }
 
-  _handleDoubleClickConectorOpen(event): void {
-    this.setState({open: true});
+    Pubsub.subscribe('deletar-conector', (topico, deletarConector) => {
+       console.log('Valor recebido no deletar-conector de ID: ', deletarConector.id);
+       for( var i = this.state.filaConector.length; i--;){
+         if ( this.state.filaConector[i].idConector === deletarConector.id) {
+           console.log('Achei o conector que queria deletar');
+           this.state.filaConector.splice(i, 1);
+         }
+       }
+       var itemsConector = [ ].concat(this.state.filaConector);
+       this.setState({filaConector: itemsConector});
+   });
   }
-
-  _handleDoubleClickConectorClose(event): void {
-    this.setState({open: false});
-  }
-
-  handleChange = probabilidade => event => {
-    this.setState({ [probabilidade]: parseInt(event.target.value) });
-  };
 
   render(){
+    const { classes } = this.props;
     const bound = "parent";
     const position = {x: 0, y: 0};
     const settings = {bounds: bound, defaultPosition: position};
@@ -58,31 +60,9 @@ export default class DialogConector extends Component{
       <div>
       {
         this.state.filaConector.map(item => (
-          <Draggable {...settings}>
-            <img src={ConectorImage} alt="Conector" key={this.state.filaConector[0].idConector} height={this.state.filaConector[0].height} width={this.state.filaConector[0].width} onDoubleClick={this._handleDoubleClickConectorOpen}/>
-          </Draggable>
+          <ConectorEditor idConector={item.idConector} />
         ))
       }
-      <Dialog open={this.state.open} onClose={this._handleDoubleClickConectorClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">
-          {"Parâmetros do Conector"}
-        </DialogTitle>
-        <DialogContent>
-        <TextField
-           id="standard-name"
-           label="Probabilidade aplicada ao canal superior (em porcentagem)"
-           className={'probabilidade-text-field'}
-           value={this.state.probabilidade}
-           onChange={this.handleChange('probabilidade')}
-           margin="normal"
-         />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this._handleDoubleClickConectorClose} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
       </div>
     );
   }

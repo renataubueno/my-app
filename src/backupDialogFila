@@ -1,0 +1,139 @@
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Draggable from 'react-draggable';
+import FormMenuDistribuicaoExponencial from './FormMenuDistribuicaoExponencial.js';
+import FormMenuDistribuicaoUniforme from './FormMenuDistribuicaoUniforme.js';
+import Pubsub from 'pubsub-js';
+import TextField from '@material-ui/core/TextField';
+import FilaImage from '../images/fila.png';
+
+export default class DialogFila extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      filaFilas: []
+      filaExp: [],
+      filaUnif: []
+      open: false,
+      value: '',
+      showUniforme: false,
+      showExponencial: false,
+      servidores: 0,
+      capacidade: 0
+    };
+  }
+
+  componentWillMount(){
+     Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
+        console.log('Chegou : ', dadosDaFila.resposta);
+        var itemsFila = [ ].concat(this.state.filaFilas);
+        itemsFila.push(dadosDaFila.resposta);
+        this.setState({filaFilas: itemsFila});
+        console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
+     });
+
+     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
+        this.setState({filaFilas: []});
+    });
+
+     Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
+        this.setState({value: dadosDaDistribuicao.distribuicao});
+    });
+
+    /*
+    Pubsub.subscribe('deletar-fila-exp', (topico, deletarFilaExp) => {
+       console.log('Valor recebido no deletar-fila-exp de ID: ', deletarFilaExp.id);
+       for( var i = this.state.filaEntrada.length; i--;){
+         if ( this.state.filaEntrada[i].idEntrada === deletarFilaExp.id) {
+           console.log('Achei a fila exponencial que queria deletar');
+           this.state.filaEntrada.splice(i, 1);
+         }
+       }
+       var itemsEntrada = [ ].concat(this.state.filaEntrada);
+       this.setState({filaEntrada: itemsEntrada});
+   });
+
+
+   Pubsub.subscribe('deletar-fila-unif', (topico, deletarFilaUnif) => {
+      console.log('Valor recebido no deletar-entrada de ID: ', deletarFilaUnif.id);
+      for( var i = this.state.filaEntrada.length; i--;){
+        if ( this.state.filaEntrada[i].idEntrada === deletarFilaUnif.id) {
+          console.log('Achei a fila uniforme que queria deletar');
+          this.state.filaEntrada.splice(i, 1);
+        }
+      }
+      var itemsEntrada = [ ].concat(this.state.filaEntrada);
+      this.setState({filaEntrada: itemsEntrada});
+  });
+  */
+  }
+
+  _handleDoubleClickFilaOpen(event): void {
+    this.setState({open: true});
+    if(this.state.value === 'Uniforme'){
+      this.setState( { showUniforme: true } )
+      this.setState( { showExponencial: false } )
+    } else if (this.state.value === 'Exponencial'){
+      this.setState( { showUniforme: false } )
+      this.setState( { showExponencial: true } )
+    } else {
+      this.setState( { showUniforme: false } )
+      this.setState( { showExponencial: false } )
+    }
+  }
+
+
+  render(){
+    const { classes } = this.props;
+    const bound = "parent";
+    const position = {x: 0, y: 0};
+    const settings = {bounds: bound, defaultPosition: position};
+
+    return(
+      <div className={classes.root}>
+      {
+        this.state.filaFilas.map(item => (
+
+        ))
+      }
+      <Dialog open={this.state.open} onClose={this._handleDoubleClickFilaClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">
+          {"Parâmetros da Fila"}
+        </DialogTitle>
+        <DialogContent>
+        <TextField
+           id="standard-name"
+           label="Capacidade"
+           className={'capacidade-text-field'}
+           value={this.state.capacidade}
+           onChange={this.handleChangeCapacidade('capacidade')}
+           margin="normal"
+         />
+         <TextField
+            id="standard-name"
+            label="Número de Servidores"
+            className={'servidores-text-field'}
+            value={this.state.servidores}
+            onChange={this.handleChangeServidores('servidores')}
+            margin="normal"
+          />
+        { this.state.showExponencial && <FormMenuDistribuicaoExponencial/> }
+        { this.state.showUniforme && <FormMenuDistribuicaoUniforme />}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this._handleDoubleClickFilaClose} color="primary">
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+      </div>
+    );
+  }
+}

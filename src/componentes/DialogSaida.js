@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,17 +10,15 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Draggable from 'react-draggable';
 import Pubsub from 'pubsub-js';
 import SaidaImage from '../images/saida.png';
+import SaidaEditor from './SaidaEditor.js';
 
 export default class DialogSaida extends Component{
   constructor(props){
     super(props);
     this.state = {
-            filaSaida: [],
+      filaSaida: [],
       open: false
     };
-
-    this._handleDoubleClickSaidaOpen = this._handleDoubleClickSaidaOpen.bind(this);
-    this._handleDoubleClickSaidaClose = this._handleDoubleClickSaidaClose.bind(this);
   }
 
   componentWillMount(){
@@ -33,18 +33,22 @@ export default class DialogSaida extends Component{
      Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
         this.setState({filaSaida: []});
     });
-  }
 
-  _handleDoubleClickSaidaOpen(event): void {
-    this.setState({open: true});
-    console.log('Valor do open: ', this.state.open);
-  }
-
-  _handleDoubleClickSaidaClose(event): void {
-    this.setState({open: false});
+    Pubsub.subscribe('deletar-saida', (topico, deletarSaida) => {
+       console.log('Valor recebido no deletar-saida de ID: ', deletarSaida.id);
+       for( var i = this.state.filaSaida.length; i--;){
+         if ( this.state.filaSaida[i].idSaida === deletarSaida.id) {
+           console.log('Achei a saida que queria deletar');
+           this.state.filaSaida.splice(i, 1);
+         }
+       }
+       var itemsSaida = [ ].concat(this.state.filaSaida);
+       this.setState({filaSaida: itemsSaida});
+   });
   }
 
   render(){
+    const { classes } = this.props;
     const bound = "parent";
     const position = {x: 0, y: 0};
     const settings = {bounds: bound, defaultPosition: position};
@@ -53,21 +57,9 @@ export default class DialogSaida extends Component{
       <div>
       {
         this.state.filaSaida.map(item => (
-          <Draggable {...settings}>
-          <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idTriangle} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width} onDoubleClick={this._handleDoubleClickSaidaOpen} />
-          </Draggable>
+          <SaidaEditor idSaida={item.idSaida}/>
         ))
       }
-      <Dialog open={this.state.open} onClose={this._handleDoubleClickSaidaClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">
-          {"Parâmetros da Saída"}
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={this._handleDoubleClickSaidaClose} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
       </div>
     );
   }

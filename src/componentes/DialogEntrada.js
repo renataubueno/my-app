@@ -9,6 +9,7 @@ import Draggable from 'react-draggable';
 import Pubsub from 'pubsub-js';
 import TextField from '@material-ui/core/TextField';
 import EntradaImage from '../images/entrada.png';
+import EntradaEditor from './EntradaEditor.js';
 
 export default class DialogEntrada extends Component{
   constructor(props){
@@ -18,9 +19,6 @@ export default class DialogEntrada extends Component{
       open: false,
       chegada: 0
     };
-
-    this._handleDoubleClickEntradaOpen = this._handleDoubleClickEntradaOpen.bind(this);
-    this._handleDoubleClickEntradaClose = this._handleDoubleClickEntradaClose.bind(this);
   }
 
   componentWillMount(){
@@ -35,55 +33,30 @@ export default class DialogEntrada extends Component{
      Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
         this.setState({filaEntrada: []});
     });
-  }
 
-  _handleDoubleClickEntradaOpen(event): void {
-    this.setState({open: true});
-    console.log('Valor do open: ', this.state.open);
+    Pubsub.subscribe('deletar-entrada', (topico, deletarEntrada) => {
+       console.log('Valor recebido no deletar-entrada de ID: ', deletarEntrada.id);
+       for( var i = this.state.filaEntrada.length; i--;){
+         if ( this.state.filaEntrada[i].idEntrada === deletarEntrada.id) {
+           console.log('Achei a entrada que queria deletar');
+           this.state.filaEntrada.splice(i, 1);
+         }
+       }
+       var itemsEntrada = [ ].concat(this.state.filaEntrada);
+       this.setState({filaEntrada: itemsEntrada});
+   });
   }
-
-  _handleDoubleClickEntradaClose(event): void {
-    this.setState({open: false});
-  }
-
-  handleChange = chegada => event => {
-    this.setState({ [chegada]: parseInt(event.target.value) });
-  };
 
   render(){
-    const bound = "parent";
-    const position = {x: 0, y: 0};
-    const settings = {bounds: bound, defaultPosition: position};
 
     return(
       <div>
       {
         this.state.filaEntrada.map(item => (
-          <Draggable {...settings}>
-            <img src={EntradaImage} alt="Entrada" key={this.state.filaEntrada[0].idArrow} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width} onDoubleClick={this._handleDoubleClickEntradaOpen}/>
-          </Draggable>
+            <EntradaEditor idEntrada={item.idEntrada}/>
         ))
       }
-      <Dialog open={this.state.open} onClose={this._handleDoubleClickEntradaClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">
-          {"Parâmetros da Entrada"}
-        </DialogTitle>
-        <DialogContent>
-        <TextField
-           id="standard-name"
-           label="Momento da primeira chegada:"
-           className={'chegada-text-field'}
-           value={this.state.chegada}
-           onChange={this.handleChange('chegada')}
-           margin="normal"
-         />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this._handleDoubleClickEntradaClose} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
+
       </div>
     );
   }
