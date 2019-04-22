@@ -33,7 +33,10 @@ class DialogFila extends Component{
   constructor(props){
     super(props);
     this.state = {
+      idFila: 0,
       filaFilas: [],
+      filaExp: [],
+      filaUnif: [],
       open: false,
       value: '',
       showUniforme: false,
@@ -41,15 +44,31 @@ class DialogFila extends Component{
       servidores: 0,
       capacidade: 0
     };
+
   }
 
   componentWillMount(){
      Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
         console.log('Chegou : ', dadosDaFila.resposta);
-        var itemsFila = [ ].concat(this.state.filaFilas);
-        itemsFila.push(dadosDaFila.resposta);
-        this.setState({filaFilas: itemsFila});
-        console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
+        if(this.state.value === 'Uniforme'){
+          console.log('Estado inicial: UNIFORME');
+          var itemsFila = [ ].concat(this.state.filaUnif);
+          itemsFila.push(dadosDaFila.resposta);
+          this.setState({filaUnif: itemsFila});
+          console.log('Conteúdo da fila uniforme: ', this.state.filaUnif);
+        } else if (this.state.value === 'Exponencial'){
+          console.log('Estado inicial: EXPONENCIAL');
+          var itemsFila = [ ].concat(this.state.filaExp);
+          itemsFila.push(dadosDaFila.resposta);
+          this.setState({filaExp: itemsFila});
+          console.log('Conteúdo da fila exponencial: ', this.state.filaExp);
+        } else {
+          console.log('Estado inicial: SEM DISTRIBUIÇÃO');
+          var itemsFila = [ ].concat(this.state.filaFilas);
+          itemsFila.push(dadosDaFila.resposta);
+          this.setState({filaFilas: itemsFila});
+          console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
+        }
      });
 
      Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
@@ -58,6 +77,34 @@ class DialogFila extends Component{
 
      Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
         this.setState({value: dadosDaDistribuicao.distribuicao});
+        if(this.state.value === 'Uniforme'){
+          this.setState( { showUniforme: true } )
+          this.setState( { showExponencial: false } )
+          this.setState({filaUnif: this.state.filaFilas});
+          this.setState({filaExp: [ ]});
+          this.setState({filaFilas: [ ]});
+          console.log('Alterei para UNIFORME');
+          console.log('valor da UNIFORME: ', this.state.filaUnif);
+        } else if (this.state.value === 'Exponencial'){
+          this.setState( { showUniforme: false } )
+          this.setState( { showExponencial: true } )
+          this.setState({filaExp: this.state.filaFilas});
+          this.setState({filaFilas: [ ]});
+          this.setState({filaUnif: [ ]});
+          console.log('Alterei para EXPONENCIAL');
+          console.log('valor da EXPONENCIAL: ', this.state.filaExp);
+        } else {
+          this.setState( { showUniforme: false } )
+          this.setState( { showExponencial: false } )
+          if(this.state.filaUnif != [ ]){
+            this.setState({filaUnif: [ ]});
+          }
+          if(this.state.filaExp != [ ]) {
+            this.setState({filaExp: [ ]});
+          }
+          console.log('Alterei para SEM DISTRIBUICAO');
+          console.log('valor da SEM DISTRIBUICAO: ', this.state.filaFilas);
+        }
     });
 
     Pubsub.subscribe('deletar-fila-exp', (topico, deletarFila) => {
@@ -82,21 +129,32 @@ class DialogFila extends Component{
       }
       var itemsFila = [ ].concat(this.state.filaFilas);
       this.setState({filaFilas: itemsFila});
-  });
-
+    });
   }
-
 
   render(){
     const { classes } = this.props;
+    const bound = "parent";
+    const position = {x: 0, y: 0};
+    const settings = {bounds: bound, defaultPosition: position};
 
     return(
       <div className={classes.root}>
       {
-        this.state.filaFilas.map(item => (
+        this.state.filaExp.map(item => (
           <FilaEditorExp idFila={item.idFila}/>
-          //{this.state.showExponencial && <FilaEditorExp idFila={item.idFila}/>}
-          //{this.state.showUniforme && <FilaEditorUnif idFila={item.idFila}/>}
+        ))
+      }
+      {
+        this.state.filaUnif.map(item => (
+          <FilaEditorUnif idFila={item.idFila}/>
+        ))
+      }
+      {
+        this.state.filaFilas.map(item => (
+          <Draggable {...settings}>
+            <img src={FilaImage} alt="Fila" idFila={item.idFila} height={item.height} width={item.width} capacidade={item.capacidade} servidores={item.servidores} />
+          </Draggable>
         ))
       }
       </div>

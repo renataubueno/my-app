@@ -59,7 +59,7 @@ class FilaEditorExp extends Component{
 
   _handleDoubleClickFilaOpen(event): void {
     this.setState({open: true});
-    if(this.state.value === 'Uniforme'){
+    /*if(this.state.value === 'Uniforme'){
       this.setState( { showUniforme: true } )
       this.setState( { showExponencial: false } )
     } else if (this.state.value === 'Exponencial'){
@@ -68,8 +68,9 @@ class FilaEditorExp extends Component{
     } else {
       this.setState( { showUniforme: false } )
       this.setState( { showExponencial: false } )
-    }
+    }*/
   }
+
   _handleDoubleClickFilaClose(event): void {
     this.setState({open: false});
   }
