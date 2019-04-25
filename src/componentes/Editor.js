@@ -13,6 +13,8 @@ import ControllerSaida from './ControllerSaida.js';
 import ControllerConector from './ControllerConector.js';
 import ControllerFila from './ControllerFila.js';
 
+import FilaNova from './FilaNova.js';
+
 const styles = theme => ({
   drawerHeader: {
   },root: {
@@ -89,6 +91,10 @@ class Editor extends React.Component{
    	alert('I got double-clicked - Fila!');
   }
 
+  handleDoubleClick(event): void{
+    console.log(event);
+  }
+
   _handleDoubleClickConector(event): void {
     	alert('I got double-clicked! - Conector');
    }
@@ -109,29 +115,27 @@ class Editor extends React.Component{
         <Paper className={classes.root} elevation={2}>
         {
           this.state.filaFilas.map(item => (
-            <Draggable {...settings}>
-              <img src={FilaImage} alt="Fila" key={this.state.filaFilas[0].idFila} height={this.state.filaFilas[0].height} width={this.state.filaFilas[0].width} onDoubleClick={this._handleDoubleClickFila}/>
-            </Draggable>
+            <FilaNova objeto={item} />
           ))
         }
         {
           this.state.filaConector.map(item => (
             <Draggable {...settings}>
-              <img src={ConectorImage} alt="Conector" key={this.state.filaConector[0].idConector} height={this.state.filaConector[0].height} width={this.state.filaConector[0].width} onDoubleClick={this._handleDoubleClickConector}/>
+              <img src={ConectorImage} alt="Conector" key={this.state.filaConector[0].idConector} height={this.state.filaConector[0].height} width={this.state.filaConector[0].width} onDoubleClick={this.handleDoubleClick('CONECTOR')}/>
             </Draggable>
           ))
         }
         {
           this.state.filaSaida.map(item => (
             <Draggable {...settings}>
-              <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idSaida} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width} onDoubleClick={this._handleDoubleClickSaida} />
+              <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idSaida} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width} onDoubleClick={this.handleDoubleClick('SAIDA')} />
             </Draggable>
           ))
         }
         {
           this.state.filaEntrada.map(item => (
             <Draggable {...settings}>
-              <img src={EntradaImage} alt="ARROW" key={this.state.filaEntrada[0].idEntrada} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width} onDoubleClick={this._handleDoubleClickEntrada}/>
+              <img src={EntradaImage} alt="ARROW" key={this.state.filaEntrada[0].idEntrada} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width} onDoubleClick={this.handleDoubleClick('ENTRADA')}/>
             </Draggable>
           ))
         }
