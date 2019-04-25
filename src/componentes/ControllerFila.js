@@ -29,7 +29,7 @@ const styles = theme => ({
   },
 });
 
-class DialogFila extends Component{
+class ControllerFila extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -162,8 +162,8 @@ class DialogFila extends Component{
   }
 }
 
-DialogFila.propTypes = {
+ControllerFila.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(DialogFila);
+export default withStyles(styles, { withTheme: true })(ControllerFila);

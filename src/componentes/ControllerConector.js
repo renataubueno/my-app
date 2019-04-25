@@ -13,7 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import ConectorImage from '../images/conector.png';
 import ConectorEditor from './ConectorEditor.js';
 
-export default class DialogConector extends Component{
+export default class ControllerConector extends Component{
   constructor(props){
     super(props);
     this.state = {

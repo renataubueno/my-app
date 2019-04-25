@@ -125,7 +125,7 @@ class Editor extends React.Component{
         {
           this.state.filaSaida.map(item => (
             <Draggable {...settings}>
-            <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idTriangle} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width} onDoubleClick={this._handleDoubleClickSaida} />
+            <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idSaida} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width} onDoubleClick={this._handleDoubleClickSaida} />
             </Draggable>
           ))
         }

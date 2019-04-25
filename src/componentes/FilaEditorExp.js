@@ -11,6 +11,7 @@ import Draggable from 'react-draggable';
 import Pubsub from 'pubsub-js';
 import TextField from '@material-ui/core/TextField';
 import FilaImage from '../images/fila.png';
+import ObjetoEditor from './ObjetoEditor.js';
 
 const styles = theme => ({
   drawerHeader: {
@@ -27,7 +28,7 @@ const styles = theme => ({
   },
 });
 
-class FilaEditorExp extends Component{
+class FilaEditorExp extends ObjetoEditor{
   constructor(props){
     super(props);
     this.state = {
@@ -37,55 +38,18 @@ class FilaEditorExp extends Component{
         capacidade: 0,
         servidores: 0,
         media: 0,
-        open: false,
         value: '',
         showExponencial: false
     }
-
-    this._handleDoubleClickFilaOpen = this._handleDoubleClickFilaOpen.bind(this);
-    this._handleDoubleClickFilaClose = this._handleDoubleClickFilaClose.bind(this);
-    this._handleCheckParameters = this._handleCheckParameters.bind(this);
   }
 
   componentWillMount(){
     this.setState({ idFila: this.props.idFila});
-    console.log('Valor do props: ', this.props.idFila);
-    console.log('Valor do meu id: ', this.state.idFila);
 
     Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
        this.setState({value: dadosDaDistribuicao.distribuicao});
    });
   }
-
-  _handleDoubleClickFilaOpen(event): void {
-    this.setState({open: true});
-    /*if(this.state.value === 'Uniforme'){
-      this.setState( { showUniforme: true } )
-      this.setState( { showExponencial: false } )
-    } else if (this.state.value === 'Exponencial'){
-      this.setState( { showUniforme: false } )
-      this.setState( { showExponencial: true } )
-    } else {
-      this.setState( { showUniforme: false } )
-      this.setState( { showExponencial: false } )
-    }*/
-  }
-
-  _handleDoubleClickFilaClose(event): void {
-    this.setState({open: false});
-  }
-
-  handleChangeCapacidade = capacidade => event => {
-    this.setState({ [capacidade]: parseInt(event.target.value) });
-  };
-
-  handleChangeServidores = servidores => event => {
-    this.setState({ [servidores]: parseInt(event.target.value) });
-  };
-
-  handleChangeMedia = media => event => {
-    this.setState({ [media]: parseFloat(event.target.value) });
-  };
 
   handleDeleteFila = event => {
     Pubsub.publish('deletar-fila-exp', {
@@ -93,11 +57,43 @@ class FilaEditorExp extends Component{
     });
   };
 
-  //método apenas para checar o valor do parametro no console
-  _handleCheckParameters(event): void {
-    console.log('Valor do props: ', this.props.idFila);
-    console.log('Valor do meu id: ', this.state.idFila);
-  }
+  handleDialog = () => {
+    return (
+      <DialogContent>
+      <TextField
+         id="standard-name"
+         label="Servidores:"
+         className={'chegada-text-field'}
+         value={this.state.servidores}
+         onChange={this.handleChange('servidores')}
+         margin="normal"
+       />
+       <TextField
+          id="standard-name"
+          label="Capacidade:"
+          className={'capacidade-text-field'}
+          value={this.state.capacidade}
+          onChange={this.handleChange('capacidade')}
+          margin="normal"
+        />
+       <TextField
+          id="standard-name"
+          label="id da Fila"
+          className={'idFila-text-field'}
+          value={this.state.idFila}
+          margin="normal"
+        />
+        <TextField
+           id="standard-name"
+           label="Média"
+           className={'condicao-media-text-field'}
+           value={this.state.media}
+           onChange={this.handleChangeFloat('media')}
+           margin="normal"
+         />
+      </DialogContent>
+    );
+  };
 
   render(){
     const { classes } = this.props;
@@ -108,51 +104,16 @@ class FilaEditorExp extends Component{
     return(
       <div className={classes.root}>
       <Draggable {...settings}>
-        <img src={FilaImage} alt="Fila" idFila={this.props.idFila} height={this.state.height} width={this.state.width} capacidade={this.state.capacidade} servidores={this.state.servidores} onDoubleClick={this._handleDoubleClickFilaOpen}/>
+        <img src={FilaImage} alt="Fila" idFila={this.props.idFila} height={this.state.height} width={this.state.width} capacidade={this.state.capacidade} servidores={this.state.servidores} onDoubleClick={this._handleDoubleClickOpen}/>
       </Draggable>
-        <Dialog open={this.state.open} onClose={this._handleDoubleClickFilaClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+        <Dialog open={this.state.open} onClose={this._handleDoubleClickClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
           <DialogTitle id="alert-dialog-title">
             {"Parâmetros da Fila"}
           </DialogTitle>
-          <DialogContent>
-          <TextField
-             id="standard-name"
-             label="Servidores:"
-             className={'chegada-text-field'}
-             value={this.state.servidores}
-             onChange={this.handleChangeServidores('servidores')}
-             margin="normal"
-           />
-           <TextField
-              id="standard-name"
-              label="Capacidade:"
-              className={'capacidade-text-field'}
-              value={this.state.capacidade}
-              onChange={this.handleChangeCapacidade('capacidade')}
-              margin="normal"
-            />
-           <TextField
-              id="standard-name"
-              label="id da Fila"
-              className={'idFila-text-field'}
-              value={this.state.idFila}
-              margin="normal"
-            />
-            <TextField
-               id="standard-name"
-               label="Média"
-               className={'condicao-media-text-field'}
-               value={this.state.media}
-               onChange={this.handleChangeMedia('media')}
-               margin="normal"
-             />
-          </DialogContent>
+          {this.handleDialog()}
           <DialogActions>
-            <Button onClick={this._handleDoubleClickFilaClose} color="primary">
+            <Button onClick={this._handleDoubleClickClose} color="primary">
               Ok
-            </Button>
-            <Button onClick={this._handleCheckParameters} color="primary">
-              Verificar Parâmetros
             </Button>
             <Button onClick={this.handleDeleteFila} color="primary">
               Deletar Objeto

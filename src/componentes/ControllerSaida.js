@@ -12,7 +12,7 @@ import Pubsub from 'pubsub-js';
 import SaidaImage from '../images/saida.png';
 import SaidaEditor from './SaidaEditor.js';
 
-export default class DialogSaida extends Component{
+export default class ControllerSaida extends Component{
   constructor(props){
     super(props);
     this.state = {

@@ -11,6 +11,7 @@ import Draggable from 'react-draggable';
 import Pubsub from 'pubsub-js';
 import TextField from '@material-ui/core/TextField';
 import SaidaImage from '../images/saida.png';
+import ObjetoEditor from './ObjetoEditor.js';
 
 const styles = theme => ({
   drawerHeader: {
@@ -21,19 +22,14 @@ const styles = theme => ({
   },
 });
 
-class SaidaEditor extends Component{
+class SaidaEditor extends ObjetoEditor{
   constructor(props){
     super(props);
     this.state = {
         idSaida: 0,
         height: 40,
-        width: 50,
-        open: false
+        width: 50
     }
-
-    this._handleDoubleClickSaidaOpen = this._handleDoubleClickSaidaOpen.bind(this);
-    this._handleDoubleClickSaidaClose = this._handleDoubleClickSaidaClose.bind(this);
-    this._handleCheckParameters = this._handleCheckParameters.bind(this);
   }
 
   componentWillMount(){
@@ -42,25 +38,25 @@ class SaidaEditor extends Component{
     console.log('Valor do meu id: ', this.state.idSaida);
   }
 
-  _handleDoubleClickSaidaOpen(event): void {
-    this.setState({open: true});
-  }
-
-  _handleDoubleClickSaidaClose(event): void {
-    this.setState({open: false});
-  }
-
   handleDeleteSaida = event => {
     Pubsub.publish('deletar-saida', {
       id: this.state.idSaida
     });
   };
 
-  //método apenas para checar o valor do parametro no console
-  _handleCheckParameters(event): void {
-    console.log('Valor do props: ', this.props.idSaida);
-    console.log('Valor do meu id: ', this.state.idSaida);
-  }
+  handleDialog = () => {
+    return(
+      <DialogContent>
+      <TextField
+         id="standard-name"
+         label="id da Saída"
+         className={'idSaida-text-field'}
+         value={this.state.idSaida}
+         margin="normal"
+       />
+      </DialogContent>
+    );
+  };
 
   render(){
     const { classes } = this.props;
@@ -72,27 +68,16 @@ class SaidaEditor extends Component{
     <main className={classes.drawerHeader}>
       <div className={classes.root}>
       <Draggable {...settings}>
-        <img src={SaidaImage} alt="Saida" key={this.props.idSaida} height={this.state.height} width={this.state.width} onDoubleClick={this._handleDoubleClickSaidaOpen} />
+        <img src={SaidaImage} alt="Saida" key={this.props.idSaida} height={this.state.height} width={this.state.width} onDoubleClick={this._handleDoubleClickOpen} />
       </Draggable>
-      <Dialog open={this.state.open} onClose={this._handleDoubleClickSaidaClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+      <Dialog open={this.state.open} onClose={this._handleDoubleClickClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">
           {"Parâmetros da Saída"}
         </DialogTitle>
-        <DialogContent>
-        <TextField
-           id="standard-name"
-           label="id da Saída"
-           className={'idSaida-text-field'}
-           value={this.state.idSaida}
-           margin="normal"
-         />
-        </DialogContent>
+        {this.handleDialog()}
         <DialogActions>
-          <Button onClick={this._handleDoubleClickSaidaClose} color="primary">
+          <Button onClick={this._handleDoubleClickClose} color="primary">
             Ok
-          </Button>
-          <Button onClick={this._handleCheckParameters} color="primary">
-            Verificar Parâmetros
           </Button>
           <Button onClick={this.handleDeleteSaida} color="primary">
             Deletar Objeto

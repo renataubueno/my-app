@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -11,7 +13,16 @@ import TextField from '@material-ui/core/TextField';
 import EntradaImage from '../images/entrada.png';
 import EntradaEditor from './EntradaEditor.js';
 
-export default class DialogEntrada extends Component{
+const styles = theme => ({
+  drawerHeader: {
+  },root: {
+    width: '750px',
+    height: '420px',
+    marginTop: '0px',
+  },
+});
+
+class ControllerEntrada extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -48,16 +59,23 @@ export default class DialogEntrada extends Component{
   }
 
   render(){
+    const { classes } = this.props;
 
     return(
-      <div>
+      <div className={classes.root}>
       {
-        this.state.filaEntrada.map(item => (
-            <EntradaEditor idEntrada={item.idEntrada}/>
-        ))
+        this.state.filaEntrada.map(item => {
+            return <EntradaEditor idEntrada={item.idEntrada}/>
+        })
       }
 
       </div>
     );
   }
 }
+
+ControllerEntrada.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles, { withTheme: true })(ControllerEntrada);
