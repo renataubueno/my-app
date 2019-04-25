@@ -4,11 +4,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Pubsub from 'pubsub-js';
 import Draggable from 'react-draggable';
-
-import FilaEditor from './FilaEditor.js';
-import ConectorEditor from './ConectorEditor.js';
-import SaidaEditor from './SaidaEditor.js';
-import EntradaEditor from './EntradaEditor.js';
+import FilaImage from '../images/fila.png';
+import ConectorImage from '../images/conector.png';
+import SaidaImage from '../images/saida.png';
+import EntradaImage from '../images/entrada.png';
 
 const styles = theme => ({
   drawerHeader: {
@@ -37,8 +36,8 @@ class Editor extends React.Component{
 
     this._handleDoubleClickFila = this._handleDoubleClickFila.bind(this);
     this._handleDoubleClickConector = this._handleDoubleClickConector.bind(this);
+    this._handleDoubleClickEntrada = this._handleDoubleClickEntrada.bind(this);
     this._handleDoubleClickSaida = this._handleDoubleClickSaida.bind(this);
-    this._handleDoubleClick = this._handleDoubleClick.bind(this);
   }
 
   componentWillMount(){
@@ -87,13 +86,13 @@ class Editor extends React.Component{
    	alert('I got double-clicked - Fila!');
   }
 
-  _handleDoubleClick(event): void{
-    alert(event);
-  }
-
   _handleDoubleClickConector(event): void {
     	alert('I got double-clicked! - Conector');
    }
+
+  _handleDoubleClickEntrada(event): void {
+     	alert('I got double-clicked! - Entrada');
+    }
 
   _handleDoubleClickSaida(event): void {
       alert('I got double-clicked! - Saida');
@@ -111,22 +110,30 @@ class Editor extends React.Component{
         <Paper className={classes.root} elevation={2}>
         {
           this.state.filaFilas.map(item => (
-            <FilaEditor objeto={item} />
+            <Draggable {...settings}>
+              <img src={FilaImage} alt="Fila" key={this.state.filaFilas[0].idFila} height={this.state.filaFilas[0].height} width={this.state.filaFilas[0].width} onDoubleClick={this._handleDoubleClickFila}/>
+            </Draggable>
           ))
         }
         {
           this.state.filaConector.map(item => (
-            <ConectorEditor objeto={item} />
+            <Draggable {...settings}>
+              <img src={ConectorImage} alt="Conector" key={this.state.filaConector[0].idConector} height={this.state.filaConector[0].height} width={this.state.filaConector[0].width} onDoubleClick={this._handleDoubleClickConector}/>
+            </Draggable>
           ))
         }
         {
           this.state.filaSaida.map(item => (
-            <SaidaEditor objeto={item} />
+            <Draggable {...settings}>
+            <img src={SaidaImage} alt="TRIANGLE" key={this.state.filaSaida[0].idSaida} height={this.state.filaSaida[0].height} width={this.state.filaSaida[0].width} onDoubleClick={this._handleDoubleClickSaida} />
+            </Draggable>
           ))
         }
         {
           this.state.filaEntrada.map(item => (
-            <EntradaEditor objeto={item} />
+            <Draggable {...settings}>
+              <img src={EntradaImage} alt="ARROW" key={this.state.filaEntrada[0].idEntrada} height={this.state.filaEntrada[0].height} width={this.state.filaEntrada[0].width} onDoubleClick={this._handleDoubleClickEntrada}/>
+            </Draggable>
           ))
         }
       </Paper>

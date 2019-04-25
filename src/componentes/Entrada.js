@@ -6,7 +6,7 @@ export default class Entrada extends Component{
   constructor(props){
     super(props);
     this.state = {
-        idEntrada: 0,
+        id: 0,
         height: 40,
         width: 50,
         chegada: 0
@@ -15,34 +15,34 @@ export default class Entrada extends Component{
 
   componentWillMount(){
     Pubsub.subscribe('retorno-incremento-id-fila', (topico, dadosDoID) => {
-      this.setState({id: ++this.state.idEntrada});
+      this.setState({id: ++this.state.id});
    });
 
     Pubsub.subscribe('retorno-incremento-id-conector', (topico, dadosDoID) => {
-      this.setState({id: ++this.state.idEntrada});
+      this.setState({id: ++this.state.id});
    });
 
     Pubsub.subscribe('retorno-incremento-id-saida', (topico, dadosDoID) => {
-      this.setState({id: ++this.state.idEntrada});
+      this.setState({id: ++this.state.id});
    });
   }
 
   handleClickEntrada = control => event => {
     console.log('Cliquei na Entrada');
-    this.setState({id: ++this.state.idEntrada});
+    this.setState({id: ++this.state.id});
 
     Pubsub.publish('retorno-incremento-id-entrada', {
     });
 
     Pubsub.publish('retorno-entrada', {
-      id: this.state.idEntrada,
+      id: this.state.id,
       resposta: this.state
     });
   };
 
   render(){
     return(
-      <img src={EntradaImage} alt="Entrada" id={this.state.idEntrada} height={this.state.height} width={this.state.width} chegada={this.state.chegada} onClick={ this.handleClickEntrada('control') } />
+      <img src={EntradaImage} alt="Entrada" id={this.state.id} height={this.state.height} width={this.state.width} chegada={this.state.chegada} onClick={ this.handleClickEntrada('control') } />
     );
   }
 }

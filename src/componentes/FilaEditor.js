@@ -2,9 +2,9 @@ import React from 'react';
 import Objeto from './Objeto.js';
 import Draggable from 'react-draggable';
 
-import ConectorImage from '../images/conector.png';
+import FilaImage from '../images/fila.png';
 
-export default class ConectorEditor extends Objeto {
+export default class FilaEditor extends Objeto {
   constructor(props){
     super(props);
   }
@@ -12,7 +12,7 @@ export default class ConectorEditor extends Objeto {
   render(){
     return(
       <Draggable {...this.settings}>
-        <img src={ConectorImage} alt="Conector" {...this.dadosDoObjeto} onDoubleClick={this.handleDoubleClick}/>
+        <img src={FilaImage} alt="Fila" {...this.dadosDoObjeto} onDoubleClick={this.handleDoubleClick}/>
       </Draggable>
     );
   }
