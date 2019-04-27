@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import FilaUniformeDialog from './FilaUniformeDialog.js';
 
 export default class DialogEditor extends Component {
   constructor(props){
@@ -13,6 +14,7 @@ export default class DialogEditor extends Component {
 
     this.state = {
       open: false,
+      tipoObjeto: '',
       objeto: {}
     }
 
@@ -22,7 +24,7 @@ export default class DialogEditor extends Component {
   componentWillMount(){
     Pubsub.subscribe('double-click', (topico, dados) => {
       console.log('Chegou double-click: ', dados);
-      this.setState({open: true, objeto: dados.fila});
+      this.setState({open: true, tipoObjeto: dados.tipoObjeto, objeto: dados.objeto});
    });
   }
 
@@ -30,76 +32,31 @@ export default class DialogEditor extends Component {
     this.setState({open: false});
   }
 
-  handleChange = parametro => event => {
+  /*handleChange = parametro => event => {
     console.log('State do DialogEditor', this.state);
     let objetoAlterado = this.state.objeto;
     objetoAlterado[parametro] = parseInt(event.target.value);
     this.setState({ objeto: objetoAlterado });
-  };
+  };*/
 
   handleDelete = event => {
     console.log('Clicou no delete - fila');
   };
 
-  handleDialog = () => {
+  handleFilaUniforme = () => {
     return (
-      <DialogContent>
-      <TextField
-         id="standard-name"
-         label="Servidores:"
-         className={'chegada-text-field'}
-         value={this.state.objeto.servidores}
-         onChange={this.handleChange('servidores')}
-         margin="normal"
-       />
-       <TextField
-          id="standard-name"
-          label="Capacidade:"
-          className={'capacidade-text-field'}
-          value={this.state.objeto.capacidade}
-          onChange={this.handleChange('capacidade')}
-          margin="normal"
-        />
-       <TextField
-          id="standard-name"
-          label="id da Fila"
-          className={'idFila-text-field'}
-          value={this.state.objeto.id}
-          margin="normal"
-        />
-        <TextField
-           id="standard-name"
-           label="Número Mínimo de Chegadas"
-           className={'condicao-min-chegada-text-field'}
-           value={this.state.objeto.minChegada}
-           onChange={this.handleChange('minChegada')}
-           margin="normal"
-         />
-         <TextField
-            id="standard-name"
-            label="Número Máximo de Chegadas"
-            className={'condicao-max-chegada-text-field'}
-            value={this.state.objeto.maxChegada}
-            onChange={this.handleChange('maxChegada')}
-            margin="normal"
-          />
-          <TextField
-             id="standard-name"
-             label="Número Mínimo de Serviço"
-             className={'condicao-min-servico-text-field'}
-             value={this.state.objeto.minServico}
-             onChange={this.handleChange('minServico')}
-             margin="normal"
-           />
-           <TextField
-              id="standard-name"
-              label="Número Máximo de Serviço"
-              className={'condicao-max-servico-text-field'}
-              value={this.state.objeto.maxServico}
-              onChange={this.handleChange('maxServico')}
-              margin="normal"
-            />
-      </DialogContent>
+      <FilaUniformeDialog objeto={this.state.objeto}/>
+    );
+  };
+
+  handleDialog = () => {
+    if(this.state.tipoObjeto === 'UNIFORME'){
+      return(
+        this.handleFilaUniforme()
+      );
+    }
+    return(
+      'avocado'
     );
   };
 
@@ -107,7 +64,7 @@ export default class DialogEditor extends Component {
     return(
       <Dialog open={this.state.open} onClose={this._handleDoubleClickClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">
-          {"Parâmetros da Fila"}
+          {"Parâmetros"}
         </DialogTitle>
         {this.handleDialog()}
         <DialogActions>

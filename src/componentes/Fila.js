@@ -28,13 +28,7 @@ export default class Fila extends Component{
    });
   }
 
-  handleClickFila = control => event => {
-    console.log('Estou na Fila com o id ', this.state.id);
-    this.setState({id: ++this.state.id});
-
-    Pubsub.publish('retorno-incremento-id-fila', {
-    });
-
+  criaFilaUniforme = () => {
     let filaUniforme = {
       id: this.state.id,
       capacidade: 0,
@@ -48,7 +42,17 @@ export default class Fila extends Component{
       tipo: 'UNIFORME'
     };
 
-    console.log('Fila Uniforme no Fila: ', filaUniforme);
+    return filaUniforme;
+  };
+
+  handleClickFila = control => event => {
+    console.log('Estou na Fila com o id ', this.state.id);
+    this.setState({id: ++this.state.id});
+
+    Pubsub.publish('retorno-incremento-id-fila', {
+    });
+
+    let filaUniforme = this.criaFilaUniforme();
 
     Pubsub.publish('retorno-fila', {
       fila: filaUniforme

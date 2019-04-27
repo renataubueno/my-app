@@ -23,8 +23,8 @@ export default class FilaEditor extends Objeto {
 
   _handleDoubleClickOpen(event): void {
     Pubsub.publish('double-click', {
-      tipoObjeto: 'Fila',
-      fila: this.state.fila
+      tipoObjeto: 'UNIFORME',
+      objeto: this.state.fila
     });
   }
 
