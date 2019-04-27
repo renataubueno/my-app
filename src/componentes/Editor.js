@@ -34,11 +34,6 @@ class Editor extends React.Component{
       filaSaida: [],
       filaEntrada: []
     }
-
-    this._handleDoubleClickFila = this._handleDoubleClickFila.bind(this);
-    this._handleDoubleClickConector = this._handleDoubleClickConector.bind(this);
-    this._handleDoubleClickSaida = this._handleDoubleClickSaida.bind(this);
-    this._handleDoubleClick = this._handleDoubleClick.bind(this);
   }
 
   componentWillMount(){
@@ -83,52 +78,49 @@ class Editor extends React.Component{
     });
  }
 
-  _handleDoubleClickFila(event): void {
-   	alert('I got double-clicked - Fila!');
-  }
+ trataFilas = () => {
+   return(
+     this.state.filaFilas.map(item => (
+       <FilaEditor objeto={item} />
+     ))
+   );
+ };
 
-  _handleDoubleClick(event): void{
-    alert(event);
-  }
+ trataConector = () => {
+   return(
+     this.state.filaConector.map(item => (
+       <ConectorEditor objeto={item} />
+     ))
+   );
+ };
 
-  _handleDoubleClickConector(event): void {
-    	alert('I got double-clicked! - Conector');
-   }
+ trataSaida = () => {
+   return(
+     this.state.filaSaida.map(item => (
+       <SaidaEditor objeto={item} />
+     ))
+   );
+ };
 
-  _handleDoubleClickSaida(event): void {
-      alert('I got double-clicked! - Saida');
-  }
+ trataEntrada = () => {
+   return(
+     this.state.filaEntrada.map(item => (
+       <EntradaEditor objeto={item} />
+     ))
+   );
+ };
 
   render(){
     const { classes } = this.props;
-    const bound = "parent";
-    const position = {x: 0, y: 0};
-    const settings = {bounds: bound, defaultPosition: position}
 
     return(
       <main>
         <div className={classes.drawerHeader} />
         <Paper className={classes.root} elevation={2}>
-        {
-          this.state.filaFilas.map(item => (
-            <FilaEditor objeto={item} />
-          ))
-        }
-        {
-          this.state.filaConector.map(item => (
-            <ConectorEditor objeto={item} />
-          ))
-        }
-        {
-          this.state.filaSaida.map(item => (
-            <SaidaEditor objeto={item} />
-          ))
-        }
-        {
-          this.state.filaEntrada.map(item => (
-            <EntradaEditor objeto={item} />
-          ))
-        }
+        { this.trataFilas() }
+        { this.trataConector() }
+        { this.trataSaida() }
+        { this.trataEntrada() }
       </Paper>
       </main>
     );
