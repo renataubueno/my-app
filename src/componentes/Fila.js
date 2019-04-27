@@ -77,7 +77,7 @@ export default class Fila extends Component{
 
     let fila = this.criaFila();
 
-    if (fila != 0){
+    if (fila !== 0){
       Pubsub.publish('retorno-fila', {
         fila: fila
       });

@@ -4,8 +4,6 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import Pubsub from 'pubsub-js';
-import FormMenuDistribuicaoUniforme from './FormMenuDistribuicaoUniforme.js';
-import FormMenuDistribuicaoExponencial from './FormMenuDistribuicaoExponencial.js'
 
 export default class MenuDistribuicao extends Component{
   constructor(props) {

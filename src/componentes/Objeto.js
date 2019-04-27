@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Draggable from 'react-draggable';
 
 export default class Objeto extends Component{
   constructor(props){
@@ -23,7 +22,6 @@ export default class Objeto extends Component{
 
   handleDoubleClick(event): void{
     console.log(this.props.objeto.id);
-    //this.setState({dialogOpen: true});
   }
 
   render(){
