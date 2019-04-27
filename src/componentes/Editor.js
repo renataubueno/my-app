@@ -51,6 +51,7 @@ class Editor extends React.Component{
         itemsFila.push(dadosDaFila.fila);
         this.setState({filaFilas: itemsFila});
         console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
+        console.log('Conteúdo da fila de filas: ', this.state.filaFilas[0]);
     });
 
     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
@@ -97,7 +98,49 @@ class Editor extends React.Component{
          this.setState({filaFilas: [ ]});
          console.log('Alterei para SEM DISTRIBUICAO');
        }
-   });
+    });
+
+    Pubsub.subscribe('deletar', (topico, deletar) => {
+       console.log('Valor recebido no deletar - ID: ', deletar.id);
+       console.log('Valor recebido no deletar - tipoObjeto: ', deletar.tipoObjeto);
+       if(deletar.tipoObjeto === 'UNIFORME' || deletar.tipoObjeto === 'EXPONENCIAL'){
+         for( var i = this.state.filaFilas.length; i--;){
+           if ( this.state.filaFilas[i].id === deletar.id) {
+             console.log('Achei a fila que queria deletar');
+             this.state.filaFilas.splice(i, 1);
+           }
+         }
+         var itemsFila = [ ].concat(this.state.filaFilas);
+         this.setState({filaFilas: itemsFila});
+       } else if(deletar.tipoObjeto === 'CONECTOR'){
+         for( var i = this.state.filaConector.length; i--;){
+           if ( this.state.filaConector[i].id === deletar.id) {
+             console.log('Achei o conector que queria deletar');
+             this.state.filaConector.splice(i, 1);
+           }
+         }
+         var itemsConector = [ ].concat(this.state.filaConector);
+         this.setState({filaConector: itemsConector});
+       } else if(deletar.tipoObjeto === 'SAIDA'){
+         for( var i = this.state.filaSaida.length; i--;){
+           if ( this.state.filaSaida[i].id === deletar.id) {
+             console.log('Achei a saida que queria deletar');
+             this.state.filaSaida.splice(i, 1);
+           }
+         }
+         var itemsSaida = [ ].concat(this.state.filaSaida);
+         this.setState({filaSaida: itemsSaida});
+       } else if(deletar.tipoObjeto === 'ENTRADA'){
+         for( var i = this.state.filaEntrada.length; i--;){
+           if ( this.state.filaEntrada[i].id === deletar.id) {
+             console.log('Achei a entrada que queria deletar');
+             this.state.filaEntrada.splice(i, 1);
+           }
+         }
+         var itemsEntrada = [ ].concat(this.state.filaEntrada);
+         this.setState({filaEntrada: itemsEntrada});
+       }
+    });
  }
 
   trataFilas = () => {

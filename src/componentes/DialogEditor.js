@@ -37,8 +37,9 @@ export default class DialogEditor extends Component {
   }
 
   handleDelete = event => {
-    Pubsub.publish('deletar-conector', {
-      id: this.state.idConector
+    Pubsub.publish('deletar', {
+      id: this.state.objeto.id,
+      tipoObjeto: this.state.tipoObjeto
     });
   };
 
