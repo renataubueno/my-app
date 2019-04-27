@@ -30,7 +30,7 @@ export default class Conector extends Component{
   criaConector = () => {
     let conector = {
       id: this.state.id,
-      height: 60,
+      height: 50,
       width: 100,
       probabilidade: 100
     };

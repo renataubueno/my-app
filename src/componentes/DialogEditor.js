@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import FilaUniformeDialog from './FilaUniformeDialog.js';
 import ConectorDialog from './ConectorDialog.js';
+import SaidaDialog from './SaidaDialog.js';
 
 export default class DialogEditor extends Component {
   constructor(props){
@@ -34,7 +35,9 @@ export default class DialogEditor extends Component {
   }
 
   handleDelete = event => {
-    console.log('Clicou no delete - fila');
+    Pubsub.publish('deletar-conector', {
+      id: this.state.idConector
+    });
   };
 
   handleFilaUniforme = () => {
@@ -49,14 +52,24 @@ export default class DialogEditor extends Component {
     );
   };
 
+  handleSaida = () => {
+    return (
+      <SaidaDialog objeto={this.state.objeto}/>
+    );
+  };
+
   handleDialog = () => {
-    if(this.state.tipoObjeto === 'UNIFORME'){
+    if (this.state.tipoObjeto === 'UNIFORME'){
       return(
         this.handleFilaUniforme()
       );
     } else if (this.state.tipoObjeto === 'CONECTOR'){
       return(
         this.handleConector()
+      );
+    } else if (this.state.tipoObjeto === 'SAIDA'){
+      return(
+        this.handleSaida()
       );
     }
     return(
