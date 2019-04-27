@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Pubsub from 'pubsub-js';
-import FilaUniforme from '../model/FilaUniforme.js';
+//import FilaUniforme from '../model/Filas.js';
 
 import FilaImage from '../images/fila.png';
 
@@ -35,8 +35,23 @@ export default class Fila extends Component{
     Pubsub.publish('retorno-incremento-id-fila', {
     });
 
+    let filaUniforme = {
+      id: this.state.id,
+      capacidade: 0,
+      servidores: 0,
+      minChegada: 0,
+      maxChegada: 0,
+      minServico: 0,
+      maxServico: 0,
+      height: 60,
+      width: 100,
+      tipo: 'UNIFORME'
+    };
+
+    console.log('Fila Uniforme no Fila: ', filaUniforme);
+
     Pubsub.publish('retorno-fila', {
-      fila: new FilaUniforme(this.state.id)
+      fila: filaUniforme
     });
   };
 
