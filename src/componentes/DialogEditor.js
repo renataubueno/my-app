@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import FilaUniformeDialog from './FilaUniformeDialog.js';
+import ConectorDialog from './ConectorDialog.js';
 
 export default class DialogEditor extends Component {
   constructor(props){
@@ -32,13 +33,6 @@ export default class DialogEditor extends Component {
     this.setState({open: false});
   }
 
-  /*handleChange = parametro => event => {
-    console.log('State do DialogEditor', this.state);
-    let objetoAlterado = this.state.objeto;
-    objetoAlterado[parametro] = parseInt(event.target.value);
-    this.setState({ objeto: objetoAlterado });
-  };*/
-
   handleDelete = event => {
     console.log('Clicou no delete - fila');
   };
@@ -49,10 +43,20 @@ export default class DialogEditor extends Component {
     );
   };
 
+  handleConector = () => {
+    return (
+      <ConectorDialog objeto={this.state.objeto}/>
+    );
+  };
+
   handleDialog = () => {
     if(this.state.tipoObjeto === 'UNIFORME'){
       return(
         this.handleFilaUniforme()
+      );
+    } else if (this.state.tipoObjeto === 'CONECTOR'){
+      return(
+        this.handleConector()
       );
     }
     return(

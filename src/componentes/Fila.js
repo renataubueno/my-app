@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Pubsub from 'pubsub-js';
-//import FilaUniforme from '../model/Filas.js';
 
 import FilaImage from '../images/fila.png';
 

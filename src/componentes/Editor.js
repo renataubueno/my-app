@@ -54,9 +54,9 @@ class Editor extends React.Component{
     });
 
     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
-       console.log('Chegou : ', dadosDoConector.resposta);
+       console.log('Chegou : ', dadosDoConector);
        var itemsConector = [ ].concat(this.state.filaConector);
-       itemsConector.push(dadosDoConector.resposta);
+       itemsConector.push(dadosDoConector.conector);
        this.setState({filaConector: itemsConector});
        console.log('Conteúdo da fila de conectores: ', this.state.filaConector);
     });
