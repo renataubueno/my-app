@@ -14,6 +14,9 @@ import FilaImage from '../images/fila.png';
 export default class FilaEditor extends Objeto {
   constructor(props){
     super(props);
+    this.state = {
+      fila: this.props.objeto
+    }
 
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
   }
@@ -21,7 +24,7 @@ export default class FilaEditor extends Objeto {
   _handleDoubleClickOpen(event): void {
     Pubsub.publish('double-click', {
       tipoObjeto: 'Fila',
-      id: this.dadosDoObjeto.key
+      fila: this.state.fila
     });
   }
 

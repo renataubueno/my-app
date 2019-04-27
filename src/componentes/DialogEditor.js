@@ -13,13 +13,7 @@ export default class DialogEditor extends Component {
 
     this.state = {
       open: false,
-      id: 0,
-      capacidade: 0,
-      servidores: 0,
-      minChegada: 0,
-      maxChegada: 0,
-      minServico: 0,
-      maxServico: 0,
+      objeto: {}
     }
 
     this._handleDoubleClickClose = this._handleDoubleClickClose.bind(this);
@@ -27,8 +21,8 @@ export default class DialogEditor extends Component {
 
   componentWillMount(){
     Pubsub.subscribe('double-click', (topico, dados) => {
-      console.log('Chegou double-click no DIALOGEDITOR: ', dados);
-      this.setState({open: true, id: dados.id});
+      console.log('Chegou double-click: ', dados);
+      this.setState({open: true, objeto: dados.fila});
    });
   }
 
@@ -51,7 +45,7 @@ export default class DialogEditor extends Component {
          id="standard-name"
          label="Servidores:"
          className={'chegada-text-field'}
-         value={this.state.servidores}
+         value={this.state.objeto.servidores}
          onChange={this.handleChange('servidores')}
          margin="normal"
        />
@@ -59,7 +53,7 @@ export default class DialogEditor extends Component {
           id="standard-name"
           label="Capacidade:"
           className={'capacidade-text-field'}
-          value={this.state.capacidade}
+          value={this.state.objeto.capacidade}
           onChange={this.handleChange('capacidade')}
           margin="normal"
         />
@@ -67,14 +61,14 @@ export default class DialogEditor extends Component {
           id="standard-name"
           label="id da Fila"
           className={'idFila-text-field'}
-          value={this.state.id}
+          value={this.state.objeto.id}
           margin="normal"
         />
         <TextField
            id="standard-name"
            label="Número Mínimo de Chegadas"
            className={'condicao-min-chegada-text-field'}
-           value={this.state.minChegada}
+           value={this.state.objeto.minChegada}
            onChange={this.handleChange('minChegada')}
            margin="normal"
          />
@@ -82,7 +76,7 @@ export default class DialogEditor extends Component {
             id="standard-name"
             label="Número Máximo de Chegadas"
             className={'condicao-max-chegada-text-field'}
-            value={this.state.maxChegada}
+            value={this.state.objeto.maxChegada}
             onChange={this.handleChange('maxChegada')}
             margin="normal"
           />
@@ -90,7 +84,7 @@ export default class DialogEditor extends Component {
              id="standard-name"
              label="Número Mínimo de Serviço"
              className={'condicao-min-servico-text-field'}
-             value={this.state.minServico}
+             value={this.state.objeto.minServico}
              onChange={this.handleChange('minServico')}
              margin="normal"
            />
@@ -98,7 +92,7 @@ export default class DialogEditor extends Component {
               id="standard-name"
               label="Número Máximo de Serviço"
               className={'condicao-max-servico-text-field'}
-              value={this.state.maxServico}
+              value={this.state.objeto.maxServico}
               onChange={this.handleChange('maxServico')}
               margin="normal"
             />

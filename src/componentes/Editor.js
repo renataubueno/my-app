@@ -40,26 +40,15 @@ class Editor extends React.Component{
       filaConector: [],
       filaSaida: [],
       filaEntrada: [],
-      openDialogEditor: false,
-      open: false,
-      id: 0,
-      capacidade: 0,
-      servidores: 0,
-      minChegada: 0,
-      maxChegada: 0,
-      minServico: 0,
-      maxServico: 0,
     }
 
-    //this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
-    //this._handleDoubleClickClose = this._handleDoubleClickClose.bind(this);
   }
 
   componentWillMount(){
     Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
-        console.log('Chegou : ', dadosDaFila.resposta);
+        console.log('Chegou : ', dadosDaFila);
         var itemsFila = [ ].concat(this.state.filaFilas);
-        itemsFila.push(dadosDaFila.resposta);
+        itemsFila.push(dadosDaFila.fila);
         this.setState({filaFilas: itemsFila});
         console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
     });
@@ -96,10 +85,6 @@ class Editor extends React.Component{
       this.setState({filaEntrada: []});
     });
 
-    /*Pubsub.subscribe('double-click', (topico, dados) => {
-      console.log('Chegou double-click: ', dados);
-      this.setState({openDialogEditor: true});
-    });*/
  }
 
   trataFilas = () => {
@@ -134,87 +119,6 @@ class Editor extends React.Component{
    );
  };
 
-  /*
-   _handleDoubleClickOpen(event): void {
-     this.setState({open: true});
-   }
-
-   _handleDoubleClickClose(event): void {
-     this.setState({open: false});
-   }
-
-   handleChange = parametro => event => {
-     this.setState({ [parametro]: parseInt(event.target.value) });
-   };
-
-   handleDelete = event => {
-     Pubsub.publish('deletar-fila-unif', {
-       id: 'this.props.objeto.id'
-     });
-   };
-
-   handleDialog = () => {
-     return (
-       <DialogContent>
-       <TextField
-          id="standard-name"
-          label="Servidores:"
-          className={'chegada-text-field'}
-          value={this.state.servidores}
-          onChange={this.handleChange('servidores')}
-          margin="normal"
-        />
-        <TextField
-           id="standard-name"
-           label="Capacidade:"
-           className={'capacidade-text-field'}
-           value={this.state.capacidade}
-           onChange={this.handleChange('capacidade')}
-           margin="normal"
-         />
-        <TextField
-           id="standard-name"
-           label="id da Fila"
-           className={'idFila-text-field'}
-           value={this.state.id}
-           margin="normal"
-         />
-         <TextField
-            id="standard-name"
-            label="Número Mínimo de Chegadas"
-            className={'condicao-min-chegada-text-field'}
-            value={this.state.minChegada}
-            onChange={this.handleChange('minChegada')}
-            margin="normal"
-          />
-          <TextField
-             id="standard-name"
-             label="Número Máximo de Chegadas"
-             className={'condicao-max-chegada-text-field'}
-             value={this.state.maxChegada}
-             onChange={this.handleChange('maxChegada')}
-             margin="normal"
-           />
-           <TextField
-              id="standard-name"
-              label="Número Mínimo de Serviço"
-              className={'condicao-min-servico-text-field'}
-              value={this.state.minServico}
-              onChange={this.handleChange('minServico')}
-              margin="normal"
-            />
-            <TextField
-               id="standard-name"
-               label="Número Máximo de Serviço"
-               className={'condicao-max-servico-text-field'}
-               value={this.state.maxServico}
-               onChange={this.handleChange('maxServico')}
-               margin="normal"
-             />
-       </DialogContent>
-     );
-   };
- */
   render(){
     const { classes } = this.props;
 
@@ -227,21 +131,6 @@ class Editor extends React.Component{
         { this.trataSaida() }
         { this.trataEntrada() }
         <DialogEditor/>
-        {/*<Dialog open={this.state.open} onClose={this._handleDoubleClickClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-          <DialogTitle id="alert-dialog-title">
-            {"Parâmetros da Fila"}
-          </DialogTitle>
-          {this.handleDialog()}
-          <DialogActions>
-            <Button onClick={this._handleDoubleClickClose} color="primary">
-              Ok
-            </Button>
-            <Button onClick={this.handleDelete} color="primary">
-              Deletar Objeto
-            </Button>
-          </DialogActions>
-        </Dialog>
-        */}
       </Paper>
       </main>
     );
