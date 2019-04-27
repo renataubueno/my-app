@@ -15,6 +15,7 @@ import FilaEditor from './FilaEditor.js';
 import ConectorEditor from './ConectorEditor.js';
 import SaidaEditor from './SaidaEditor.js';
 import EntradaEditor from './EntradaEditor.js';
+import DialogEditor from './DialogEditor.js';
 
 const styles = theme => ({
   drawerHeader: {
@@ -39,6 +40,7 @@ class Editor extends React.Component{
       filaConector: [],
       filaSaida: [],
       filaEntrada: [],
+      openDialogEditor: false,
       open: false,
       id: 0,
       capacidade: 0,
@@ -49,8 +51,8 @@ class Editor extends React.Component{
       maxServico: 0,
     }
 
-    this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
-    this._handleDoubleClickClose = this._handleDoubleClickClose.bind(this);
+    //this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
+    //this._handleDoubleClickClose = this._handleDoubleClickClose.bind(this);
   }
 
   componentWillMount(){
@@ -60,7 +62,7 @@ class Editor extends React.Component{
         itemsFila.push(dadosDaFila.resposta);
         this.setState({filaFilas: itemsFila});
         console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
-     });
+    });
 
     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
        console.log('Chegou : ', dadosDoConector.resposta);
@@ -76,7 +78,7 @@ class Editor extends React.Component{
       itemsSaida.push(dadosDaSaida.resposta);
       this.setState({filaSaida: itemsSaida});
       console.log('Conteúdo da fila de saidas: ', this.state.filaSaida);
-   });
+    });
 
     Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
       console.log('Chegou : ', dadosDaEntrada.resposta);
@@ -94,21 +96,21 @@ class Editor extends React.Component{
       this.setState({filaEntrada: []});
     });
 
-    Pubsub.subscribe('double-click', (topico, dados) => {
+    /*Pubsub.subscribe('double-click', (topico, dados) => {
       console.log('Chegou double-click: ', dados);
-      this.setState({open: true, id: dados.id});
-   });
+      this.setState({openDialogEditor: true});
+    });*/
  }
 
- trataFilas = () => {
+  trataFilas = () => {
    return(
      this.state.filaFilas.map(item => (
        <FilaEditor objeto={item} />
      ))
    );
- };
+  };
 
- trataConector = () => {
+  trataConector = () => {
    return(
      this.state.filaConector.map(item => (
        <ConectorEditor objeto={item} />
@@ -116,7 +118,7 @@ class Editor extends React.Component{
    );
  };
 
- trataSaida = () => {
+  trataSaida = () => {
    return(
      this.state.filaSaida.map(item => (
        <SaidaEditor objeto={item} />
@@ -124,7 +126,7 @@ class Editor extends React.Component{
    );
  };
 
- trataEntrada = () => {
+  trataEntrada = () => {
    return(
      this.state.filaEntrada.map(item => (
        <EntradaEditor objeto={item} />
@@ -132,7 +134,7 @@ class Editor extends React.Component{
    );
  };
 
-
+  /*
    _handleDoubleClickOpen(event): void {
      this.setState({open: true});
    }
@@ -212,7 +214,7 @@ class Editor extends React.Component{
        </DialogContent>
      );
    };
-
+ */
   render(){
     const { classes } = this.props;
 
@@ -224,7 +226,8 @@ class Editor extends React.Component{
         { this.trataConector() }
         { this.trataSaida() }
         { this.trataEntrada() }
-        <Dialog open={this.state.open} onClose={this._handleDoubleClickClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+        <DialogEditor/>
+        {/*<Dialog open={this.state.open} onClose={this._handleDoubleClickClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
           <DialogTitle id="alert-dialog-title">
             {"Parâmetros da Fila"}
           </DialogTitle>
@@ -238,6 +241,7 @@ class Editor extends React.Component{
             </Button>
           </DialogActions>
         </Dialog>
+        */}
       </Paper>
       </main>
     );
