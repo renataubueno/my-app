@@ -85,6 +85,19 @@ class Editor extends React.Component{
       this.setState({filaEntrada: []});
     });
 
+    Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
+       this.setState({value: dadosDaDistribuicao.distribuicao});
+       if(this.state.value === 'Uniforme'){
+         this.setState({filaFilas: [ ]});
+         console.log('Alterei para UNIFORME');
+       } else if (this.state.value === 'Exponencial'){
+         this.setState({filaFilas: [ ]});
+         console.log('Alterei para EXPONENCIAL');
+       } else {
+         this.setState({filaFilas: [ ]});
+         console.log('Alterei para SEM DISTRIBUICAO');
+       }
+   });
  }
 
   trataFilas = () => {
