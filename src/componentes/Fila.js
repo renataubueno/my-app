@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import FilaImage from '../images/fila.png';
 import Pubsub from 'pubsub-js';
+
+import FilaImage from '../images/fila.png';
 
 export default class Fila extends Component{
   constructor(props){
@@ -26,6 +27,23 @@ export default class Fila extends Component{
    });
   }
 
+  criaFilaUniforme = () => {
+    let filaUniforme = {
+      id: this.state.id,
+      capacidade: 0,
+      servidores: 0,
+      minChegada: 0,
+      maxChegada: 0,
+      minServico: 0,
+      maxServico: 0,
+      height: 60,
+      width: 100,
+      tipo: 'UNIFORME'
+    };
+
+    return filaUniforme;
+  };
+
   handleClickFila = control => event => {
     console.log('Estou na Fila com o id ', this.state.id);
     this.setState({id: ++this.state.id});
@@ -33,16 +51,17 @@ export default class Fila extends Component{
     Pubsub.publish('retorno-incremento-id-fila', {
     });
 
+    let filaUniforme = this.criaFilaUniforme();
+
     Pubsub.publish('retorno-fila', {
-      id: this.state.id,
-      resposta: this.state
+      fila: filaUniforme
     });
   };
 
   render(){
     return(
       <div>
-      <img src={FilaImage} alt="Fila" id={this.state.id} height={this.state.height} width={this.state.width} onClick={ this.handleClickFila('control') }/>
+        <img src={FilaImage} alt="Fila" id={this.state.id} height={this.state.height} width={this.state.width} onClick={ this.handleClickFila('control') }/>
       </div>
     );
   }

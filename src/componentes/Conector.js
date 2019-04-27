@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import ConectorImage from '../images/conector.png';
 import Pubsub from 'pubsub-js';
+
+import ConectorImage from '../images/conector.png';
 
 export default class Conector extends Component{
   constructor(props){
@@ -26,6 +27,17 @@ export default class Conector extends Component{
    });
   }
 
+  criaConector = () => {
+    let conector = {
+      id: this.state.id,
+      height: 50,
+      width: 100,
+      probabilidade: 100
+    };
+
+    return conector;
+  };
+
   handleClickConector = control => event => {
     console.log('Cliquei no Conector');
     this.setState({id: ++this.state.id});
@@ -33,9 +45,10 @@ export default class Conector extends Component{
     Pubsub.publish('retorno-incremento-id-conector', {
     });
 
+    let conector = this.criaConector();
+
     Pubsub.publish('retorno-conector', {
-      id: this.state.id,
-      resposta: this.state
+      conector: conector
     });
   };
 

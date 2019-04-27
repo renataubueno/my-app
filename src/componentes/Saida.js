@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import SaidaImage from '../images/saida.png';
 import Pubsub from 'pubsub-js';
+
+import SaidaImage from '../images/saida.png';
 
 export default class Saida extends Component{
   constructor(props){
@@ -26,6 +27,16 @@ export default class Saida extends Component{
    });
   }
 
+  criaSaida = () => {
+    let saida = {
+      id: this.state.id,
+      height: 40,
+      width: 50,
+    };
+
+    return saida;
+  };
+
   handleClickSaida = control => event => {
     console.log('Cliquei na Saida');
     this.setState({id: ++this.state.id});
@@ -33,9 +44,10 @@ export default class Saida extends Component{
     Pubsub.publish('retorno-incremento-id-saida', {
     });
 
+    let saida = this.criaSaida();
+
     Pubsub.publish('retorno-saida', {
-      id: this.state.id,
-      resposta: this.state
+      saida: saida
     });
   };
 

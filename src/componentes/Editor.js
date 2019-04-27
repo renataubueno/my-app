@@ -4,11 +4,18 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Pubsub from 'pubsub-js';
 import Draggable from 'react-draggable';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 
 import FilaEditor from './FilaEditor.js';
 import ConectorEditor from './ConectorEditor.js';
 import SaidaEditor from './SaidaEditor.js';
 import EntradaEditor from './EntradaEditor.js';
+import DialogEditor from './DialogEditor.js';
 
 const styles = theme => ({
   drawerHeader: {
@@ -32,39 +39,40 @@ class Editor extends React.Component{
       filaFilas: [],
       filaConector: [],
       filaSaida: [],
-      filaEntrada: []
+      filaEntrada: [],
     }
+
   }
 
   componentWillMount(){
-      Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
-        console.log('Chegou : ', dadosDaFila.resposta);
+    Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
+        console.log('Chegou : ', dadosDaFila);
         var itemsFila = [ ].concat(this.state.filaFilas);
-        itemsFila.push(dadosDaFila.resposta);
+        itemsFila.push(dadosDaFila.fila);
         this.setState({filaFilas: itemsFila});
         console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
-     });
+    });
 
-     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
-       console.log('Chegou : ', dadosDoConector.resposta);
+    Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
+       console.log('Chegou : ', dadosDoConector);
        var itemsConector = [ ].concat(this.state.filaConector);
-       itemsConector.push(dadosDoConector.resposta);
+       itemsConector.push(dadosDoConector.conector);
        this.setState({filaConector: itemsConector});
        console.log('Conteúdo da fila de conectores: ', this.state.filaConector);
     });
 
     Pubsub.subscribe('retorno-saida', (topico, dadosDaSaida) => {
-      console.log('Chegou : ', dadosDaSaida.resposta);
+      console.log('Chegou : ', dadosDaSaida);
       var itemsSaida = [ ].concat(this.state.filaSaida);
-      itemsSaida.push(dadosDaSaida.resposta);
+      itemsSaida.push(dadosDaSaida.saida);
       this.setState({filaSaida: itemsSaida});
       console.log('Conteúdo da fila de saidas: ', this.state.filaSaida);
-   });
+    });
 
     Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
-      console.log('Chegou : ', dadosDaEntrada.resposta);
+      console.log('Chegou : ', dadosDaEntrada);
       var itemsEntrada = [ ].concat(this.state.filaEntrada);
-      itemsEntrada.push(dadosDaEntrada.resposta);
+      itemsEntrada.push(dadosDaEntrada.entrada);
       this.setState({filaEntrada: itemsEntrada});
       console.log('Conteúdo da fila de entrada: ', this.state.filaEntrada);
     });
@@ -76,17 +84,18 @@ class Editor extends React.Component{
       this.setState({filaSaida: []});
       this.setState({filaEntrada: []});
     });
+
  }
 
- trataFilas = () => {
+  trataFilas = () => {
    return(
      this.state.filaFilas.map(item => (
        <FilaEditor objeto={item} />
      ))
    );
- };
+  };
 
- trataConector = () => {
+  trataConector = () => {
    return(
      this.state.filaConector.map(item => (
        <ConectorEditor objeto={item} />
@@ -94,7 +103,7 @@ class Editor extends React.Component{
    );
  };
 
- trataSaida = () => {
+  trataSaida = () => {
    return(
      this.state.filaSaida.map(item => (
        <SaidaEditor objeto={item} />
@@ -102,7 +111,7 @@ class Editor extends React.Component{
    );
  };
 
- trataEntrada = () => {
+  trataEntrada = () => {
    return(
      this.state.filaEntrada.map(item => (
        <EntradaEditor objeto={item} />
@@ -121,6 +130,7 @@ class Editor extends React.Component{
         { this.trataConector() }
         { this.trataSaida() }
         { this.trataEntrada() }
+        <DialogEditor/>
       </Paper>
       </main>
     );
