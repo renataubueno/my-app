@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import FilaUniformeDialog from './FilaUniformeDialog.js';
+import FilaExponencialDialog from './FilaExponencialDialog.js';
 import ConectorDialog from './ConectorDialog.js';
 import SaidaDialog from './SaidaDialog.js';
 import EntradaDialog from './EntradaDialog.js';
@@ -47,6 +48,12 @@ export default class DialogEditor extends Component {
     );
   };
 
+  handleFilaExponencial = () => {
+    return (
+      <FilaExponencialDialog objeto={this.state.objeto}/>
+    );
+  }
+
   handleConector = () => {
     return (
       <ConectorDialog objeto={this.state.objeto}/>
@@ -69,6 +76,10 @@ export default class DialogEditor extends Component {
     if (this.state.tipoObjeto === 'UNIFORME'){
       return(
         this.handleFilaUniforme()
+      );
+    } else if (this.state.tipoObjeto === 'EXPONENCIAL'){
+      return(
+        this.handleFilaExponencial()
       );
     } else if (this.state.tipoObjeto === 'CONECTOR'){
       return(
