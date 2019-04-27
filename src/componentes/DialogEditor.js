@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import FilaUniformeDialog from './FilaUniformeDialog.js';
 import ConectorDialog from './ConectorDialog.js';
 import SaidaDialog from './SaidaDialog.js';
+import EntradaDialog from './EntradaDialog.js';
 
 export default class DialogEditor extends Component {
   constructor(props){
@@ -58,6 +59,12 @@ export default class DialogEditor extends Component {
     );
   };
 
+  handleEntrada = () => {
+    return (
+      <EntradaDialog objeto={this.state.objeto}/>
+    );
+  };
+
   handleDialog = () => {
     if (this.state.tipoObjeto === 'UNIFORME'){
       return(
@@ -70,6 +77,10 @@ export default class DialogEditor extends Component {
     } else if (this.state.tipoObjeto === 'SAIDA'){
       return(
         this.handleSaida()
+      );
+    } else if (this.state.tipoObjeto === 'ENTRADA'){
+      return(
+        this.handleEntrada()
       );
     }
     return(

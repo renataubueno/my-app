@@ -70,9 +70,9 @@ class Editor extends React.Component{
     });
 
     Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
-      console.log('Chegou : ', dadosDaEntrada.resposta);
+      console.log('Chegou : ', dadosDaEntrada);
       var itemsEntrada = [ ].concat(this.state.filaEntrada);
-      itemsEntrada.push(dadosDaEntrada.resposta);
+      itemsEntrada.push(dadosDaEntrada.entrada);
       this.setState({filaEntrada: itemsEntrada});
       console.log('Conteúdo da fila de entrada: ', this.state.filaEntrada);
     });

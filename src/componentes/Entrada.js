@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Pubsub from 'pubsub-js';
+
 import EntradaImage from '../images/entrada.png';
 
 export default class Entrada extends Component{
@@ -9,7 +10,6 @@ export default class Entrada extends Component{
         id: 0,
         height: 40,
         width: 50,
-        chegada: 0
     }
   }
 
@@ -27,6 +27,18 @@ export default class Entrada extends Component{
    });
   }
 
+  criaEntrada = () => {
+    let entrada = {
+      id: this.state.id,
+      height: 40,
+      width: 50,
+      chegada: 0
+    };
+
+    return entrada;
+  };
+
+
   handleClickEntrada = control => event => {
     console.log('Cliquei na Entrada');
     this.setState({id: ++this.state.id});
@@ -34,15 +46,16 @@ export default class Entrada extends Component{
     Pubsub.publish('retorno-incremento-id-entrada', {
     });
 
+    let entrada = this.criaEntrada();
+
     Pubsub.publish('retorno-entrada', {
-      id: this.state.id,
-      resposta: this.state
+      entrada: entrada
     });
   };
 
   render(){
     return(
-      <img src={EntradaImage} alt="Entrada" id={this.state.id} height={this.state.height} width={this.state.width} chegada={this.state.chegada} onClick={ this.handleClickEntrada('control') } />
+      <img src={EntradaImage} alt="Entrada" id={this.state.id} height={this.state.height} width={this.state.width} onClick={ this.handleClickEntrada('control') } />
     );
   }
 }
