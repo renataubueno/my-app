@@ -32,7 +32,9 @@ export default class DialogEditor extends Component {
 
   handleChange = parametro => event => {
     console.log('State do DialogEditor', this.state);
-    this.setState({ [parametro]: parseInt(event.target.value) });
+    let objetoAlterado = this.state.objeto;
+    objetoAlterado[parametro] = parseInt(event.target.value);
+    this.setState({ objeto: objetoAlterado });
   };
 
   handleDelete = event => {
