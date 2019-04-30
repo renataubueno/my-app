@@ -45,6 +45,9 @@ class Editor extends React.Component{
         this.setState({filaFilas: itemsFila});
         console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
         console.log('Conteúdo da fila de filas: ', this.state.filaFilas[0]);
+        Pubsub.publish('alteracoes', {
+          dados: dadosDaFila
+        });
     });
 
     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
@@ -53,6 +56,9 @@ class Editor extends React.Component{
        itemsConector.push(dadosDoConector.conector);
        this.setState({filaConector: itemsConector});
        console.log('Conteúdo da fila de conectores: ', this.state.filaConector);
+       Pubsub.publish('alteracoes', {
+         dados: dadosDoConector
+       });
     });
 
     Pubsub.subscribe('retorno-saida', (topico, dadosDaSaida) => {
@@ -61,6 +67,9 @@ class Editor extends React.Component{
       itemsSaida.push(dadosDaSaida.saida);
       this.setState({filaSaida: itemsSaida});
       console.log('Conteúdo da fila de saidas: ', this.state.filaSaida);
+      Pubsub.publish('alteracoes', {
+        dados: dadosDaSaida
+      });
     });
 
     Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
@@ -69,6 +78,9 @@ class Editor extends React.Component{
       itemsEntrada.push(dadosDaEntrada.entrada);
       this.setState({filaEntrada: itemsEntrada});
       console.log('Conteúdo da fila de entrada: ', this.state.filaEntrada);
+      Pubsub.publish('alteracoes', {
+        dados: dadosDaEntrada
+      });
     });
 
     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
@@ -77,6 +89,9 @@ class Editor extends React.Component{
       this.setState({filaConector: []});
       this.setState({filaSaida: []});
       this.setState({filaEntrada: []});
+      Pubsub.publish('alteracoes', {
+
+      });
     });
 
     Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
@@ -91,6 +106,9 @@ class Editor extends React.Component{
          this.setState({filaFilas: [ ]});
          console.log('Alterei para SEM DISTRIBUICAO');
        }
+       Pubsub.publish('alteracoes', {
+         dados: dadosDaDistribuicao
+       });
     });
 
     Pubsub.subscribe('deletar', (topico, deletar) => {
@@ -105,6 +123,8 @@ class Editor extends React.Component{
          }
          var itemsFila = [ ].concat(this.state.filaFilas);
          this.setState({filaFilas: itemsFila});
+         Pubsub.publish('alteracoes', {
+         });
        } else if(deletar.tipoObjeto === 'CONECTOR'){
          for( var i = this.state.filaConector.length; i--;){
            if ( this.state.filaConector[i].id === deletar.id) {
@@ -114,6 +134,8 @@ class Editor extends React.Component{
          }
          var itemsConector = [ ].concat(this.state.filaConector);
          this.setState({filaConector: itemsConector});
+         Pubsub.publish('alteracoes', {
+         });
        } else if(deletar.tipoObjeto === 'SAIDA'){
          for( var i = this.state.filaSaida.length; i--;){
            if ( this.state.filaSaida[i].id === deletar.id) {
@@ -123,6 +145,8 @@ class Editor extends React.Component{
          }
          var itemsSaida = [ ].concat(this.state.filaSaida);
          this.setState({filaSaida: itemsSaida});
+         Pubsub.publish('alteracoes', {
+         });
        } else if(deletar.tipoObjeto === 'ENTRADA'){
          for( var i = this.state.filaEntrada.length; i--;){
            if ( this.state.filaEntrada[i].id === deletar.id) {
@@ -132,6 +156,8 @@ class Editor extends React.Component{
          }
          var itemsEntrada = [ ].concat(this.state.filaEntrada);
          this.setState({filaEntrada: itemsEntrada});
+         Pubsub.publish('alteracoes', {
+         });
        }
     });
  }

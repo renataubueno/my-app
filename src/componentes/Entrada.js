@@ -32,6 +32,7 @@ export default class Entrada extends Component{
       id: this.state.id,
       height: 40,
       width: 50,
+      conexaoDir: 0,
       chegada: 0
     };
 

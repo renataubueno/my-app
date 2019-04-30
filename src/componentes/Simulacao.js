@@ -3,7 +3,13 @@ import Button from '@material-ui/core/Button';
 import Pubsub from 'pubsub-js';
 
 export default class Simulacao extends Component{
-  handleClick = control => event =>{
+  componentWillMount(){
+    Pubsub.subscribe('alteracoes', (topico, dados) => {
+      console.log('Oi, recebi esses dados no Simulacao.js ', dados);
+    });
+  }
+
+  /*handleClick = control => event =>{
    const requestInfo = {
      method: 'GET'
    }
@@ -24,12 +30,12 @@ export default class Simulacao extends Component{
         resposta: fila
       });
     });
- }
+ }*/
 
   render(){
     return(
       <div>
-      <Button variant="contained" onClick={ this.handleClick('control') }>
+      <Button variant="contained" /*onClick={this.handleClick('control')}*/>
         Iniciar Simulação
       </Button>
       </div>

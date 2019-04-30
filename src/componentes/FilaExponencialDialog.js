@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
+import Pubsub from 'pubsub-js';
 
 export default class FilaExponencialDialog extends Component{
   constructor(props){
@@ -15,6 +16,8 @@ export default class FilaExponencialDialog extends Component{
     let objetoAlterado = this.state.objeto;
     objetoAlterado[parametro] = parseInt(event.target.value);
     this.setState({ objeto: objetoAlterado });
+    Pubsub.publish('alteracoes', {
+    });
   };
 
   handleChangeFloat = parametro => event => {
