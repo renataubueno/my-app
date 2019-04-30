@@ -35,6 +35,62 @@ class Editor extends React.Component{
       filaEntrada: [],
     }
 
+    this.dadosDaSimulacao = {
+      fila: [],
+      conector: [],
+      saida: [],
+      entrada: [],
+      simulacao: [
+        {
+          id: 1,
+          conexaoDir: 3
+        },
+        {
+          id: 2,
+          conexaoDir: 4
+        },
+        {
+          id: 3,
+          conexaoEsq: 1,
+          conexaoDir: 6
+        },
+        {
+          id: 4,
+          conexaoEsq: 2,
+          conexaoDir: 7
+        },
+        {
+          id: 5,
+          conexaoEsq: 6,
+          conexaoEsq: 7,
+          conexaoDir: 10
+        },
+        {
+          id: 6,
+          conexaoEsq: 3,
+          conexaoDir: 5,
+          conexaoDir: 8
+        },
+        {
+          id: 7,
+          conexaoEsq: 4,
+          conexaoDir: 5,
+          conexaoDir: 9
+        },
+        {
+          id: 8,
+          conexaoEsq: 6
+        },
+        {
+          id: 9,
+          conexaoEsq: 7
+        },
+        {
+          id: 10,
+          conexaoEsq: 5
+        }
+      ]
+    }
   }
 
   componentWillMount(){
@@ -43,8 +99,9 @@ class Editor extends React.Component{
         var itemsFila = [ ].concat(this.state.filaFilas);
         itemsFila.push(dadosDaFila.fila);
         this.setState({filaFilas: itemsFila});
+        this.dadosDaSimulacao.fila.push(dadosDaFila.fila);
         console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
-        console.log('Conteúdo da fila de filas: ', this.state.filaFilas[0]);
+        console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
         Pubsub.publish('alteracoes', {
           dados: dadosDaFila
         });
@@ -55,7 +112,9 @@ class Editor extends React.Component{
        var itemsConector = [ ].concat(this.state.filaConector);
        itemsConector.push(dadosDoConector.conector);
        this.setState({filaConector: itemsConector});
+       this.dadosDaSimulacao.conector.push(dadosDoConector.conector);
        console.log('Conteúdo da fila de conectores: ', this.state.filaConector);
+       console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
        Pubsub.publish('alteracoes', {
          dados: dadosDoConector
        });
@@ -66,7 +125,9 @@ class Editor extends React.Component{
       var itemsSaida = [ ].concat(this.state.filaSaida);
       itemsSaida.push(dadosDaSaida.saida);
       this.setState({filaSaida: itemsSaida});
+      this.dadosDaSimulacao.saida.push(dadosDaSaida.saida);
       console.log('Conteúdo da fila de saidas: ', this.state.filaSaida);
+      console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
       Pubsub.publish('alteracoes', {
         dados: dadosDaSaida
       });
@@ -77,7 +138,9 @@ class Editor extends React.Component{
       var itemsEntrada = [ ].concat(this.state.filaEntrada);
       itemsEntrada.push(dadosDaEntrada.entrada);
       this.setState({filaEntrada: itemsEntrada});
+      this.dadosDaSimulacao.entrada.push(dadosDaEntrada.entrada);
       console.log('Conteúdo da fila de entrada: ', this.state.filaEntrada);
+      console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
       Pubsub.publish('alteracoes', {
         dados: dadosDaEntrada
       });
@@ -89,6 +152,7 @@ class Editor extends React.Component{
       this.setState({filaConector: []});
       this.setState({filaSaida: []});
       this.setState({filaEntrada: []});
+      console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
       Pubsub.publish('alteracoes', {
 
       });
@@ -123,6 +187,8 @@ class Editor extends React.Component{
          }
          var itemsFila = [ ].concat(this.state.filaFilas);
          this.setState({filaFilas: itemsFila});
+         console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
+
          Pubsub.publish('alteracoes', {
          });
        } else if(deletar.tipoObjeto === 'CONECTOR'){
@@ -134,6 +200,8 @@ class Editor extends React.Component{
          }
          var itemsConector = [ ].concat(this.state.filaConector);
          this.setState({filaConector: itemsConector});
+         console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
+
          Pubsub.publish('alteracoes', {
          });
        } else if(deletar.tipoObjeto === 'SAIDA'){
@@ -145,6 +213,8 @@ class Editor extends React.Component{
          }
          var itemsSaida = [ ].concat(this.state.filaSaida);
          this.setState({filaSaida: itemsSaida});
+         console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
+
          Pubsub.publish('alteracoes', {
          });
        } else if(deletar.tipoObjeto === 'ENTRADA'){
@@ -156,6 +226,8 @@ class Editor extends React.Component{
          }
          var itemsEntrada = [ ].concat(this.state.filaEntrada);
          this.setState({filaEntrada: itemsEntrada});
+         console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
+
          Pubsub.publish('alteracoes', {
          });
        }
