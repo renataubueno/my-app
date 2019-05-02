@@ -142,7 +142,7 @@ class Editor extends React.Component{
       console.log('Conteúdo da fila de entrada: ', this.state.filaEntrada);
       console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
       Pubsub.publish('alteracoes', {
-        dados: dadosDaEntrada
+        dados: this.dadosDaSimulacao
       });
     });
 

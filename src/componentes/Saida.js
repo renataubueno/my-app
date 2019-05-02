@@ -32,7 +32,7 @@ export default class Saida extends Component{
       id: this.state.id,
       height: 40,
       width: 50,
-      conexaoDir: 0
+      conexaoEsq: 0
     };
 
     return saida;
