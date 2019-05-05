@@ -35,7 +35,8 @@ export default class Conector extends Component{
       conexaoDir1: 0,
       conexaoDir2: 0,
       conexaoEsq: 0,
-      probabilidade: 100
+      probabilidade: 100,
+      tipo: 'CONECTOR'
     };
 
     return conector;

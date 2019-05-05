@@ -7,7 +7,6 @@ export default class Simulacao extends Component{
     super(props);
     this.state = {
     }
-    this.number = 45
   }
 
   componentWillMount(){

@@ -11,7 +11,7 @@ export default class Objeto extends Component{
     };
 
     this.bound = "parent";
-    this.position = {x: 0, y: 0};
+    this.position = {x: (this.props.x || 0), y: (this.props.y || 0)};
     this.settings = {
       bounds: this.bound,
       defaultPosition: this.position

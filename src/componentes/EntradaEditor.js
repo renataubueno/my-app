@@ -24,7 +24,7 @@ export default class EntradaEditor extends Objeto {
 
   render(){
     return(
-      <Draggable {...this.settings}>
+      <Draggable {...this.settings} onDrag={this.props.onControlledDrag}>
         <img src={EntradaImage} alt="Entrada" {...this.dadosDoObjeto} onDoubleClick={this._handleDoubleClickOpen}/>
       </Draggable>
     );

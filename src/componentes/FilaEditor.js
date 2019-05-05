@@ -9,7 +9,8 @@ export default class FilaEditor extends Objeto {
   constructor(props){
     super(props);
     this.state = {
-      fila: this.props.objeto
+      fila: this.props.objeto,
+      position: {}
     }
 
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
@@ -23,8 +24,10 @@ export default class FilaEditor extends Objeto {
   }
 
   render(){
+    let newPosition = {x: this.props.x, y: this.props.y};
+    this.settings.position = newPosition;
     return(
-      <Draggable {...this.settings}>
+      <Draggable {...this.settings} >
         <img src={FilaImage} alt="Fila" {...this.dadosDoObjeto} onDoubleClick={this._handleDoubleClickOpen}/>
       </Draggable>
 

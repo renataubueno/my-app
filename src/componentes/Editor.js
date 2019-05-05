@@ -33,6 +33,7 @@ class Editor extends React.Component{
       filaConector: [],
       filaSaida: [],
       filaEntrada: [],
+      controlledPosition: {x: 0, y:0}
     }
 
     this.dadosDaSimulacao = {
@@ -234,10 +235,15 @@ class Editor extends React.Component{
     });
  }
 
+ onControlledDrag = (e, position) => {
+    const {x, y} = position;
+    this.setState({controlledPosition: {x, y}});
+ }
+
   trataFilas = () => {
    return(
      this.state.filaFilas.map(item => (
-       <FilaEditor objeto={item} />
+       <FilaEditor objeto={item} {...this.state.controlledPosition} />
      ))
    );
   };
@@ -245,7 +251,7 @@ class Editor extends React.Component{
   trataConector = () => {
    return(
      this.state.filaConector.map(item => (
-       <ConectorEditor objeto={item} />
+       <ConectorEditor objeto={item}  />
      ))
    );
  };
@@ -261,7 +267,7 @@ class Editor extends React.Component{
   trataEntrada = () => {
    return(
      this.state.filaEntrada.map(item => (
-       <EntradaEditor objeto={item} />
+       <EntradaEditor objeto={item} onControlledDrag={this.onControlledDrag} {...this.state.controlledPosition} />
      ))
    );
  };

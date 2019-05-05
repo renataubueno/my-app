@@ -9,7 +9,8 @@ export default class ConectorEditor extends Objeto {
   constructor(props){
     super(props);
     this.state = {
-      conector: this.props.objeto
+      conector: this.props.objeto,
+      position: {}
     }
 
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);

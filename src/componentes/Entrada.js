@@ -33,7 +33,8 @@ export default class Entrada extends Component{
       height: 40,
       width: 50,
       conexaoDir: 0,
-      chegada: 0
+      chegada: 0,
+      tipo: 'ENTRADA'
     };
 
     return entrada;
