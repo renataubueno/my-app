@@ -21,14 +21,22 @@ export default class FilaEditor extends Objeto {
       tipoObjeto: this.state.fila.tipo,
       objeto: this.state.fila
     });
-  }
+  };
 
   render(){
-    let newPosition = {x: this.props.x, y: this.props.y};
-    this.settings.position = newPosition;
+    this.settings.onDrag = this.props.onControlledDrag;
+    if (this.props.controlledPositions) {
+      this.props.controlledPositions.filter(position => {
+        if (position.target && position.target.id === this.state.fila.id) {
+            console.log('Achei alguém que me quer!', position);
+            this.settings.position = {x: position.x + 150, y: position.y};
+        }
+      });
+    }
+
     return(
       <Draggable {...this.settings} >
-        <img src={FilaImage} alt="Fila" {...this.dadosDoObjeto} onDoubleClick={this._handleDoubleClickOpen}/>
+        <img src={FilaImage} id={this.state.fila.id} alt="Fila" {...this.dadosDoObjeto} onDoubleClick={this._handleDoubleClickOpen}/>
       </Draggable>
 
     );

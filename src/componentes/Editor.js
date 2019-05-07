@@ -33,7 +33,7 @@ class Editor extends React.Component{
       filaConector: [],
       filaSaida: [],
       filaEntrada: [],
-      controlledPosition: {x: 0, y:0}
+      controlledPositions: []
     }
 
     this.dadosDaSimulacao = {
@@ -236,14 +236,42 @@ class Editor extends React.Component{
  }
 
  onControlledDrag = (e, position) => {
-    const {x, y} = position;
-    this.setState({controlledPosition: {x, y}});
- }
+   let newControlledPosition = [].concat(this.state.controlledPositions);
+
+   const {x, y} = position;
+
+   let newPosition = {
+     x: x,
+     y: y,
+     id: e.target.id,
+     tipo: e.target.alt
+   }
+
+   //TODO: criar um script que trate colisão e valide se os objetos são conectáveis
+   if(newPosition.tipo === 'Entrada') {
+     newPosition.target = {
+       tipo: 'Fila',
+       id: 2      // Refatorar para ficar dinâmico
+     }
+   }
+
+   let positionCurrent = (newControlledPosition.filter(pos => pos.id === newPosition.id))[0];
+
+   if (positionCurrent) {
+     let index = newControlledPosition.indexOf(positionCurrent);
+     newControlledPosition.splice(index, 1);
+   }
+
+   newControlledPosition.push(newPosition);
+   this.setState({controlledPositions: newControlledPosition });
+
+   console.log(this.state.controlledPositions);
+  }
 
   trataFilas = () => {
    return(
      this.state.filaFilas.map(item => (
-       <FilaEditor objeto={item} {...this.state.controlledPosition} />
+       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
      ))
    );
   };
@@ -267,7 +295,7 @@ class Editor extends React.Component{
   trataEntrada = () => {
    return(
      this.state.filaEntrada.map(item => (
-       <EntradaEditor objeto={item} onControlledDrag={this.onControlledDrag} {...this.state.controlledPosition} />
+       <EntradaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
      ))
    );
  };
