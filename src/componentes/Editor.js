@@ -260,8 +260,8 @@ class Editor extends React.Component{
           }
           if(newPosition.nextTarget.tipo === 'Conector'){
             newPosition.nextNextTarget = {
-              tipo: 'Saida',
-              id: 4
+              tipo: ['Saida', 'Fila'],
+              id: [4, 5]
             }
           };
      };
