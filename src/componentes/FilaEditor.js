@@ -23,16 +23,21 @@ export default class FilaEditor extends Objeto {
     });
   };
 
-  render(){
+  connection(){
     this.settings.onDrag = this.props.onControlledDrag;
     if (this.props.controlledPositions) {
       this.props.controlledPositions.filter(position => {
         if (position.target && position.target.id === this.state.fila.id) {
-            console.log('Achei alguém que me quer!', position);
-            this.settings.position = {x: position.x + 150, y: position.y};
+            this.settings.position = {x: position.x, y: position.y};
+            console.log('this.settings.position - fila', this.settings.position);
+            console.log('controlledPositions', this.props.controlledPositions );
         }
       });
     }
+  }
+
+  render(){
+    this.connection();
 
     return(
       <Draggable {...this.settings} >

@@ -9,7 +9,8 @@ export default class EntradaEditor extends Objeto {
   constructor(props){
     super(props);
     this.state = {
-      entrada: this.props.objeto
+      entrada: this.props.objeto,
+      position: {}
     }
 
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
@@ -22,7 +23,20 @@ export default class EntradaEditor extends Objeto {
     });
   }
 
+  connection(){
+    this.settings.onDrag = this.props.onControlledDrag;
+    if (this.props.controlledPositions) {
+      this.props.controlledPositions.filter(position => {
+        if (position.target && position.target.id === this.state.entrada.id) {
+            this.settings.position = {x: position.x, y: position.y};
+        }
+      });
+    }
+  }
+
   render(){
+    this.connection();
+
     this.settings.onDrag = this.props.onControlledDrag;
     return(
       <Draggable {...this.settings}>

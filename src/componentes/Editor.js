@@ -251,9 +251,23 @@ class Editor extends React.Component{
    if(newPosition.tipo === 'Entrada') {
      newPosition.target = {
        tipo: 'Fila',
-       id: 2      // Refatorar para ficar dinâmico
-     }
+       id: 2
+     };
+     if(newPosition.target.tipo === 'Fila'){
+          newPosition.nextTarget = {
+            tipo: 'Conector',
+            id: 3
+          }
+          if(newPosition.nextTarget.tipo === 'Conector'){
+            newPosition.nextNextTarget = {
+              tipo: 'Saida',
+              id: 4
+            }
+          };
+     };
    }
+
+
 
    let positionCurrent = (newControlledPosition.filter(pos => pos.id === newPosition.id))[0];
 
@@ -264,8 +278,6 @@ class Editor extends React.Component{
 
    newControlledPosition.push(newPosition);
    this.setState({controlledPositions: newControlledPosition });
-
-   console.log(this.state.controlledPositions);
   }
 
   trataFilas = () => {
@@ -279,7 +291,7 @@ class Editor extends React.Component{
   trataConector = () => {
    return(
      this.state.filaConector.map(item => (
-       <ConectorEditor objeto={item}  />
+       <ConectorEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
      ))
    );
  };
@@ -287,7 +299,7 @@ class Editor extends React.Component{
   trataSaida = () => {
    return(
      this.state.filaSaida.map(item => (
-       <SaidaEditor objeto={item} />
+       <SaidaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
      ))
    );
  };
@@ -307,10 +319,10 @@ class Editor extends React.Component{
       <main>
         <div className={classes.drawerHeader} />
         <Paper className={classes.root} elevation={2}>
+        { this.trataEntrada() }
         { this.trataFilas() }
         { this.trataConector() }
         { this.trataSaida() }
-        { this.trataEntrada() }
         <DialogEditor/>
       </Paper>
       </main>
