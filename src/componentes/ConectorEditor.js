@@ -29,10 +29,6 @@ export default class ConectorEditor extends Objeto {
       this.props.controlledPositions.filter(position => {
         if (position.target && position.target.id === this.state.conector.id) {
             this.settings.position = {x: position.x, y: position.y};
-            //console.log('this.settings.position -conector', this.settings.position);
-        } else if (position.nextTarget && position.nextTarget.id === this.state.conector.id) {
-            this.settings.position = {x: position.x - 100, y: position.y};
-            //console.log('this.settings.position -conector', this.settings.position);
         }
       });
     }
@@ -41,9 +37,9 @@ export default class ConectorEditor extends Objeto {
   render(){
     this.connection();
 
-    return(
-      <Draggable {...this.settings}>
-        <img src={ConectorImage} id={this.state.conector.id} alt="Conector" {...this.dadosDoObjeto} onDoubleClick={this._handleDoubleClickOpen}/>
+    return (
+      <Draggable {...this.settings} >
+        <img id={this.state.conector.id} src={ConectorImage} alt="Conector" {...this.dadosDoObjeto} onDoubleClick={this._handleDoubleClickOpen}/>
       </Draggable>
     );
   }

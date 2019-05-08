@@ -9,8 +9,7 @@ export default class FilaEditor extends Objeto {
   constructor(props){
     super(props);
     this.state = {
-      fila: this.props.objeto,
-      position: {}
+      fila: this.props.objeto
     }
 
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
@@ -21,7 +20,7 @@ export default class FilaEditor extends Objeto {
       tipoObjeto: this.state.fila.tipo,
       objeto: this.state.fila
     });
-  };
+  }
 
   connection(){
     this.settings.onDrag = this.props.onControlledDrag;
@@ -29,16 +28,6 @@ export default class FilaEditor extends Objeto {
       this.props.controlledPositions.filter(position => {
         if (position.target && position.target.id === this.state.fila.id) {
             this.settings.position = {x: position.x, y: position.y};
-            //console.log('this.settings.position - fila', this.settings.position);
-            //console.log('controlledPositions', this.props.controlledPositions );
-        } else if (position.nextNextTarget) {
-          console.log(position);
-          for(let i = 0; i <= position.nextNextTarget.id.length; i++){
-            if(position.nextNextTarget.id[i] === this.state.fila.id){
-              console.log('position.nextNextTarget.id[i]', position.nextNextTarget.id[i]);
-              this.settings.position = {x: position.x + 100, y: position.y + 50};
-            }
-          }
         }
       });
     }
@@ -49,7 +38,7 @@ export default class FilaEditor extends Objeto {
 
     return(
       <Draggable {...this.settings} >
-        <img src={FilaImage} id={this.state.fila.id} alt="Fila" {...this.dadosDoObjeto} onDoubleClick={this._handleDoubleClickOpen}/>
+        <img id={this.state.fila.id} src={FilaImage} alt="Fila" {...this.dadosDoObjeto} onDoubleClick={this._handleDoubleClickOpen}/>
       </Draggable>
 
     );

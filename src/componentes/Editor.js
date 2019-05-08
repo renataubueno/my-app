@@ -36,62 +36,6 @@ class Editor extends React.Component{
       controlledPositions: []
     }
 
-    this.dadosDaSimulacao = {
-      fila: [],
-      conector: [],
-      saida: [],
-      entrada: [],
-      simulacao: [
-        {
-          id: 1,
-          conexaoDir: 3
-        },
-        {
-          id: 2,
-          conexaoDir: 4
-        },
-        {
-          id: 3,
-          conexaoEsq: 1,
-          conexaoDir: 6
-        },
-        {
-          id: 4,
-          conexaoEsq: 2,
-          conexaoDir: 7
-        },
-        {
-          id: 5,
-          conexaoEsq: 6,
-          conexaoEsq: 7,
-          conexaoDir: 10
-        },
-        {
-          id: 6,
-          conexaoEsq: 3,
-          conexaoDir: 5,
-          conexaoDir: 8
-        },
-        {
-          id: 7,
-          conexaoEsq: 4,
-          conexaoDir: 5,
-          conexaoDir: 9
-        },
-        {
-          id: 8,
-          conexaoEsq: 6
-        },
-        {
-          id: 9,
-          conexaoEsq: 7
-        },
-        {
-          id: 10,
-          conexaoEsq: 5
-        }
-      ]
-    }
   }
 
   componentWillMount(){
@@ -100,12 +44,8 @@ class Editor extends React.Component{
         var itemsFila = [ ].concat(this.state.filaFilas);
         itemsFila.push(dadosDaFila.fila);
         this.setState({filaFilas: itemsFila});
-        this.dadosDaSimulacao.fila.push(dadosDaFila.fila);
         console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
-        console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
-        Pubsub.publish('alteracoes', {
-          dados: dadosDaFila
-        });
+        console.log('Conteúdo da fila de filas: ', this.state.filaFilas[0]);
     });
 
     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
@@ -113,12 +53,7 @@ class Editor extends React.Component{
        var itemsConector = [ ].concat(this.state.filaConector);
        itemsConector.push(dadosDoConector.conector);
        this.setState({filaConector: itemsConector});
-       this.dadosDaSimulacao.conector.push(dadosDoConector.conector);
        console.log('Conteúdo da fila de conectores: ', this.state.filaConector);
-       console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
-       Pubsub.publish('alteracoes', {
-         dados: dadosDoConector
-       });
     });
 
     Pubsub.subscribe('retorno-saida', (topico, dadosDaSaida) => {
@@ -126,12 +61,7 @@ class Editor extends React.Component{
       var itemsSaida = [ ].concat(this.state.filaSaida);
       itemsSaida.push(dadosDaSaida.saida);
       this.setState({filaSaida: itemsSaida});
-      this.dadosDaSimulacao.saida.push(dadosDaSaida.saida);
       console.log('Conteúdo da fila de saidas: ', this.state.filaSaida);
-      console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
-      Pubsub.publish('alteracoes', {
-        dados: dadosDaSaida
-      });
     });
 
     Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
@@ -139,12 +69,7 @@ class Editor extends React.Component{
       var itemsEntrada = [ ].concat(this.state.filaEntrada);
       itemsEntrada.push(dadosDaEntrada.entrada);
       this.setState({filaEntrada: itemsEntrada});
-      this.dadosDaSimulacao.entrada.push(dadosDaEntrada.entrada);
       console.log('Conteúdo da fila de entrada: ', this.state.filaEntrada);
-      console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
-      Pubsub.publish('alteracoes', {
-        dados: this.dadosDaSimulacao
-      });
     });
 
     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
@@ -153,10 +78,6 @@ class Editor extends React.Component{
       this.setState({filaConector: []});
       this.setState({filaSaida: []});
       this.setState({filaEntrada: []});
-      console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
-      Pubsub.publish('alteracoes', {
-
-      });
     });
 
     Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
@@ -171,9 +92,6 @@ class Editor extends React.Component{
          this.setState({filaFilas: [ ]});
          console.log('Alterei para SEM DISTRIBUICAO');
        }
-       Pubsub.publish('alteracoes', {
-         dados: dadosDaDistribuicao
-       });
     });
 
     Pubsub.subscribe('deletar', (topico, deletar) => {
@@ -188,10 +106,6 @@ class Editor extends React.Component{
          }
          var itemsFila = [ ].concat(this.state.filaFilas);
          this.setState({filaFilas: itemsFila});
-         console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
-
-         Pubsub.publish('alteracoes', {
-         });
        } else if(deletar.tipoObjeto === 'CONECTOR'){
          for( var i = this.state.filaConector.length; i--;){
            if ( this.state.filaConector[i].id === deletar.id) {
@@ -201,10 +115,6 @@ class Editor extends React.Component{
          }
          var itemsConector = [ ].concat(this.state.filaConector);
          this.setState({filaConector: itemsConector});
-         console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
-
-         Pubsub.publish('alteracoes', {
-         });
        } else if(deletar.tipoObjeto === 'SAIDA'){
          for( var i = this.state.filaSaida.length; i--;){
            if ( this.state.filaSaida[i].id === deletar.id) {
@@ -214,10 +124,6 @@ class Editor extends React.Component{
          }
          var itemsSaida = [ ].concat(this.state.filaSaida);
          this.setState({filaSaida: itemsSaida});
-         console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
-
-         Pubsub.publish('alteracoes', {
-         });
        } else if(deletar.tipoObjeto === 'ENTRADA'){
          for( var i = this.state.filaEntrada.length; i--;){
            if ( this.state.filaEntrada[i].id === deletar.id) {
@@ -227,10 +133,6 @@ class Editor extends React.Component{
          }
          var itemsEntrada = [ ].concat(this.state.filaEntrada);
          this.setState({filaEntrada: itemsEntrada});
-         console.log('Conteúdo do dadosDaSimulacao: ', this.dadosDaSimulacao)
-
-         Pubsub.publish('alteracoes', {
-         });
        }
     });
  }
@@ -248,42 +150,76 @@ class Editor extends React.Component{
    }
 
    //TODO: criar um script que trate colisão e valide se os objetos são conectáveis
-   if(newPosition.tipo === 'Entrada') {
+   let objetoColidido = this.verificarColisao(newPosition);
+
+   if(newPosition.tipo === 'Fila' && objetoColidido) {
+
      newPosition.target = {
-       tipo: 'Fila',
-       id: 2
-     };
-     if(newPosition.target.tipo === 'Fila'){
-          newPosition.nextTarget = {
-            tipo: 'Conector',
-            id: 3
-          }
-          if(newPosition.nextTarget.tipo === 'Conector'){
-            newPosition.nextNextTarget = {
-              tipo: ['Saida', 'Fila'],
-              id: [4, 5]
-            }
-          };
-     };
+       tipo: objetoColidido.tipo,
+       id: parseInt(objetoColidido.id)
+     }
    }
-
-
 
    let positionCurrent = (newControlledPosition.filter(pos => pos.id === newPosition.id))[0];
 
    if (positionCurrent) {
+     if (positionCurrent.target) {
+       let target = positionCurrent.target;
+       newPosition.target = target;
+     }
+
      let index = newControlledPosition.indexOf(positionCurrent);
      newControlledPosition.splice(index, 1);
    }
 
    newControlledPosition.push(newPosition);
    this.setState({controlledPositions: newControlledPosition });
-  }
+ }
+
+ verificarColisao = (position) => {
+   let objetosConectaveis = this.buscaArrayConectaveis(position);
+   let rP = {x: position.x, y: position.y, width: 4, height: 4}
+
+   let objetoColidido = objetosConectaveis.filter(obj => {
+     let rO = {x: obj.x, y: obj.y, width: 4, height: 4};
+
+     if (
+       rP.x < rO.x + rO.width &&
+       rP.x + rP.width > rO.x &&
+       rP.y < rO.y + rO.height &&
+       rP.y + rP.height > rO.y
+     ) {
+       console.log("rP.x e rO.x e rO.width", rP.x, rO.x, rO.width);
+       console.log("rP.x e rP.width e rO.x", rP.x, rP.width, rO.x);
+       console.log("rP.y e rO.y e rO.height", rP.y, rO.y, rO.height);
+       console.log("rP.y e rP.height e rO.y", rP.y, rP.height, rO.y);
+       return obj;
+     }
+   });
+   // Se tiver mais que um, objetoColidido será um array
+
+   if(objetoColidido.length > 0){
+     console.log('Objeto colidido: ', objetoColidido[0]);
+     return objetoColidido[0]; // Gambi para poder tratar somente um e não se preocupar com o problema da linha 212
+   }
+   return null;
+ }
+
+ buscaArrayConectaveis = (position) => {
+   const relacao = {
+     Fila: ['Conector', 'Saida'],
+     Conector: ['Saida', 'Fila']
+   }
+
+   let tiposConectaveis = position.tipo === 'Fila' ? relacao.Fila : relacao.Conector;
+
+   return [].concat(this.state.controlledPositions.filter(pos => tiposConectaveis.includes(pos.tipo)));
+ }
 
   trataFilas = () => {
    return(
      this.state.filaFilas.map(item => (
-       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
+       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag} />
      ))
    );
   };
@@ -299,7 +235,7 @@ class Editor extends React.Component{
   trataSaida = () => {
    return(
      this.state.filaSaida.map(item => (
-       <SaidaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
+       <SaidaEditor objeto={item} />
      ))
    );
  };
@@ -307,7 +243,7 @@ class Editor extends React.Component{
   trataEntrada = () => {
    return(
      this.state.filaEntrada.map(item => (
-       <EntradaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
+       <EntradaEditor objeto={item} />
      ))
    );
  };
@@ -319,10 +255,10 @@ class Editor extends React.Component{
       <main>
         <div className={classes.drawerHeader} />
         <Paper className={classes.root} elevation={2}>
-        { this.trataEntrada() }
         { this.trataFilas() }
         { this.trataConector() }
         { this.trataSaida() }
+        { this.trataEntrada() }
         <DialogEditor/>
       </Paper>
       </main>
