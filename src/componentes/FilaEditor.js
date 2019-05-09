@@ -27,7 +27,13 @@ export default class FilaEditor extends Objeto {
     if (this.props.controlledPositions) {
       this.props.controlledPositions.filter(position => {
         if (position.target && position.target.id === this.state.fila.id) {
+          if(position.tipo === 'Entrada'){
+            this.settings.position = {x: position.x + 150, y: position.y};
+          } else if (position.tipo === 'Conector'){
+            this.settings.position = {x: position.x + 200, y: position.y};
+          } else {
             this.settings.position = {x: position.x, y: position.y};
+          }
         }
       });
     }

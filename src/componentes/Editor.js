@@ -149,11 +149,22 @@ class Editor extends React.Component{
      tipo: e.target.alt
    }
 
-   //TODO: criar um script que trate colisão e valide se os objetos são conectáveis
    let objetoColidido = this.verificarColisao(newPosition);
 
    if(newPosition.tipo === 'Fila' && objetoColidido) {
-
+     console.log('objetoColidido: ', objetoColidido);
+     newPosition.target = {
+       tipo: objetoColidido.tipo,
+       id: parseInt(objetoColidido.id)
+     }
+   } else if (newPosition.tipo === 'Conector' && objetoColidido){
+     console.log('objetoColidido: ', objetoColidido);
+     newPosition.target = {
+       tipo: objetoColidido.tipo,
+       id: parseInt(objetoColidido.id)
+     }
+   } else if (newPosition.tipo === 'Entrada' && objetoColidido){
+     console.log('objetoColidido: ', objetoColidido);
      newPosition.target = {
        tipo: objetoColidido.tipo,
        id: parseInt(objetoColidido.id)
@@ -178,10 +189,16 @@ class Editor extends React.Component{
 
  verificarColisao = (position) => {
    let objetosConectaveis = this.buscaArrayConectaveis(position);
-   let rP = {x: position.x, y: position.y, width: 4, height: 4}
+   let rP = {x: position.x, y: position.y, width: 15, height: 15}
+
+   console.log('Objetos Conectáveis: ', objetosConectaveis);
 
    let objetoColidido = objetosConectaveis.filter(obj => {
-     let rO = {x: obj.x, y: obj.y, width: 4, height: 4};
+     let rO = {x: obj.x, y: obj.y, width: 15, height: 15};
+
+     console.log('rp: ', rP);
+     console.log('ro: ', rO);
+     console.log('Objeto: ', obj);
 
      if (
        rP.x < rO.x + rO.width &&
@@ -189,17 +206,14 @@ class Editor extends React.Component{
        rP.y < rO.y + rO.height &&
        rP.y + rP.height > rO.y
      ) {
-       console.log("rP.x e rO.x e rO.width", rP.x, rO.x, rO.width);
-       console.log("rP.x e rP.width e rO.x", rP.x, rP.width, rO.x);
-       console.log("rP.y e rO.y e rO.height", rP.y, rO.y, rO.height);
-       console.log("rP.y e rP.height e rO.y", rP.y, rP.height, rO.y);
+       console.log('Objeto: ', obj);
        return obj;
      }
    });
    // Se tiver mais que um, objetoColidido será um array
 
    if(objetoColidido.length > 0){
-     console.log('Objeto colidido: ', objetoColidido[0]);
+     //console.log('Objeto colidido: ', objetoColidido[0]);
      return objetoColidido[0]; // Gambi para poder tratar somente um e não se preocupar com o problema da linha 212
    }
    return null;
@@ -207,11 +221,19 @@ class Editor extends React.Component{
 
  buscaArrayConectaveis = (position) => {
    const relacao = {
-     Fila: ['Conector', 'Saida'],
-     Conector: ['Saida', 'Fila']
+     Fila: ['Conector', 'Saida'], //a fila também pode se conectar a outra fila, mas isso está quebrando o código por enquanto
+     Conector: ['Saida', 'Fila'],
+     Entrada: ['Fila', 'Conector']
    }
 
-   let tiposConectaveis = position.tipo === 'Fila' ? relacao.Fila : relacao.Conector;
+   let tiposConectaveis = [];
+   if(position.tipo === 'Fila'){
+     tiposConectaveis = relacao.Fila;
+   } else if (position.tipo === 'Conector'){
+     tiposConectaveis = relacao.Conector;
+   } else if (position.tipo === 'Entrada'){
+     tiposConectaveis = relacao.Entrada;
+   }
 
    return [].concat(this.state.controlledPositions.filter(pos => tiposConectaveis.includes(pos.tipo)));
  }
@@ -219,7 +241,7 @@ class Editor extends React.Component{
   trataFilas = () => {
    return(
      this.state.filaFilas.map(item => (
-       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag} />
+       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions}/>
      ))
    );
   };
@@ -235,7 +257,7 @@ class Editor extends React.Component{
   trataSaida = () => {
    return(
      this.state.filaSaida.map(item => (
-       <SaidaEditor objeto={item} />
+       <SaidaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
      ))
    );
  };
@@ -243,7 +265,7 @@ class Editor extends React.Component{
   trataEntrada = () => {
    return(
      this.state.filaEntrada.map(item => (
-       <EntradaEditor objeto={item} />
+       <EntradaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
      ))
    );
  };
