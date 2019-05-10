@@ -151,7 +151,7 @@ class Editor extends React.Component{
 
    let objetoColidido = this.verificarColisao(newPosition);
 
-   if(newPosition.tipo === 'Fila' && objetoColidido) {
+   if(newPosition.tipo === 'Fila' && objetoColidido && newPosition.id !== objetoColidido.id) {
      console.log('objetoColidido: ', objetoColidido);
      newPosition.target = {
        tipo: objetoColidido.tipo,
@@ -189,12 +189,12 @@ class Editor extends React.Component{
 
  verificarColisao = (position) => {
    let objetosConectaveis = this.buscaArrayConectaveis(position);
-   let rP = {x: position.x, y: position.y, width: 15, height: 15}
+   let rP = {x: position.x, y: position.y, width: 20, height: 20}
 
    console.log('Objetos Conectáveis: ', objetosConectaveis);
 
    let objetoColidido = objetosConectaveis.filter(obj => {
-     let rO = {x: obj.x, y: obj.y, width: 15, height: 15};
+     let rO = {x: obj.x, y: obj.y, width: 20, height: 20};
 
      console.log('rp: ', rP);
      console.log('ro: ', rO);
@@ -221,7 +221,7 @@ class Editor extends React.Component{
 
  buscaArrayConectaveis = (position) => {
    const relacao = {
-     Fila: ['Conector', 'Saida'], //a fila também pode se conectar a outra fila, mas isso está quebrando o código por enquanto
+     Fila: ['Conector', 'Saida', 'Fila'], //a fila também pode se conectar a outra fila, mas isso está quebrando o código por enquanto
      Conector: ['Saida', 'Fila'],
      Entrada: ['Fila', 'Conector']
    }
