@@ -158,10 +158,9 @@ class Editor extends React.Component{
        id: parseInt(objetoColidido.id)
      }
    } else if (newPosition.tipo === 'Conector' && objetoColidido){
-     console.log('objetoColidido: ', objetoColidido);
      newPosition.target = {
        tipo: objetoColidido.tipo,
-       id: parseInt(objetoColidido.id)
+       id: parseInt(objetoColidido.id),
      }
    } else if (newPosition.tipo === 'Entrada' && objetoColidido){
      console.log('objetoColidido: ', objetoColidido);
@@ -189,15 +188,31 @@ class Editor extends React.Component{
 
  verificarColisao = (position) => {
    let objetosConectaveis = this.buscaArrayConectaveis(position);
+   let objetoColidido = [];
    let rP = {x: position.x, y: position.y, width: 20, height: 20}
 
-   console.log('Objetos Conectáveis: ', objetosConectaveis);
+   //console.log('Objetos Conectáveis: ', objetosConectaveis);
 
-   let objetoColidido = objetosConectaveis.filter(obj => {
+   if(objetosConectaveis.length > 0){
+     for(let i = 0; i < objetosConectaveis.length; i++){
+       let rO = {x: objetosConectaveis[i].x, y: objetosConectaveis[i].y, width: 20, height: 20};
+       //console.log('AUX: ', rO);
+
+       if (
+         rP.x < rO.x + rO.width &&
+         rP.x + rP.width > rO.x &&
+         rP.y < rO.y + rO.height &&
+         rP.y + rP.height > rO.y
+       ) {
+         console.log('CONFLITOU: ', objetosConectaveis[i]);
+         objetoColidido.push(objetosConectaveis[i]);
+         console.log('OBJETO COLIDIDO: ', objetoColidido);
+       }
+     }
+   }
+
+   /*objetoColidido.push(objetosConectaveis.filter(obj => {
      let rO = {x: obj.x, y: obj.y, width: 20, height: 20};
-
-     console.log('rp: ', rP);
-     console.log('ro: ', rO);
      console.log('Objeto: ', obj);
 
      if (
@@ -206,22 +221,23 @@ class Editor extends React.Component{
        rP.y < rO.y + rO.height &&
        rP.y + rP.height > rO.y
      ) {
-       console.log('Objeto: ', obj);
        return obj;
      }
-   });
-   // Se tiver mais que um, objetoColidido será um array
+   }));
+
+   console.log('Objeto Colidido: ', objetoColidido);*/
 
    if(objetoColidido.length > 0){
-     //console.log('Objeto colidido: ', objetoColidido[0]);
-     return objetoColidido[0]; // Gambi para poder tratar somente um e não se preocupar com o problema da linha 212
+     console.log('Tamanho do objeto colidido (array): ', objetoColidido.length);
+     return objetoColidido[0];
    }
+
    return null;
  }
 
  buscaArrayConectaveis = (position) => {
    const relacao = {
-     Fila: ['Conector', 'Saida', 'Fila'], //a fila também pode se conectar a outra fila, mas isso está quebrando o código por enquanto
+     Fila: ['Conector', 'Saida', 'Fila'],
      Conector: ['Saida', 'Fila'],
      Entrada: ['Fila', 'Conector']
    }
