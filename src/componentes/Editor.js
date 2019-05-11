@@ -94,6 +94,19 @@ class Editor extends React.Component{
        }
     });
 
+    Pubsub.subscribe('desconectar', (topico, desconectarObj) => {
+      console.log('RECEBI O REQUEST PARA DESCONECTAR O OBJETO DE ID ', desconectarObj.id);
+      for(let i = 0; i < this.state.controlledPositions.length; i++){
+        if(this.state.controlledPositions[i].targetList.length > 0){
+          for(let j = 0; j < this.state.controlledPositions[i].targetList.length; j++){
+            if(parseInt(this.state.controlledPositions[i].targetList[j].id) === parseInt(desconectarObj.id)){
+              this.state.controlledPositions[i].targetList.splice(j, 1);
+            }
+          }
+        }
+      }
+    });
+
     Pubsub.subscribe('deletar', (topico, deletar) => {
        console.log('Valor recebido no deletar - ID: ', deletar.id);
        console.log('Valor recebido no deletar - tipoObjeto: ', deletar.tipoObjeto);
@@ -146,36 +159,76 @@ class Editor extends React.Component{
      x: x,
      y: y,
      id: e.target.id,
-     tipo: e.target.alt
+     tipo: e.target.alt,
+     targetList: []
    }
 
    let objetoColidido = this.verificarColisao(newPosition);
 
    if(newPosition.tipo === 'Fila' && objetoColidido && newPosition.id !== objetoColidido.id) {
-     console.log('objetoColidido: ', objetoColidido);
-     newPosition.target = {
-       tipo: objetoColidido.tipo,
-       id: parseInt(objetoColidido.id)
+     if(objetoColidido.targetList.length === 0){
+       let target = {
+         tipo: objetoColidido.tipo,
+         id: parseInt(objetoColidido.id)
+       };
+
+       newPosition.targetList.push(target);
+     }
+     for(let i = 0; i < objetoColidido.targetList.length; i++){
+       if(parseInt(newPosition.id) === parseInt(objetoColidido.targetList[i].id)){
+       } else {
+          let target = {
+            tipo: objetoColidido.tipo,
+            id: parseInt(objetoColidido.id)
+          };
+
+          newPosition.targetList.push(target);
+       }
      }
    } else if (newPosition.tipo === 'Conector' && objetoColidido){
-     newPosition.target = {
-       tipo: objetoColidido.tipo,
-       id: parseInt(objetoColidido.id),
+     if(objetoColidido.targetList.length === 0){
+       let target = {
+         tipo: objetoColidido.tipo,
+         id: parseInt(objetoColidido.id)
+       };
+
+       newPosition.targetList.push(target);
+     }
+     for(let i = 0; i < objetoColidido.targetList.length; i++){
+       if(parseInt(newPosition.id) === parseInt(objetoColidido.targetList[i].id)){
+       } else {
+          let target = {
+            tipo: objetoColidido.tipo,
+            id: parseInt(objetoColidido.id)
+          };
+
+          newPosition.targetList.push(target);
+       }
      }
    } else if (newPosition.tipo === 'Entrada' && objetoColidido){
-     console.log('objetoColidido: ', objetoColidido);
-     newPosition.target = {
+     let target = {
        tipo: objetoColidido.tipo,
        id: parseInt(objetoColidido.id)
-     }
+     };
+     newPosition.targetList.push(target);
    }
 
    let positionCurrent = (newControlledPosition.filter(pos => pos.id === newPosition.id))[0];
 
    if (positionCurrent) {
-     if (positionCurrent.target) {
-       let target = positionCurrent.target;
-       newPosition.target = target;
+     if(positionCurrent.targetList.length > 0){
+       if(objetoColidido && objetoColidido.targetList.length > 0){
+         for(let i = 0; i < objetoColidido.targetList.length; i++){
+           var containsTarget = positionCurrent.targetList.includes(objetoColidido.targetList[i]);
+
+           if(containsTarget === false){
+             positionCurrent.targetList.push(objetoColidido.targetList[i]);
+           }
+         }
+       }
+
+       let currentTarget = positionCurrent.targetList;
+       newPosition.targetList = currentTarget;
      }
 
      let index = newControlledPosition.indexOf(positionCurrent);
@@ -183,37 +236,17 @@ class Editor extends React.Component{
    }
 
    newControlledPosition.push(newPosition);
+
    this.setState({controlledPositions: newControlledPosition });
+   console.log('CONTROLLED POSITIONS: ', this.state.controlledPositions);
  }
 
  verificarColisao = (position) => {
    let objetosConectaveis = this.buscaArrayConectaveis(position);
-   let objetoColidido = [];
-   let rP = {x: position.x, y: position.y, width: 20, height: 20}
+   let rP = {x: position.x, y: position.y, width: 20, height: 20};
 
-   //console.log('Objetos Conectáveis: ', objetosConectaveis);
-
-   if(objetosConectaveis.length > 0){
-     for(let i = 0; i < objetosConectaveis.length; i++){
-       let rO = {x: objetosConectaveis[i].x, y: objetosConectaveis[i].y, width: 20, height: 20};
-       //console.log('AUX: ', rO);
-
-       if (
-         rP.x < rO.x + rO.width &&
-         rP.x + rP.width > rO.x &&
-         rP.y < rO.y + rO.height &&
-         rP.y + rP.height > rO.y
-       ) {
-         console.log('CONFLITOU: ', objetosConectaveis[i]);
-         objetoColidido.push(objetosConectaveis[i]);
-         console.log('OBJETO COLIDIDO: ', objetoColidido);
-       }
-     }
-   }
-
-   /*objetoColidido.push(objetosConectaveis.filter(obj => {
+   let objetoColidido = objetosConectaveis.filter(obj => {
      let rO = {x: obj.x, y: obj.y, width: 20, height: 20};
-     console.log('Objeto: ', obj);
 
      if (
        rP.x < rO.x + rO.width &&
@@ -223,13 +256,12 @@ class Editor extends React.Component{
      ) {
        return obj;
      }
-   }));
-
-   console.log('Objeto Colidido: ', objetoColidido);*/
+   });
 
    if(objetoColidido.length > 0){
-     console.log('Tamanho do objeto colidido (array): ', objetoColidido.length);
-     return objetoColidido[0];
+     for(let i = 0; i < objetoColidido.length; i++){
+       return objetoColidido[i];
+     }
    }
 
    return null;

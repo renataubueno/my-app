@@ -27,7 +27,7 @@ export default class EntradaEditor extends Objeto {
     this.settings.onDrag = this.props.onControlledDrag;
     if (this.props.controlledPositions) {
       this.props.controlledPositions.filter(position => {
-        if (position.target && position.target.id === this.state.entrada.id) {
+        if (position.targetList.length > 0 && position.targetList[0].id === this.state.entrada.id) {
             this.settings.position = {x: position.x, y: position.y};
         }
       });

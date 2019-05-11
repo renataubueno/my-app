@@ -16,6 +16,14 @@ export default class ConectorEditor extends Objeto {
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('desconectar', (topico, desconectarObj) => {
+      if(desconectarObj.id === this.state.conector.id){
+        this.settings.position = {};
+      }
+    });
+  }
+
   _handleDoubleClickOpen(event): void {
     Pubsub.publish('double-click', {
       tipoObjeto: 'CONECTOR',
@@ -27,12 +35,12 @@ export default class ConectorEditor extends Objeto {
     this.settings.onDrag = this.props.onControlledDrag;
     if (this.props.controlledPositions) {
       this.props.controlledPositions.filter(position => {
-        if (position.target && position.target.id === this.state.conector.id) {
+        if (position.targetList.length > 0 && position.targetList[0].id === this.state.conector.id) {
           if(position.tipo === 'Entrada'){
             this.settings.position = {x: position.x + 150, y: position.y};
           } else {
             this.settings.position = {x: position.x, y: position.y};
-          }  
+          }
         }
       });
     }

@@ -26,7 +26,7 @@ export default class FilaEditor extends Objeto {
     this.settings.onDrag = this.props.onControlledDrag;
     if (this.props.controlledPositions) {
       this.props.controlledPositions.filter(position => {
-        if (position.target && position.target.id === this.state.fila.id) {
+        if (position.targetList.length > 0 && position.targetList[0].id === this.state.fila.id) {
           if(position.tipo === 'Entrada'){
             this.settings.position = {x: position.x + 150, y: position.y};
           } else if (position.tipo === 'Conector'){

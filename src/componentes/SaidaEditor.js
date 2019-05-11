@@ -16,6 +16,14 @@ export default class SaidaEditor extends Objeto {
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('desconectar', (topico, desconectarObj) => {
+      if(desconectarObj.id === this.state.saida.id){
+        this.settings.position = {};
+      }
+    });
+  }
+
   _handleDoubleClickOpen(event): void {
     Pubsub.publish('double-click', {
       tipoObjeto: 'SAIDA',
@@ -27,8 +35,12 @@ export default class SaidaEditor extends Objeto {
     this.settings.onDrag = this.props.onControlledDrag;
     if (this.props.controlledPositions) {
       this.props.controlledPositions.filter(position => {
-        if (position.target && position.target.id === this.state.saida.id) {
-            this.settings.position = {x: position.x, y: position.y};
+        if (position.targetList.length > 0) {
+          for(let i = 0; i < position.targetList.length; i++){
+            if(position.targetList[i].id === this.state.saida.id){
+              this.settings.position = {x: position.x, y: position.y};
+            }
+          }
         }
       });
     }

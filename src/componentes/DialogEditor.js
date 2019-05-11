@@ -41,6 +41,12 @@ export default class DialogEditor extends Component {
     });
   };
 
+  handleDesconectar = event => {
+    Pubsub.publish('desconectar', {
+      id: this.state.objeto.id
+    });
+  };
+
   handleFilaUniforme = () => {
     return (
       <FilaUniformeDialog objeto={this.state.objeto}/>
@@ -111,6 +117,9 @@ export default class DialogEditor extends Component {
           </Button>
           <Button onClick={this.handleDelete} color="primary">
             Deletar Objeto
+          </Button>
+          <Button onClick={this.handleDesconectar} color="primary">
+            Desconectar Objeto
           </Button>
         </DialogActions>
       </Dialog>
