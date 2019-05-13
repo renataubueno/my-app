@@ -19,7 +19,7 @@ export default class SaidaEditor extends Objeto {
   componentWillMount(){
     Pubsub.subscribe('desconectar', (topico, desconectarObj) => {
       if(desconectarObj.id === this.state.saida.id){
-        this.settings.position = {};
+        delete this.settings.position;
       }
     });
   }
@@ -33,6 +33,7 @@ export default class SaidaEditor extends Objeto {
 
   connection(){
     this.settings.onDrag = this.props.onControlledDrag;
+    console.log('POSITION DA SAIDA: ', this.settings.position);
     if (this.props.controlledPositions) {
       this.props.controlledPositions.filter(position => {
         if (position.targetList.length > 0) {

@@ -19,7 +19,7 @@ export default class ConectorEditor extends Objeto {
   componentWillMount(){
     Pubsub.subscribe('desconectar', (topico, desconectarObj) => {
       if(desconectarObj.id === this.state.conector.id){
-        this.settings.position = {};
+        delete this.settings.position;
       }
     });
   }

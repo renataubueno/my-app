@@ -16,6 +16,14 @@ export default class EntradaEditor extends Objeto {
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('desconectar', (topico, desconectarObj) => {
+      if(desconectarObj.id === this.state.entrada.id){
+        delete this.settings.position;
+      }
+    });
+  }
+
   _handleDoubleClickOpen(event): void {
     Pubsub.publish('double-click', {
       tipoObjeto: 'ENTRADA',

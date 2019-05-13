@@ -15,6 +15,14 @@ export default class FilaEditor extends Objeto {
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('desconectar', (topico, desconectarObj) => {
+      if(desconectarObj.id === this.state.fila.id){
+        delete this.settings.position;
+      }
+    });
+  }
+
   _handleDoubleClickOpen(event): void {
     Pubsub.publish('double-click', {
       tipoObjeto: this.state.fila.tipo,
