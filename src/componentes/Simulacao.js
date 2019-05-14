@@ -18,52 +18,30 @@ export default class Simulacao extends Component{
   }
 
   handleClick = control => event =>{
-    const requestData = {
-            method: 'POST',
-            body: JSON.stringify({
-              number: this.state
-            }),
-            headers: new Headers({
-                  'content-type': 'application/json'
-            })
-      };
-
-    fetch('http://localhost:3000/simulacao', requestData)
-      .then(response => {
-        if(response.ok){
-          return response.json();
-        }else{
-          console.log('Response: ', response);
-          console.log('RequestData: ', requestData);
-          throw new Error('Não foi possível comentar');
-        }
-      })
-      .then(simulacao => {
-        console.log('Resposta: ', simulacao);
-      });
-
-   /*
-   const requestInfo = {
-     method: 'GET'
-   }
-
-   fetch('http://localhost:3000/fila', requestInfo)
-     .then(response => {
+    //GET
+    fetch('http://localhost:3001/simulacao')
+    .then(response => {
       if(response.ok){
         return response.json();
       }else{
-        throw new Error('Não foi possível comentar');
+        throw new Error('Não foi possível acessar simulacao');
       }
     })
-    .then(fila => {
-      console.log('Resposta: ', fila);
-
-      Pubsub.publish('retorno-fila-backend', {
-        id: fila[0].id,
-        resposta: fila
-      });
+    .then(simulacao => {
+      console.log('Resposta: ', simulacao);
     });
-    */
+
+    //POST
+    fetch('http://localhost:3001/simulacao', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({a: 1, b: 2})
+    })
+    .then(function(res){ console.log('Estou no then: ', res) })
+    .catch(function(res){ console.log('Estou no catch', res) })
  }
 
   render(){
