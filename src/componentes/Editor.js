@@ -325,6 +325,13 @@ class Editor extends React.Component{
   render(){
     const { classes } = this.props;
 
+    Pubsub.publish('valores-simulacao', {
+      conectores: this.state.filaConector,
+      filas: this.state.filaFilas,
+      entradas: this.state.filaEntrada,
+      saidas: this.state.filaSaida
+    });
+
     return(
       <main>
         <div className={classes.drawerHeader} />

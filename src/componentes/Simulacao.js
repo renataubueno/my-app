@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import Pubsub from 'pubsub-js';
+import Validacao from './Validacao.js';
 
 export default class Simulacao extends Component{
   constructor(props){
     super(props);
     this.state = {
+      filas: [],
+      conectores: [],
+      entradas: [],
+      saidas: []
     }
   }
 
@@ -15,9 +20,18 @@ export default class Simulacao extends Component{
     });
 
     Pubsub.subscribe('controlled-positions', (topico, dados) => {
-      console.log('Oi, recebi esses dados no Simulacao.js ', dados);
+      console.log('Oi, recebi esses dados no Simulacao.js - controlled-positions', dados);
       this.setState({conexoes: dados});
       console.log('Valor do estado de Simulacao.js: ', this.state.conexoes);
+    });
+
+    Pubsub.subscribe('valores-simulacao', (topico, dados) => {
+      console.log('Oi, recebi esses dados no Simulacao.js', dados);
+      this.setState({filas: dados.filas});
+      this.setState({conectores: dados.conectores});
+      this.setState({entradas: dados.entradas});
+      this.setState({saidas: dados.saidas});
+      console.log('Valor do estado de Simulacao.js: ', this.state);
     });
   }
 
@@ -41,6 +55,7 @@ export default class Simulacao extends Component{
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
+      mode: 'cors',
       method: "POST",
       body: JSON.stringify({
         simulacao: [
@@ -75,11 +90,10 @@ export default class Simulacao extends Component{
           targetList: []
         }
       ]}
-        //this.state.conexoes
       )
     })
-    .then(function(res){ console.log('Estou no then: ', res) })
-    .catch(function(res){ console.log('Estou no catch', res) })
+    .then(response => this.setState({retorno: response.json()}))
+    .catch(response => { console.log('Estou no catch', response) })
  }
 
   render(){

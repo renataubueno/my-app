@@ -15,6 +15,7 @@ router.post('/', function(req, res, next) {
   let retorno = servicePOST(body); //mando as informações recebidas para o serviço.
   //Lá devo fazer o papel de tratar as informações do body e armazenar elas
   console.log('RETORNO: ', retorno);
+  res.send(servicePOST(body));
 });
 
 //Passo a passo do POST:

@@ -1,26 +1,25 @@
 import React, {Component} from 'react';
+import Editor from './Editor.js';
 
 export default class Validacao extends Component{
 
-  //a fila deve ter N entradas e 1 saída
-  //entrada: pode ser uma fila, uma entrada ou um conector
-  //saida: uma fila, um conector ou uma saida
+  //a fila pode ter N entradas e 1 saída
+  //targetList só pode conter outra fila, um conector ou uma saida
   conexoesFila = () => {
   };
 
-  //o conector deve ter 1 entrada e N saídas
-  //entrada: uma fila ou uma entrada
-  //saida: uma fila ou uma saída
+  //o conector pode ter 1 entrada e N saídas
+  //targetList só pode conter uma fila ou uma saida
   conexoesConector = () => {
   };
 
-  //só tem entrada pois este objeto representa a saída em si do sistema
-  //entrada: uma fila, um conector ou uma entrada
+  //só pode ter entrada pois este objeto representa a saída em si do sistema
+  //targetList deve estar vazio
   conexoesSaida = () => {
   };
 
-  //só tem saída pois este objeto representa a entrada em si no sistema
-  //saída: uma fila, um conector ou uma saída
+  //não pode estar na targetList de nenhum outro objeto
+  //targetList só pode conter filas ou conectores
   conexoesEntrada = () => {
   };
 
