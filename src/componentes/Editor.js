@@ -239,6 +239,10 @@ class Editor extends React.Component{
 
    this.setState({controlledPositions: newControlledPosition });
    console.log('CONTROLLED POSITIONS: ', this.state.controlledPositions);
+
+   Pubsub.publish('controlled-positions', {
+     controlledPositions: this.state.controlledPositions
+   });
  }
 
  verificarColisao = (position) => {

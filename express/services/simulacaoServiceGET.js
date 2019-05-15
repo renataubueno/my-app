@@ -1,4 +1,5 @@
-var simula = function (dados) {
+var simula = function () {
+
   return {
       id: 1,
       numChegadas: "A",
