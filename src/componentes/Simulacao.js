@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import Pubsub from 'pubsub-js';
-import Validacao from './Validacao.js';
+import Validador from '../service/validador.js';
 
 export default class Simulacao extends Component{
   constructor(props){
@@ -37,7 +37,7 @@ export default class Simulacao extends Component{
 
   handleClick = control => event =>{
     //GET
-    fetch('http://localhost:3001/simulacao')
+    /*fetch('http://localhost:3001/simulacao')
     .then(response => {
       if(response.ok){
         return response.json();
@@ -47,53 +47,71 @@ export default class Simulacao extends Component{
     })
     .then(simulacao => {
       console.log('Resposta: ', simulacao);
-    });
+    });*/
 
-    //POST
-    fetch('http://localhost:3001/simulacao', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+    let body = {
+      simulacao: [
+      {
+        id: 1,
+        tipo: 'Entrada',
+        targetList: [2, 3, 4, 5, 6]
       },
-      mode: 'cors',
-      method: "POST",
-      body: JSON.stringify({
-        simulacao: [
-        {
-          id: 1,
-          tipo: 'Entrada',
-          targetList: [2, 3, 4, 5, 6]
+      {
+        id: 2,
+        tipo: 'Fila',
+        targetList: [3, 4, 5, 6]
+      },
+      {
+        id: 3,
+        tipo: 'Conector',
+        targetList: [4, 5, 6]
+      },
+      {
+        id: 4,
+        tipo: 'Saida',
+        targetList: []
+      },
+      {
+        id: 5,
+        tipo: 'Fila',
+        targetList: [6]
+      },
+      {
+        id: 6,
+        tipo: 'Saida',
+        targetList: []
+      }
+    ]};
+
+    if(Validador.validar(body)){
+      //POST
+      fetch('http://localhost:3001/simulacao', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         },
-        {
-          id: 2,
-          tipo: 'Fila',
-          targetList: [3, 4, 5, 6]
-        },
-        {
-          id: 3,
-          tipo: 'Conector',
-          targetList: [4, 5, 6]
-        },
-        {
-          id: 4,
-          tipo: 'Saida',
-          targetList: []
-        },
-        {
-          id: 5,
-          tipo: 'Fila',
-          targetList: [6]
-        },
-        {
-          id: 6,
-          tipo: 'Saida',
-          targetList: []
+        mode: 'cors',
+        method: "POST",
+        body: JSON.stringify(body)
+      })
+      .then(response => {
+        if(response.ok){
+          return response.json();
+        } else {
+          console.log('RESPONSE - DEU ERRO: ', response);
         }
-      ]}
-      )
-    })
-    .then(response => this.setState({retorno: response.json()}))
-    .catch(response => { console.log('Estou no catch', response) })
+      })
+      .then(retorno => {
+        console.log('RESPONSE.JSON: ', retorno);
+        Pubsub.publish('post-retorno', {
+          retorno: retorno
+        });
+        this.setState({retorno: retorno});
+      })
+      .catch(response => { console.log('Estou no catch', response) })
+    } else {
+      console.log('NÃO DEU POST');
+    }
  }
 
   render(){

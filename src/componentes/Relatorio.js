@@ -7,26 +7,25 @@ export default class Relatorio extends Component{
   constructor(props){
     super(props);
     this.state = {
-      filas: []
+      retorno: []
     }
   }
 
   componentWillMount(){
-      Pubsub.subscribe('retorno-fila-backend', (topico, dadosDaFila) => {
-        console.log('Chegou : ', dadosDaFila.resposta);
-        this.setState({filas: dadosDaFila.resposta});
-        console.log('Conteúdo da fila: ', this.state.filas[0].id);
-        //this.state.filas -> retorna os dois objetos
-        //this.state.filas[0] -> retorna o primeiro objetos
-        //this.state.filas[0].id -> retorna o id do primeiro objeto
-     });
+     Pubsub.subscribe('post-retorno', (topico, retorno) => {
+       console.log('Chegou no Relatório: ', retorno);
+       var itemsRetorno = [ ].concat(this.state.retorno);
+       itemsRetorno.push(retorno.retorno);
+       this.setState({retorno: itemsRetorno});
+       console.log('Conteúdo do retorno no estado do Relatório', this.state.retorno[0]);
+    });
  }
 
   render(){
     return(
       <div color="primary">
         {
-          this.state.filas.map(item => (
+          this.state.retorno.map(item => (
             <div>
               <Typography key={item.id} align="center" variant="subtitle1" color="primary" noWrap >
                 Fila {item.id}
