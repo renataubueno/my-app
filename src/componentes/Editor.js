@@ -239,10 +239,6 @@ class Editor extends React.Component{
 
    this.setState({controlledPositions: newControlledPosition });
    console.log('CONTROLLED POSITIONS: ', this.state.controlledPositions);
-
-   Pubsub.publish('controlled-positions', {
-     controlledPositions: this.state.controlledPositions
-   });
  }
 
  verificarColisao = (position) => {
@@ -329,7 +325,8 @@ class Editor extends React.Component{
       conectores: this.state.filaConector,
       filas: this.state.filaFilas,
       entradas: this.state.filaEntrada,
-      saidas: this.state.filaSaida
+      saidas: this.state.filaSaida,
+      controlledPositions: this.state.controlledPositions
     });
 
     return(

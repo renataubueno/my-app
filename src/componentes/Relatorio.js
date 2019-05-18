@@ -13,11 +13,9 @@ export default class Relatorio extends Component{
 
   componentWillMount(){
      Pubsub.subscribe('post-retorno', (topico, retorno) => {
-       console.log('Chegou no Relatório: ', retorno);
        var itemsRetorno = [ ].concat(this.state.retorno);
        itemsRetorno.push(retorno.retorno);
        this.setState({retorno: itemsRetorno});
-       console.log('Conteúdo do retorno no estado do Relatório', this.state.retorno[0]);
     });
  }
 

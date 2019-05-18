@@ -10,7 +10,9 @@ export default class Simulacao extends Component{
       filas: [],
       conectores: [],
       entradas: [],
-      saidas: []
+      saidas: [],
+      controlledPositions: [],
+      objSimulacao: []
     }
   }
 
@@ -19,69 +21,126 @@ export default class Simulacao extends Component{
       console.log('Os parâmetros de algum objeto foram alterados');
     });
 
-    Pubsub.subscribe('controlled-positions', (topico, dados) => {
-      console.log('Oi, recebi esses dados no Simulacao.js - controlled-positions', dados);
-      this.setState({conexoes: dados});
-      console.log('Valor do estado de Simulacao.js: ', this.state.conexoes);
-    });
-
     Pubsub.subscribe('valores-simulacao', (topico, dados) => {
       console.log('Oi, recebi esses dados no Simulacao.js', dados);
       this.setState({filas: dados.filas});
       this.setState({conectores: dados.conectores});
       this.setState({entradas: dados.entradas});
       this.setState({saidas: dados.saidas});
-      console.log('Valor do estado de Simulacao.js: ', this.state);
+      this.setState({controlledPositions: dados.controlledPositions});
+      console.log('VALOR DO MEU STATE NO SIMULACAO DO FRONT: ', this.state);
     });
   }
 
-  handleClick = control => event =>{
-    //GET
-    /*fetch('http://localhost:3001/simulacao')
-    .then(response => {
-      if(response.ok){
-        return response.json();
-      }else{
-        throw new Error('Não foi possível acessar simulacao');
-      }
-    })
-    .then(simulacao => {
-      console.log('Resposta: ', simulacao);
-    });*/
+  tratamentoDadosSimulacao(){
+    this.state.objSimulacao = [];
 
-    let body = {
-      simulacao: [
-      {
-        id: 1,
-        tipo: 'Entrada',
-        targetList: [2, 3, 4, 5, 6]
-      },
-      {
-        id: 2,
-        tipo: 'Fila',
-        targetList: [3, 4, 5, 6]
-      },
-      {
-        id: 3,
-        tipo: 'Conector',
-        targetList: [4, 5, 6]
-      },
-      {
-        id: 4,
-        tipo: 'Saida',
-        targetList: []
-      },
-      {
-        id: 5,
-        tipo: 'Fila',
-        targetList: [6]
-      },
-      {
-        id: 6,
-        tipo: 'Saida',
-        targetList: []
-      }
-    ]};
+    for(let i = 0; i < this.state.filas.length; i++){
+      let id = this.state.filas[i].id;
+      let tipo = this.state.filas[i].tipo;
+      let capacidade = this.state.filas[i].capacidade;
+      let servidores = this.state.filas[i].servidores;
+      let minChegada = this.state.filas[i].minChegada;
+      let maxChegada = this.state.filas[i].maxChegada;
+      let minServico = this.state.filas[i].minServico;
+      let maxServico = this.state.filas[i].maxServico;
+      let targetList;
+
+      this.state.controlledPositions.filter(function(item){
+          if(parseInt(item.id) === parseInt(id)){
+            targetList = item.targetList;
+            return item.targetList;
+          }
+      });
+
+      let objTratado = {
+        id: id,
+        tipo: tipo,
+        capacidade: capacidade,
+        servidores: servidores,
+        minChegada: minChegada,
+        maxChegada: maxChegada,
+        minServico: minServico,
+        maxServico: maxServico,
+        targetList: targetList
+      };
+
+      this.state.objSimulacao.push(objTratado);
+    }
+
+    for(let i = 0; i < this.state.conectores.length; i++){
+      let id = this.state.conectores[i].id;
+      let tipo = this.state.conectores[i].tipo;
+      let probabilidade = this.state.conectores[i].probabilidade;
+      let targetList;
+
+      this.state.controlledPositions.filter(function(item){
+          if(parseInt(item.id) === parseInt(id)){
+            targetList = item.targetList;
+            return item.targetList;
+          }
+      });
+
+      let objTratado = {
+        id: id,
+        tipo: tipo,
+        probabilidade: probabilidade,
+        targetList: targetList
+      };
+
+      this.state.objSimulacao.push(objTratado);
+    }
+
+    for(let i = 0; i < this.state.entradas.length; i++){
+      let id = this.state.entradas[i].id;
+      let tipo = this.state.entradas[i].tipo;
+      let chegada = this.state.entradas[i].chegada;
+      let targetList; //não seria o caso de deixar ele iniciar vazio e ~auto-popular?
+
+      this.state.controlledPositions.filter(function(item){
+          if(parseInt(item.id) === parseInt(id)){
+            targetList = item.targetList;
+            return item.targetList;
+          }
+      });
+
+      let objTratado = {
+        id: id,
+        tipo: tipo,
+        chegada: chegada,
+        targetList: targetList
+      };
+
+      this.state.objSimulacao.push(objTratado);
+    }
+
+    for(let i = 0; i < this.state.saidas.length; i++){
+      let id = this.state.saidas[i].id;
+      let tipo = this.state.saidas[i].tipo;
+      let targetList;
+
+      this.state.controlledPositions.filter(function(item){
+          if(parseInt(item.id) === parseInt(id)){
+            targetList = item.targetList;
+            return item.targetList;
+          }
+      });
+
+      let objTratado = {
+        id: id,
+        tipo: tipo,
+        targetList: targetList
+      };
+
+      this.state.objSimulacao.push(objTratado);
+    }
+  }
+
+  handleClick = control => event =>{
+    this.tratamentoDadosSimulacao();
+
+    let body = this.state.objSimulacao;
+    console.log('O QUE TEM NO BODY? ', body);
 
     if(Validador.validar(body)){
       //POST
