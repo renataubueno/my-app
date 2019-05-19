@@ -5,6 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormMenuParadaChegadas from './FormMenuParadaChegadas.js';
 import FormMenuParadaTempo from './FormMenuParadaTempo.js';
 import Button from '@material-ui/core/Button';
+import Pubsub from 'pubsub-js';
 
 export default class MenuParada extends Component{
   constructor(props) {

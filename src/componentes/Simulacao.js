@@ -12,7 +12,9 @@ export default class Simulacao extends Component{
       entradas: [],
       saidas: [],
       controlledPositions: [],
-      objSimulacao: []
+      objSimulacao: [],
+      condParadaNumChegadas: 0,
+      seeder: 0
     }
   }
 
@@ -29,6 +31,16 @@ export default class Simulacao extends Component{
       this.setState({saidas: dados.saidas});
       this.setState({controlledPositions: dados.controlledPositions});
       console.log('VALOR DO MEU STATE NO SIMULACAO DO FRONT: ', this.state);
+    });
+
+    Pubsub.subscribe('retorno-condicao-parada-num-chegadas', (topico, condParadaNumChegadas) => {
+      console.log('Condicao de parada recebida no Simulacao.js: ', condParadaNumChegadas.condicao);
+      this.setState({condParadaNumChegadas: condParadaNumChegadas.condicao});
+    });
+
+    Pubsub.subscribe('retorno-seeder', (topico, seeder) => {
+      console.log('Seeder recebido no Simulacao.js: ', seeder.seeder);
+      this.setState({seeder: seeder.seeder});
     });
   }
 
@@ -139,7 +151,12 @@ export default class Simulacao extends Component{
   handleClick = control => event =>{
     this.tratamentoDadosSimulacao();
 
-    let body = this.state.objSimulacao;
+    let body = {
+      objSimulacao: this.state.objSimulacao,
+      seeder: this.state.seeder,
+      condParadaNumChegadas: this.state.condParadaNumChegadas
+    };
+
     console.log('O QUE TEM NO BODY? ', body);
 
     if(Validador.validar(body)){

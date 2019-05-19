@@ -9,6 +9,7 @@ import ResetEditor from './ResetEditor.js';
 import Typography from '@material-ui/core/Typography';
 import MenuDistribuicao from './MenuDistribuicao.js';
 import MenuParada from './MenuParada.js';
+import MenuSeeder from './MenuSeeder.js';
 import Fila from './Fila.js';
 import Conector from './Conector.js';
 import Saida from './Saida.js';
@@ -34,6 +35,8 @@ export default class DrawerLeftSidebar extends Component{
           <Entrada />
         </Typography>
         </div>
+        <Divider />
+        <MenuSeeder />
         <Divider />
         <MenuParada />
         <Divider />

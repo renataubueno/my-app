@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
+import Pubsub from 'pubsub-js';
 
 export default class FormMenuParadaChegadas extends Component{
   constructor(props) {
@@ -15,6 +16,10 @@ export default class FormMenuParadaChegadas extends Component{
 
   handleClick = condicao => event => {
     console.log('Este é o valor salvo no momento (número de chegadas): ' + this.state.condicao);
+
+    Pubsub.publish('retorno-condicao-parada-num-chegadas', {
+      condicao: this.state.condicao
+    });
   }
 
   render(){

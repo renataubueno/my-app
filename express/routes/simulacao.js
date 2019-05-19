@@ -1,4 +1,6 @@
 var express = require('express');
+var random = require('random');
+var seedrandom = require('seedrandom');
 var serviceSimulacao = require('../services/simulacaoService');
 var router = express.Router();
 
@@ -9,6 +11,14 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   let body = req.body;
+
+  /* This is the order that must be used. First, set the seed (only one time), then for each time a random
+  number is needed, call the float and then the next function
+  random.use(seedrandom(10))
+  random.float(min = 0, max = 1)
+  random.next();
+  */
+
   if(validar(body)){
     console.log('BODY: ', body);
     let retorno = serviceSimulacao.simulacaoPOST(body);
