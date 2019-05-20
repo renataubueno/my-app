@@ -73,7 +73,7 @@ function validaEntrada(entradas){
 function validaSaida(saidas){
   console.log('SAIDA - VALIDADOR', saidas);
 
-  let targetListSaida = saidas.filter(item => item.targetList !== undefined);
+  let targetListSaida = saidas.filter(item => item.targetList.length !== 0);
 
   if(targetListSaida.length > 0){
     alert('Target List da Saída está diferente de zero');

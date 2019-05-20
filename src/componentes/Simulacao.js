@@ -12,7 +12,6 @@ export default class Simulacao extends Component{
       entradas: [],
       saidas: [],
       controlledPositions: [],
-      objSimulacao: [],
       condParadaNumChegadas: 0,
       seeder: 0
     }
@@ -45,7 +44,7 @@ export default class Simulacao extends Component{
   }
 
   tratamentoDadosSimulacao(){
-    this.state.objSimulacao = [];
+    let objSimulacao = [];
 
     for(let i = 0; i < this.state.filas.length; i++){
       let id = this.state.filas[i].id;
@@ -77,7 +76,7 @@ export default class Simulacao extends Component{
         targetList: targetList
       };
 
-      this.state.objSimulacao.push(objTratado);
+      objSimulacao.push(objTratado);
     }
 
     for(let i = 0; i < this.state.conectores.length; i++){
@@ -100,7 +99,7 @@ export default class Simulacao extends Component{
         targetList: targetList
       };
 
-      this.state.objSimulacao.push(objTratado);
+      objSimulacao.push(objTratado);
     }
 
     for(let i = 0; i < this.state.entradas.length; i++){
@@ -123,7 +122,7 @@ export default class Simulacao extends Component{
         targetList: targetList
       };
 
-      this.state.objSimulacao.push(objTratado);
+      objSimulacao.push(objTratado);
     }
 
     for(let i = 0; i < this.state.saidas.length; i++){
@@ -144,20 +143,18 @@ export default class Simulacao extends Component{
         targetList: targetList
       };
 
-      this.state.objSimulacao.push(objTratado);
+      objSimulacao.push(objTratado);
     }
+
+    return objSimulacao;
   }
 
   handleClick = control => event =>{
-    this.tratamentoDadosSimulacao();
-
     let body = {
-      objSimulacao: this.state.objSimulacao,
+      objSimulacao: this.tratamentoDadosSimulacao(),
       seeder: this.state.seeder,
       condParadaNumChegadas: this.state.condParadaNumChegadas
     };
-
-    console.log('O QUE TEM NO BODY? ', body);
 
     if(Validador.validar(body)){
       //POST

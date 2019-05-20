@@ -40,36 +40,27 @@ class Editor extends React.Component{
 
   componentWillMount(){
     Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
-        console.log('Chegou : ', dadosDaFila);
         var itemsFila = [ ].concat(this.state.filaFilas);
         itemsFila.push(dadosDaFila.fila);
         this.setState({filaFilas: itemsFila});
-        console.log('Conteúdo da fila de filas: ', this.state.filaFilas);
-        console.log('Conteúdo da fila de filas: ', this.state.filaFilas[0]);
     });
 
     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
-       console.log('Chegou : ', dadosDoConector);
        var itemsConector = [ ].concat(this.state.filaConector);
        itemsConector.push(dadosDoConector.conector);
        this.setState({filaConector: itemsConector});
-       console.log('Conteúdo da fila de conectores: ', this.state.filaConector);
     });
 
     Pubsub.subscribe('retorno-saida', (topico, dadosDaSaida) => {
-      console.log('Chegou : ', dadosDaSaida);
       var itemsSaida = [ ].concat(this.state.filaSaida);
       itemsSaida.push(dadosDaSaida.saida);
       this.setState({filaSaida: itemsSaida});
-      console.log('Conteúdo da fila de saidas: ', this.state.filaSaida);
     });
 
     Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
-      console.log('Chegou : ', dadosDaEntrada);
       var itemsEntrada = [ ].concat(this.state.filaEntrada);
       itemsEntrada.push(dadosDaEntrada.entrada);
       this.setState({filaEntrada: itemsEntrada});
-      console.log('Conteúdo da fila de entrada: ', this.state.filaEntrada);
     });
 
     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
@@ -186,6 +177,7 @@ class Editor extends React.Component{
        }
      }
    } else if (newPosition.tipo === 'Conector' && objetoColidido){
+     //tratamento para evitar ocorrência do objeto em outra lista
      if(objetoColidido.targetList.length === 0){
        let target = {
          tipo: objetoColidido.tipo,
@@ -193,16 +185,21 @@ class Editor extends React.Component{
        };
 
        newPosition.targetList.push(target);
-     }
-     for(let i = 0; i < objetoColidido.targetList.length; i++){
-       if(parseInt(newPosition.id) === parseInt(objetoColidido.targetList[i].id)){
-       } else {
-          let target = {
-            tipo: objetoColidido.tipo,
-            id: parseInt(objetoColidido.id)
-          };
+     } else {
+       for(let i = 0; i < objetoColidido.targetList.length; i++){
+         if(parseInt(newPosition.id) === parseInt(objetoColidido.targetList[i].id)){
+         } else {
+            let target = {
+              tipo: objetoColidido.tipo,
+              id: parseInt(objetoColidido.id)
+            };
 
-          newPosition.targetList.push(target);
+            //let novoTargetList = [].concat(newPosition.targetList);
+            //novoTargetList.push(target);
+            //newPosition.targetList = [].concat(novoTargetList);
+
+            newPosition.targetList.push(target);//ao inveś de mandar objeto, mandar um array
+         }
        }
      }
    } else if (newPosition.tipo === 'Entrada' && objetoColidido){
