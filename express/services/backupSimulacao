@@ -1,0 +1,37 @@
+//chegada
+if(condicaoFila < capacidade){
+  condicaoFila++;
+  if(condicaoFila <= servidores){
+    agendaSaida = uniforme(minServico, maxServico);
+
+    if(escalonador.length === 0){
+      escalonador.push(agendaSaida);
+    } else {
+      for(let i = 0; i < escalonador.length; i++){
+        if(escalonador.length === i+1 && escalonador[i] < agendaSaida){
+          escalonador.push(agendaSaida);
+          break;
+        } else if(escalonador[i] > agendaSaida){
+          escalonador.splice(i, 0, agendaSaida);
+          break;
+        }
+      }
+    }
+  };
+};
+
+agendaChegada = uniforme(minChegada, maxChegada);
+
+if(escalonador.length === 0){
+  escalonador.push(agendaChegada);
+} else {
+  for(let i = 0; i < escalonador.length; i++){
+    if(escalonador.length === i+1 && escalonador[i] < agendaChegada){
+      escalonador.push(agendaChegada);
+      break;
+    } else if(escalonador[i] > agendaChegada){
+      escalonador.splice(i, 0, agendaChegada);
+      break;
+    }
+  }
+}

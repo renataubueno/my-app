@@ -12,11 +12,11 @@ export default class Relatorio extends Component{
   }
 
   componentWillMount(){
-     Pubsub.subscribe('post-retorno', (topico, retorno) => {
+     /*Pubsub.subscribe('post-retorno', (topico, retorno) => {
        var itemsRetorno = [ ].concat(this.state.retorno);
        itemsRetorno.push(retorno.retorno);
        this.setState({retorno: itemsRetorno});
-    });
+    });*/
  }
 
   render(){
