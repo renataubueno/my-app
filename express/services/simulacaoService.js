@@ -77,7 +77,7 @@ function simulacao(fila, entrada, numChegadasMax, seed){
   let chegada = entrada[0].chegada;
   //criar variável de controle pra quantidade de usuários na fila e que já tenham sido atendidos (agendada a saida)
   let condicaoFila = 0;
-  let probEstadosFila = Array(capacidade+1);
+  let probEstadosFila = Array(capacidade+1); //array vazio
   let momentoAnterior = 0;
   let momentoAtual = 0;
   //criar o escalonador
@@ -112,7 +112,7 @@ function simulacao(fila, entrada, numChegadasMax, seed){
 
 
       numChegadas++;
-      if(numChegadas === 5){
+      if(numChegadas === numChegadasMax){
         break;
       }
       if(condicaoFila < capacidade){
@@ -205,13 +205,16 @@ function simulacao(fila, entrada, numChegadasMax, seed){
   //console.log('TEMPO TOTAL: ', tempoTotal);
   //console.log('TEMPO OCUPADA: ', tempoOcupada);
   console.log('PROBABILIDADE DE ESTADOS DA FILA - FINAL: ', probEstadosFila);
+  //let probEstadosFilaRetorno = Array(probEstadosFila.length);
+  let probEstadosFilaRetorno = probEstadosFila.filter(item => item.tipo !== null);
+  console.log('probEstadosFilaRetorno ', probEstadosFilaRetorno);
 
   return {
     numChegadas: numChegadas,
     numAtendimentos: numAtendimentos,
     tempoOcupada: tempoOcupada,
     tempoTotal: tempoTotal,
-    probEstadosFila: probEstadosFila
+    probEstadosFila: probEstadosFilaRetorno
   };
 }
 
