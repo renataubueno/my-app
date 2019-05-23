@@ -32,10 +32,12 @@ exports.simulacaoPOST = function (dados) {
   let numAtendimentos = resultado.numAtendimentos;
   let tempoOcupada = resultado.tempoOcupada;
   let tempoTotal = resultado.tempoTotal;
+  let probEstadosFila = resultado.probEstadosFila;
   let taxaChegada = calculaTaxaChegada(numChegadas, tempoTotal);
   let vazao = calculaVazao(tempoOcupada, tempoTotal);
   let utilizacao = calculaUtilizacao(numAtendimentos, tempoTotal);
   let tempoMedioServico = calculaTempoMedioServico(numAtendimentos, tempoOcupada);
+  let probabilidadesEstadosFila = calculaProbabilidadesEstadosFila(tempoTotal, probEstadosFila)
 
   return {
       id: fila[0].id, //id da fila
@@ -44,8 +46,9 @@ exports.simulacaoPOST = function (dados) {
       tempoOcupada: tempoOcupada,
       taxaChegada: taxaChegada,
       vazao: vazao,
-      Utilizacao: utilizacao,
-      tempoMedioServico: tempoMedioServico
+      utilizacao: utilizacao,
+      tempoMedioServico: tempoMedioServico,
+      probabilidadesEstadosFila: probabilidadesEstadosFila
   };
 }
 
@@ -74,28 +77,40 @@ function simulacao(fila, entrada, numChegadasMax, seed){
   let chegada = entrada[0].chegada;
   //criar variável de controle pra quantidade de usuários na fila e que já tenham sido atendidos (agendada a saida)
   let condicaoFila = 0;
-  let tempoParada = 0;
+  let probEstadosFila = Array(capacidade+1);
+  let momentoAnterior = 0;
+  let momentoAtual = 0;
   //criar o escalonador
+  escalonador = [];
   escalonador.push({
     momento: chegada,
     tipo: 'CHEGADA'});
   //criar as variaveis de retorno: numChegadas, numAtendimentos e tempoOcupada
   let numChegadas = 0;
   let numAtendimentos = 0;
-  let tempoOcupada = 0;
   //algoritmo
 
   while(escalonador.length !== 0 && numChegadas < numChegadasMax){
+
+    console.log('ESCALONADOR', escalonador);
+    //console.log('NUMCHEGADAS', numChegadas);
+    //console.log('NUMATENDIMENTOS', numAtendimentos);
+
     let next = escalonador[0];
     escalonador.splice(0, 1);
     if(next.tipo === 'CHEGADA'){
-      if(numChegadas === 0){
-        tempoParada = next.momento;
-        console.log('TENHO QUE CALCULAR O TEMPO QUE FICOU PARADA', tempoParada);
+      //verificar quanto tempo a fila ficou com capacidade = 0, 1, 2...
+      if(probEstadosFila[condicaoFila] === undefined){
+        momentoAtual = next.momento - momentoAnterior;
+        momentoAnterior = next.momento;
+        probEstadosFila[condicaoFila] = momentoAtual;
       } else {
-        tempoOcupada = next.momento;
-        console.log('TENHO QUE CALCULAR O TEMPO QUE FICOU OCUPADA', tempoOcupada);
+        momentoAtual = next.momento - momentoAnterior;
+        momentoAnterior = next.momento;
+        probEstadosFila[condicaoFila] = probEstadosFila[condicaoFila] + momentoAtual;
       }
+
+
       numChegadas++;
       if(numChegadas === 5){
         break;
@@ -147,6 +162,16 @@ function simulacao(fila, entrada, numChegadasMax, seed){
         }
       }
     } else {
+      if(probEstadosFila[condicaoFila] === undefined){
+        momentoAtual = next.momento - momentoAnterior;
+        momentoAnterior = next.momento;
+        probEstadosFila[condicaoFila] = momentoAtual;
+      } else {
+        momentoAtual = next.momento - momentoAnterior;
+        momentoAnterior = next.momento;
+        probEstadosFila[condicaoFila] = probEstadosFila[condicaoFila] + momentoAtual;
+      }
+
       numAtendimentos++;
       condicaoFila--;
       if(condicaoFila >= 1){
@@ -173,22 +198,29 @@ function simulacao(fila, entrada, numChegadasMax, seed){
         }
       }
     }
-
-    console.log('tenho que fazer algo aqui', escalonador);
   }
 
-  let tempoTotal = tempoParada + tempoOcupada;
+  let tempoTotal = momentoAnterior;
+  let tempoOcupada = momentoAnterior - probEstadosFila[0];
+  //console.log('TEMPO TOTAL: ', tempoTotal);
+  //console.log('TEMPO OCUPADA: ', tempoOcupada);
+  console.log('PROBABILIDADE DE ESTADOS DA FILA - FINAL: ', probEstadosFila);
 
   return {
     numChegadas: numChegadas,
     numAtendimentos: numAtendimentos,
     tempoOcupada: tempoOcupada,
-    tempoTotal: tempoTotal
+    tempoTotal: tempoTotal,
+    probEstadosFila: probEstadosFila
   };
 }
 
-function uniforme(min, max, numAleatorio){
-  return (max - min) * geraAleatorio() + min;
+function uniforme(min, max){
+  let numAleatorio = geraAleatorio();
+  //console.log('MIN RECEBIDO: ', min);
+  //console.log('MAX RECEBIDO: ', max );
+  //console.log('numAleatorio: ', numAleatorio);
+  return (max - min) * numAleatorio + min;
 }
 
 function calculaTaxaChegada(numChegadas, tempoTotal){
@@ -205,4 +237,17 @@ function calculaTempoMedioServico(numAtendimentos, tempoOcupada){
 
 function calculaVazao(tempoOcupada, tempoTotal){
   return tempoOcupada/tempoTotal;
+}
+
+function calculaProbabilidadesEstadosFila(tempoTotal, probEstadosFila){
+  let probEstadosFilaTratado = [];
+  let x = 0;
+
+  for(let i = 0; i < probEstadosFila.length; i++){
+    x = (probEstadosFila[i] * 100)/tempoTotal;
+    probEstadosFilaTratado.push(x);
+  }
+
+  console.log('PROBABILIDADE ESTADO TRATADO', probEstadosFilaTratado);
+  return probEstadosFilaTratado;
 }

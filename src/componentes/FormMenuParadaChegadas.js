@@ -33,7 +33,7 @@ export default class FormMenuParadaChegadas extends Component{
          onChange={this.handleChange('condicao')}
          margin="normal"
        />
-       <button onClick={ this.handleClick('condicao') }>Check</button>
+       <button onClick={ this.handleClick('condicao') }>Salvar</button>
       </div>
     );
   }

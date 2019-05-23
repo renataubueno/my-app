@@ -7,16 +7,24 @@ export default class Relatorio extends Component{
   constructor(props){
     super(props);
     this.state = {
-      retorno: []
+      retorno: [],
+      retornoProb: []
     }
   }
 
   componentWillMount(){
-     /*Pubsub.subscribe('post-retorno', (topico, retorno) => {
+     Pubsub.subscribe('post-retorno', (topico, retorno) => {
+       console.log('O QUE TEM NO RETORNO DO RELATÕRIO?' , retorno);
+       this.setState({retorno: []});
+       this.setState({retornoProb: []});
        var itemsRetorno = [ ].concat(this.state.retorno);
        itemsRetorno.push(retorno.retorno);
+       var itemsRetornoProb = [ ].concat(this.state.retornoProb);
+       itemsRetornoProb.push(retorno.retorno.probabilidadesEstadosFila);
        this.setState({retorno: itemsRetorno});
-    });*/
+       this.setState({retornoProb: itemsRetornoProb});
+       console.log(this.state.retornoProb);
+    });
  }
 
   render(){
@@ -50,7 +58,17 @@ export default class Relatorio extends Component{
                 Tempo Médio de Serviço: {item.tempoMedioServico}
               </Typography>
               <Divider />
+                <Typography key={item.id + 10} align="center" variant="subtitle1" color="primary" noWrap >
+                  Probabilidade da Fila {item.id}
+                </Typography>
             </div>
+          ))
+        }
+        {
+          this.state.retornoProb.map(val => (
+            <Typography key={val}  align="center" variant="body1" color="primary" noWrap>
+              {val}
+            </Typography>
           ))
         }
       </div>
