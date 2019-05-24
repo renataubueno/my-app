@@ -158,7 +158,8 @@ export default class Simulacao extends Component{
 
     if(Validador.validar(body)){
       //POST
-      fetch(`${process.env.REACT_APP_API_URL}simulacao`, {
+      //fetch(`${process.env.REACT_APP_API_URL}simulacao`, {
+      fetch('http://localhost:3001/simulacao', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
