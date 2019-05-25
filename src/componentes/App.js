@@ -9,15 +9,33 @@ export default class App extends React.Component {
   render(){
     return(
       <div>
-      <AppBar position="fixed">
-      <Typography align="center" variant="h6" color="inherit" noWrap>
+      <AppBar style={appbarStyle} position="fixed">
+        <PersistentDrawerLeft style={leftmenuStyle}/>
+        <Typography align="center" variant="h6" color="inherit" noWrap style={typographyStyle}>
         Queue Network Simulator
-      </Typography>
-        <PersistentDrawerLeft />
-        <PersistentDrawerRight />
+        </Typography>
+        <PersistentDrawerRight style={rightmenuStyle} />
       </AppBar>
       <Editor />
       </div>
     );
   }
+}
+
+const appbarStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center'
+}
+
+const leftmenuStyle = {
+  flex: '1',
+}
+
+const rightmenuStyle = {
+  flex: '1',
+}
+
+const typographyStyle = {
+  flex: '3',
 }

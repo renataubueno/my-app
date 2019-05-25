@@ -20,6 +20,7 @@ export default class ButtonLeftSidebar extends Component{
           <IconButton
             color="default"
             aria-label="Open drawer"
+            style={iconStyle}
             onClick={this.props.buttonlsb}
             className={'button-left-sidebar'}
           >
@@ -31,4 +32,8 @@ export default class ButtonLeftSidebar extends Component{
       </div>
     );
   }
+}
+
+const iconStyle = {
+  color: 'white',
 }
