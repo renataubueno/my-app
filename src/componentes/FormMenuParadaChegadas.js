@@ -18,7 +18,8 @@ export default class FormMenuParadaChegadas extends Component{
     console.log('Este é o valor salvo no momento (número de chegadas): ' + this.state.condicao);
 
     Pubsub.publish('retorno-condicao-parada-num-chegadas', {
-      condicao: this.state.condicao
+      condicao: this.state.condicao,
+      condParada: 'CHEGADAS'
     });
   }
 

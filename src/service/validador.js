@@ -4,6 +4,7 @@ exports.validar = function(dado){
   console.log('Dados sendo validados: ', dado);
 
   objetos = [].concat(dado);
+  console.log('O QUE TEM NA CONDPARADA: ', objetos[0].condParada);
 
   console.log('OBJETOSSS: ', objetos[0])
 
@@ -22,8 +23,8 @@ exports.validar = function(dado){
   let saidaValida = validaSaida(
     filtraObj('SAIDA')
   );
-  let seedValida = validaSeed(objetos[0].condParadaNumChegadas);
-  let condParadaValida = validaCondParada(objetos[0].seeder);
+  let seedValida = validaSeed(objetos[0].seeder);
+  let condParadaValida = validaCondParada(objetos[0].condParada);
 
   return filaUniformeValida && conectorValido && entradaValida && saidaValida && seedValida && condParadaValida && minMaxValidos;
 }
