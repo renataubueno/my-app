@@ -21,6 +21,15 @@ export default class FilaEditor extends Objeto {
         delete this.settings.position;
       }
     });
+
+    Pubsub.subscribe('valores-simulacao', (topico, dados) => {
+      console.log('Oi, recebi esses dados na FilaEditor.js', dados);
+      this.setState({filas: dados.filas});
+      this.setState({conectores: dados.conectores});
+      this.setState({entradas: dados.entradas});
+      this.setState({saidas: dados.saidas});
+      this.setState({controlledPositions: dados.controlledPositions});
+    });
   }
 
   _handleDoubleClickOpen(event): void {
@@ -35,8 +44,12 @@ export default class FilaEditor extends Objeto {
     if (this.props.controlledPositions) {
       this.props.controlledPositions.filter(position => {
         if (position.targetList.length > 0 && position.targetList[0].id === this.state.fila.id) {
+          let numTotalFilas = this.state.filas.length;
+          let numTotalConectores = this.state.conectores.length;
+          let deslocamento = 50 + (numTotalFilas * 100) + (numTotalConectores * 100);
+          console.log('QUANTO VALE O DESLOCAMENTO? ', deslocamento);
           if(position.tipo === 'Entrada'){
-            this.settings.position = {x: position.x + 150, y: position.y};
+            this.settings.position = {x: position.x + deslocamento, y: position.y};
           } else if (position.tipo === 'Conector'){
             this.settings.position = {x: position.x + 200, y: position.y};
           } else if (position.tipo === 'Fila'){

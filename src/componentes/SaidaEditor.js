@@ -22,6 +22,15 @@ export default class SaidaEditor extends Objeto {
         delete this.settings.position;
       }
     });
+
+    Pubsub.subscribe('valores-simulacao', (topico, dados) => {
+      console.log('Oi, recebi esses dados na EntradaEditor.js', dados);
+      this.setState({filas: dados.filas});
+      this.setState({conectores: dados.conectores});
+      this.setState({entradas: dados.entradas});
+      this.setState({saidas: dados.saidas});
+      this.setState({controlledPositions: dados.controlledPositions});
+    });
   }
 
   _handleDoubleClickOpen(event): void {

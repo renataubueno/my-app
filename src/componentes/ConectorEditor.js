@@ -22,6 +22,15 @@ export default class ConectorEditor extends Objeto {
         delete this.settings.position;
       }
     });
+
+    Pubsub.subscribe('valores-simulacao', (topico, dados) => {
+      console.log('Oi, recebi esses dados na EntradaEditor.js', dados);
+      this.setState({filas: dados.filas});
+      this.setState({conectores: dados.conectores});
+      this.setState({entradas: dados.entradas});
+      this.setState({saidas: dados.saidas});
+      this.setState({controlledPositions: dados.controlledPositions});
+    });
   }
 
   _handleDoubleClickOpen(event): void {
@@ -37,7 +46,11 @@ export default class ConectorEditor extends Objeto {
       this.props.controlledPositions.filter(position => {
         if (position.targetList.length > 0 && position.targetList[0].id === this.state.conector.id) {
           if(position.tipo === 'Entrada'){
-            this.settings.position = {x: position.x + 150, y: position.y};
+            let numTotalFilas = this.state.filas.length;
+            let numTotalConectores = this.state.conectores.length;
+            let deslocamento = 50 + numTotalFilas + (numTotalConectores * 100);
+            console.log('QUANTO VALE O DESLOCAMENTO? ', deslocamento);
+            this.settings.position = {x: position.x + deslocamento, y: position.y};
           } else {
             this.settings.position = {x: position.x, y: position.y};
           }
