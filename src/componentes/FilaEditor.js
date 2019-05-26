@@ -46,12 +46,13 @@ export default class FilaEditor extends Objeto {
         if (position.targetList.length > 0 && position.targetList[0].id === this.state.fila.id) {
           let numTotalFilas = this.state.filas.length;
           let numTotalConectores = this.state.conectores.length;
-          let deslocamento = 50 + (numTotalFilas * 100) + (numTotalConectores * 100);
-          console.log('QUANTO VALE O DESLOCAMENTO? ', deslocamento);
+          let numTotalSaidas = this.state.saidas.length;
+          let deslocamentoEntrada = 50 + (numTotalFilas * 100) + (numTotalConectores * 100) + (numTotalSaidas * 50);
+          let deslocamentoConector = (numTotalFilas * 100) + 100;
           if(position.tipo === 'Entrada'){
-            this.settings.position = {x: position.x + deslocamento, y: position.y};
+            this.settings.position = {x: position.x + deslocamentoEntrada, y: position.y};
           } else if (position.tipo === 'Conector'){
-            this.settings.position = {x: position.x + 200, y: position.y};
+            this.settings.position = {x: position.x + deslocamentoConector, y: position.y};
           } else if (position.tipo === 'Fila'){
             console.log('POSITION DA FILA', position);
             this.settings.position = {x: position.x + 200, y: position.y};
