@@ -14,16 +14,34 @@ export default class DrawerRightSidebar extends Component{
   render(){
     return(
       <div className={'right-drawer-header'}>
+      <div style={drawerheaderStyle}>
         <IconButton color="primary" onClick={this.props.buttonrsbclose}>
-          <NavigationIcon/>
+          <NavigationIcon style={navigationStyle}/>
         </IconButton>
         <Divider />
-        <Typography align="center" variant="h6" color="primary" noWrap>
+        <Typography align="center" variant="h6" color="primary" style={headertitleStyle} noWrap>
           RELATÓRIO
         </Typography>
+        </div>
+        <Divider />
         <Divider />
         <Relatorio />
       </div>
     );
   }
+}
+
+const navigationStyle = {
+  transform: 'rotate(90deg)',
+}
+
+const drawerheaderStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: '7px 0 7px 0',
+}
+
+const headertitleStyle = {
+  paddingLeft: '5px'
 }

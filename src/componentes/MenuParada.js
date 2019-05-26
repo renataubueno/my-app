@@ -40,7 +40,7 @@ export default class MenuParada extends Component{
 
   render(){
     return(
-      <div>
+      <div style={paradaStyle}>
       <InputLabel htmlFor="stop-helper">Condição de Parada</InputLabel>
       <Select value={this.state.value} onChange={this.opcoesParada}>
         <MenuItem value="">
@@ -55,4 +55,8 @@ export default class MenuParada extends Component{
       </div>
     );
   }
+}
+
+const paradaStyle = {
+  padding: '0 15px 0px 15px'
 }
