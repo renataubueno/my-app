@@ -13,7 +13,7 @@ export default class Fila extends Component{
         value: 'SEM DISTRIBUICAO'
     }
   }
-
+  /* Estes métodos de subscribe são realizados para controlar o id global, bem como o tipo de distribuição */
   componentWillMount(){
     Pubsub.subscribe('retorno-incremento-id-conector', (topico, dadosDoID) => {
       this.setState({id: ++this.state.id});
@@ -32,15 +32,15 @@ export default class Fila extends Component{
   });
   }
 
+  /* Cria uma fila no editor, com o id global, altura e tamanho fixos, bem como valores default e o seu tipo */
+  /* O tipo é utilizado para verificações posteriores - conexões, deleções, ... */
+  /* É feita uma verificação do valor da fila, pois dependendo se é uniforme, exponencial, ... ela tem parâmetros diferentes */
   criaFila = () => {
     if (this.state.value === 'Uniforme'){
       let filaUniforme = {
         id: this.state.id,
         capacidade: 0,
         servidores: 0,
-        conexaoDir: 0,
-        conexaoEsq1: 0,
-        conexaoEsq2: 0,
         minChegada: 0,
         maxChegada: 0,
         minServico: 0,
@@ -74,8 +74,11 @@ export default class Fila extends Component{
     }
   }
 
+  /* Quando clico na fila, na barra lateral à esquerda, este evento é triggado */
+  /* O id local é incrementado e avisa-se aos outros objetos, através do publish, para incrementarem seus valores locais também */
+  /* Publica, no editor, uma cópia da fila, utilizando o método criaFila() */
+  /* Se a fila não tem um tipo definido - uniforme ou exponencial - ela não é adicionada no editor */
   handleClickFila = control => event => {
-    console.log('Estou na Fila com o id ', this.state.id);
     this.setState({id: ++this.state.id});
 
     Pubsub.publish('retorno-incremento-id-fila', {

@@ -6,6 +6,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+/* Componente que trigga a janela para importar um arquivo JSON */
+/* No momento: não-funcional */
 export default class ImportJSON extends Component{
   constructor(props){
     super(props);

@@ -13,6 +13,7 @@ export default class Entrada extends Component{
     }
   }
 
+  /* Estes métodos de subscribe são realizados para controlar o id global */
   componentWillMount(){
     Pubsub.subscribe('retorno-incremento-id-fila', (topico, dadosDoID) => {
       this.setState({id: ++this.state.id});
@@ -27,12 +28,13 @@ export default class Entrada extends Component{
    });
   }
 
+  /* Cria uma entrada no editor, com o id global, altura e tamanho fixos, chegada default e o seu tipo */
+  /* O tipo é utilizado para verificações posteriores - conexões, deleções, ... */
   criaEntrada = () => {
     let entrada = {
       id: this.state.id,
       height: 40,
       width: 50,
-      conexaoDir: 0,
       chegada: 0,
       tipo: 'ENTRADA'
     };
@@ -40,9 +42,10 @@ export default class Entrada extends Component{
     return entrada;
   };
 
-
+  /* Quando clico na entrada, na barra lateral à esquerda, este evento é triggado */
+  /* O id local é incrementado e avisa-se aos outros objetos, através do publish, para incrementarem seus valores locais também */
+  /* Publica, no editor, uma cópia da entrada, utilizando o método criaEntrada() */
   handleClickEntrada = control => event => {
-    console.log('Cliquei na Entrada');
     this.setState({id: ++this.state.id});
 
     Pubsub.publish('retorno-incremento-id-entrada', {

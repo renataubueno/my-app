@@ -5,6 +5,7 @@ import Editor from './Editor.js';
 import PersistentDrawerRight from './RightSidebar.js';
 import Typography from '@material-ui/core/Typography';
 
+/* Componente inicial, que renderiza os demais */
 export default class App extends React.Component {
   render(){
     return(

@@ -29,8 +29,11 @@ export default class Relatorio extends Component{
 
   for(let i = 0; i < this.state.retornoProb.length; i++){
     let estadoAtual = i.toString();
-    let obj = {label: estadoAtual, value: this.state.retornoProb[i]};
-    data.push(obj);
+    let valorAtual = this.state.retornoProb[i];
+    if(valorAtual !== 0){
+      let obj = {label: estadoAtual, value: valorAtual};
+      data.push(obj);
+    };
   }
 
   return <div> <PieChart data={data} /> /> </div>
