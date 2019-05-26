@@ -59,6 +59,17 @@ export default class MenuDistribuicao extends Component{
   }
 }
 
+<<<<<<< HEAD
 const distribuicaoStyle = {
   padding: '0 15px 0px 15px'
 }
+=======
+//1 para uniforme
+//2 para exponencial
+//3 para geométrica
+//4 para binomial
+
+const distribuicaoStyle = {
+  padding: '0 15px 0px 15px'
+}
+>>>>>>> origin/dev

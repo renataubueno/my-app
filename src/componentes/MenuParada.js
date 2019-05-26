@@ -59,4 +59,8 @@ export default class MenuParada extends Component{
 
 const paradaStyle = {
   padding: '0 15px 0px 15px'
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/dev

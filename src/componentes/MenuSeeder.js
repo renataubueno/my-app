@@ -42,4 +42,8 @@ export default class MenuSeeder extends Component{
 
 const seederStyle = {
   padding: '0 15px 15px 15px'
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/dev

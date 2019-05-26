@@ -13,9 +13,15 @@ export default class App extends React.Component {
       <AppBar style={appbarStyle} position="fixed">
         <PersistentDrawerLeft style={leftmenuStyle}/>
         <Typography align="center" variant="h6" color="inherit" noWrap style={typographyStyle}>
+<<<<<<< HEAD
           Queue Network Simulator
         </Typography>
           <PersistentDrawerRight style={rightmenuStyle} />
+=======
+        Queue Network Simulator
+        </Typography>
+        <PersistentDrawerRight style={rightmenuStyle} />
+>>>>>>> origin/dev
       </AppBar>
       <Editor />
       </div>
@@ -39,4 +45,8 @@ const rightmenuStyle = {
 
 const typographyStyle = {
   flex: '3',
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/dev

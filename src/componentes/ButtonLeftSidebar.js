@@ -36,4 +36,8 @@ export default class ButtonLeftSidebar extends Component{
 
 const iconStyle = {
   color: 'white',
+<<<<<<< HEAD
 } 
+=======
+}
+>>>>>>> origin/dev

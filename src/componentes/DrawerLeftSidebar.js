@@ -23,7 +23,11 @@ export default class DrawerLeftSidebar extends Component{
 
   render(){return(
       <div className={'left-drawer-header'}>
+<<<<<<< HEAD
       <div style={drawerheaderStyle}>
+=======
+        <div style={drawerheaderStyle}>
+>>>>>>> origin/dev
          <Typography align="center" variant="h6" color="primary" style={headertitleStyle} noWrap>
           PARÂMETROS
         </Typography>
@@ -36,8 +40,13 @@ export default class DrawerLeftSidebar extends Component{
         <Typography align="center" variant="h6" color="primary" noWrap>
           <Fila />
           <Conector /><br />
+<<<<<<< HEAD
           <Saida /> <br />
           <Entrada />
+=======
+          <Entrada /><br />
+          <Saida />
+>>>>>>> origin/dev
         </Typography>
         </div>
         <div style={configsStyle}>
@@ -51,9 +60,7 @@ export default class DrawerLeftSidebar extends Component{
         </div>
         <div style={actionButtonsStyle}>
         <Simulacao />
-        <Divider />
         <ResetEditor />
-        <Divider />
         <ExportJSON />
         <ImportJSON />
         </div>
@@ -90,4 +97,8 @@ const actionButtonsStyle = {
 
 const configsStyle = {
   backgroundColor: '#eaeaea'
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/dev
