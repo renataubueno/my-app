@@ -30,7 +30,7 @@ export default class DialogEditor extends Component {
    });
   }
 
-  _handleDoubleClickClose(event): void {
+  _handleDoubleClickClose = event => {
     this.setState({open: false});
   }
 
@@ -39,6 +39,7 @@ export default class DialogEditor extends Component {
       id: this.state.objeto.id,
       tipoObjeto: this.state.tipoObjeto
     });
+    this.setState({open: false})
   };
 
   handleDesconectar = event => {
