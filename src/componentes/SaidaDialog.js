@@ -10,6 +10,8 @@ export default class SaidaDialog extends Component{
     }
   }
 
+  handleFocus = (event) => event.target.select();
+
   render(){
     return(
       <DialogContent>
@@ -19,6 +21,7 @@ export default class SaidaDialog extends Component{
          className={'idSaida-text-field'}
          value={this.state.objeto.id}
          margin="normal"
+         onFocus={this.handleFocus}
        />
       </DialogContent>
     );

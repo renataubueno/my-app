@@ -27,6 +27,8 @@ export default class MenuSeeder extends Component{
     });
   }
 
+  handleFocus = (event) => event.target.select();
+
   render(){
     return(
       <div style={seederStyle}>
@@ -38,6 +40,7 @@ export default class MenuSeeder extends Component{
            defaultValue={this.state.seeder}
            onChange={this.handleChange('seeder')}
            margin="normal"
+           onFocus={this.handleFocus}
            onBlur={this.handleClick('seeder')}
          />
       </div>

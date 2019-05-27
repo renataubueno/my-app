@@ -18,6 +18,8 @@ export default class FormMenuParadaTempo extends Component{
     console.log('Este é o valor salvo no momento (tempo de simulação): ' + this.state.condicao);
   }
 
+  handleFocus = (event) => event.target.select();
+
   render(){
     return(
       <div>
@@ -28,6 +30,7 @@ export default class FormMenuParadaTempo extends Component{
          value={this.state.condicao}
          onChange={this.handleChange('condicao')}
          margin="normal"
+         onFocus={this.handleFocus}
        />
        <button className="save-button" onClick={ this.handleClick('condicao') }>Salvar</button>
       </div>

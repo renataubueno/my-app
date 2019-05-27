@@ -20,6 +20,8 @@ export default class EntradaDialog extends Component{
     });
   };
 
+  handleFocus = (event) => event.target.select();
+
   render(){
     return(
       <DialogContent>
@@ -29,6 +31,7 @@ export default class EntradaDialog extends Component{
          className={'chegada-text-field'}
          value={this.state.objeto.chegada}
          onChange={this.handleChange('chegada')}
+         onFocus={this.handleFocus}
          margin="normal"
        />
        <TextField
@@ -36,6 +39,7 @@ export default class EntradaDialog extends Component{
           label="id da Entrada"
           className={'idEntrada-text-field'}
           value={this.state.objeto.id}
+          onFocus={this.handleFocus}
           margin="normal"
         />
       </DialogContent>
