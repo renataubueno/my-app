@@ -33,6 +33,7 @@ export default class Entrada extends Component{
   criaEntrada = () => {
     let entrada = {
       id: this.state.id,
+      idConectado: 0,
       height: 40,
       width: 50,
       chegada: 0,

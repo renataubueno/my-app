@@ -39,6 +39,7 @@ export default class Fila extends Component{
     if (this.state.value === 'Uniforme'){
       let filaUniforme = {
         id: this.state.id,
+        idConectado: 0,
         capacidade: 0,
         servidores: 0,
         minChegada: 0,
@@ -54,6 +55,7 @@ export default class Fila extends Component{
     } else if (this.state.value === 'Exponencial'){
       let filaExponencial = {
         id: this.state.id,
+        idConectado: 0,
         capacidade: 0,
         servidores: 0,
         conexaoDir: 0,

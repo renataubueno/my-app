@@ -34,6 +34,7 @@ class Editor extends React.Component{
       filaConector: [],
       filaSaida: [],
       filaEntrada: [],
+      todosObjetos: [],
       controlledPositions: []
     }
 
@@ -42,26 +43,42 @@ class Editor extends React.Component{
   componentWillMount(){
     Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
         var itemsFila = [ ].concat(this.state.filaFilas);
+        var items = [].concat(this.state.todosObjetos);
         itemsFila.push(dadosDaFila.fila);
+        items.push(dadosDaFila.fila);
         this.setState({filaFilas: itemsFila});
+        this.setState({todosObjetos: items});
+        console.log('TODOSOBJETOS: ', this.state.todosObjetos);
     });
 
     Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
        var itemsConector = [ ].concat(this.state.filaConector);
+       var items = [].concat(this.state.todosObjetos);
        itemsConector.push(dadosDoConector.conector);
+       items.push(dadosDoConector.conector);
        this.setState({filaConector: itemsConector});
+       this.setState({todosObjetos: items});
+       console.log('TODOSOBJETOS: ', this.state.todosObjetos);
     });
 
     Pubsub.subscribe('retorno-saida', (topico, dadosDaSaida) => {
       var itemsSaida = [ ].concat(this.state.filaSaida);
+      var items = [].concat(this.state.todosObjetos);
       itemsSaida.push(dadosDaSaida.saida);
+      items.push(dadosDaSaida.saida);
       this.setState({filaSaida: itemsSaida});
+      this.setState({todosObjetos: items});
+      console.log('TODOSOBJETOS: ', this.state.todosObjetos);
     });
 
     Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
       var itemsEntrada = [ ].concat(this.state.filaEntrada);
+      var items = [].concat(this.state.todosObjetos);
       itemsEntrada.push(dadosDaEntrada.entrada);
+      items.push(dadosDaEntrada.entrada);
       this.setState({filaEntrada: itemsEntrada});
+      this.setState({todosObjetos: items});
+      console.log('TODOSOBJETOS: ', this.state.todosObjetos);
     });
 
     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
@@ -70,6 +87,20 @@ class Editor extends React.Component{
       this.setState({filaConector: []});
       this.setState({filaSaida: []});
       this.setState({filaEntrada: []});
+    });
+
+    Pubsub.subscribe('alteracoes', (topico, alteracoes) => {
+      console.log('ALTERACOES RECEBIDAS: ', alteracoes.objeto);
+      console.log('TODOS OBJETOS: ', this.state.todosObjetos);
+
+      let idConectadoValido = this.state.todosObjetos.filter(item => parseInt(item.id) === parseInt(alteracoes.objeto));
+      console.log('IDCONECTADOVALIDO: ', idConectadoValido);
+
+      if(idConectadoValido.length === 0){
+        Pubsub.publish('id-invalido', {
+          id: 0
+        });
+      }
     });
 
     Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
@@ -157,24 +188,29 @@ class Editor extends React.Component{
 
    let objetoColidido = this.verificarColisao(newPosition);
 
+   console.log('PRINT - VERIFICANDO COLISAO - newPosition', newPosition);
+   console.log('PRINT - VERIFICANDO COLISAO - objetoColidido', objetoColidido);
    if(newPosition.tipo === 'Fila' && objetoColidido && newPosition.id !== objetoColidido.id) {
      if(objetoColidido.targetList.length === 0){
+       console.log('PRINT - TARGET LIST DO OBJETO COLIDIDO É IGUAL A ZERO');
        let target = {
          tipo: objetoColidido.tipo,
          id: parseInt(objetoColidido.id)
        };
 
        newPosition.targetList.push(target);
-     }
-     for(let i = 0; i < objetoColidido.targetList.length; i++){
-       if(parseInt(newPosition.id) === parseInt(objetoColidido.targetList[i].id)){
-       } else {
-          let target = {
-            tipo: objetoColidido.tipo,
-            id: parseInt(objetoColidido.id)
-          };
+     } else {
+       console.log('PRINT - TARGET LIST DO OBJETO COLIDIDO NÃO É IGUAL A ZERO ');
+       for(let i = 0; i < objetoColidido.targetList.length; i++){
+         if(parseInt(newPosition.id) === parseInt(objetoColidido.targetList[i].id)){
+         } else {
+            let target = {
+              tipo: objetoColidido.tipo,
+              id: parseInt(objetoColidido.id)
+            };
 
-          newPosition.targetList.push(target);
+            newPosition.targetList.push(target);
+         }
        }
      }
    } else if (newPosition.tipo === 'Conector' && objetoColidido){
@@ -204,11 +240,39 @@ class Editor extends React.Component{
        }
      }
    } else if (newPosition.tipo === 'Entrada' && objetoColidido){
-     let target = {
-       tipo: objetoColidido.tipo,
-       id: parseInt(objetoColidido.id)
-     };
-     newPosition.targetList.push(target);
+     //tratamento para evitar ocorrência do objeto em outra lista
+     if(objetoColidido.targetList.length === 0){
+       let target = {
+         tipo: objetoColidido.tipo,
+         id: parseInt(objetoColidido.id)
+       };
+
+       newPosition.targetList.push(target);
+     } else {
+       for(let i = 0; i < objetoColidido.targetList.length; i++){
+         if(parseInt(newPosition.id) === parseInt(objetoColidido.targetList[i].id)){
+         } else {
+            let target = {
+              tipo: objetoColidido.tipo,
+              id: parseInt(objetoColidido.id)
+            };
+
+            newPosition.targetList.push(target);
+         }
+       }
+
+       let removeDupsTargetList = [...new Set(newPosition.targetList)];
+       console.log('REMOVE DUPS ', removeDupsTargetList);
+
+       if(removeDupsTargetList.length > 0){
+         for(let j = 0; j < newPosition.targetList.length; j++){
+           if(parseInt(newPosition.targetList[j].id) === parseInt(removeDupsTargetList[0].id)){
+             newPosition.targetList.splice(j, 1);
+             break;
+           }
+         }
+       }
+     }
    }
 
    let positionCurrent = (newControlledPosition.filter(pos => pos.id === newPosition.id))[0];
@@ -236,7 +300,7 @@ class Editor extends React.Component{
    newControlledPosition.push(newPosition);
 
    this.setState({controlledPositions: newControlledPosition });
-   console.log('CONTROLLED POSITIONS: ', this.state.controlledPositions);
+   console.log('PRINT - CONTROLLED POSITIONS: ', this.state.controlledPositions);
  }
 
  verificarColisao = (position) => {
@@ -324,6 +388,7 @@ class Editor extends React.Component{
       filas: this.state.filaFilas,
       entradas: this.state.filaEntrada,
       saidas: this.state.filaSaida,
+      todosObjetos: this.state.todosObjetos,
       controlledPositions: this.state.controlledPositions
     });
 

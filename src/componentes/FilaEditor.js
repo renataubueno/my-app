@@ -27,6 +27,7 @@ export default class FilaEditor extends Objeto {
       this.setState({conectores: dados.conectores});
       this.setState({entradas: dados.entradas});
       this.setState({saidas: dados.saidas});
+      this.setState({todosObjetos: dados.todosObjetos});
       this.setState({controlledPositions: dados.controlledPositions});
     });
   }
@@ -34,7 +35,7 @@ export default class FilaEditor extends Objeto {
   _handleDoubleClickOpen(event): void {
     Pubsub.publish('double-click', {
       tipoObjeto: this.state.fila.tipo,
-      objeto: this.state.fila
+      objeto: this.state.fila,
     });
   }
 
