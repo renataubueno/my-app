@@ -21,6 +21,7 @@ export default class DialogEditor extends Component {
     }
 
     this._handleDoubleClickClose = this._handleDoubleClickClose.bind(this);
+    this.OKButton = React.createRef();
   }
 
   componentWillMount(){
@@ -32,6 +33,10 @@ export default class DialogEditor extends Component {
 
   _handleDoubleClickClose = event => {
     this.setState({open: false});
+  }
+
+  handleOkSelection = () => {
+    this.OKButton.current.props.onClick()         // A intenção era dar foco no Ok, mas por enquanto só foi possível executar a ação dele
   }
 
   handleDelete = event => {
@@ -50,7 +55,7 @@ export default class DialogEditor extends Component {
 
   handleFilaUniforme = () => {
     return (
-      <FilaUniformeDialog objeto={this.state.objeto}/>
+      <FilaUniformeDialog objeto={this.state.objeto} onOKSelection={this.handleOkSelection} OKButton={this.OKButton}/>
     );
   };
 
@@ -113,7 +118,7 @@ export default class DialogEditor extends Component {
         </DialogTitle>
         {this.handleDialog()}
         <DialogActions>
-          <Button onClick={this._handleDoubleClickClose} color="primary">
+          <Button onClick={this._handleDoubleClickClose} color="primary" ref={this.OKButton}>
             Ok
           </Button>
           <Button onClick={this.handleDelete} color="primary">
