@@ -11,6 +11,7 @@ export default class ButtonRightSidebar extends Component{
         <IconButton
           color="default"
           aria-label="Open drawer"
+          style={iconStyle}
           onClick={this.props.buttonrsbopen}
           className={'button-right-sidebar'}
         >
@@ -21,4 +22,8 @@ export default class ButtonRightSidebar extends Component{
       </div>
     );
   }
+}
+
+const iconStyle = {
+  color: 'white',
 }

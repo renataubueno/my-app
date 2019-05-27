@@ -12,7 +12,8 @@ export default class Simulacao extends Component{
       entradas: [],
       saidas: [],
       controlledPositions: [],
-      condParadaNumChegadas: 0,
+      condParada: 0,
+      tipoParada: '',
       seeder: 0
     }
   }
@@ -33,8 +34,17 @@ export default class Simulacao extends Component{
     });
 
     Pubsub.subscribe('retorno-condicao-parada-num-chegadas', (topico, condParadaNumChegadas) => {
-      console.log('Condicao de parada recebida no Simulacao.js: ', condParadaNumChegadas.condicao);
-      this.setState({condParadaNumChegadas: condParadaNumChegadas.condicao});
+      console.log('Condicao de parada recebida no Simulacao.js: ', condParadaNumChegadas.condParada);
+      console.log('Valor de parada recebida no Simulacao.js: ', condParadaNumChegadas.condicao);
+      this.setState({condParada: condParadaNumChegadas.condicao});
+      this.setState({tipoParada: condParadaNumChegadas.condParada});
+    });
+
+    Pubsub.subscribe('retorno-condicao-parada-tempo-simulacao', (topico, condParadaTempo) => {
+      console.log('Condicao de parada recebida no Simulacao.js: ', condParadaTempo.condParada);
+      console.log('Valor de parada recebida no Simulacao.js: ', condParadaTempo.condicao);
+      this.setState({condParada: condParadaTempo.condicao});
+      this.setState({tipoParada: condParadaTempo.condParada});
     });
 
     Pubsub.subscribe('retorno-seeder', (topico, seeder) => {
@@ -153,12 +163,17 @@ export default class Simulacao extends Component{
     let body = {
       objSimulacao: this.tratamentoDadosSimulacao(),
       seeder: this.state.seeder,
-      condParadaNumChegadas: this.state.condParadaNumChegadas
+      condParada: this.state.condParada,
+      tipoParada: this.state.tipoParada
     };
+
+    console.log('O QUE TEM NO BODY? ', body);
+    console.log('O que tem no state? ', this.state.condParada);
 
     if(Validador.validar(body)){
       //POST
-      fetch(`${process.env.REACT_APP_API_URL}simulacao`, {
+      //fetch(`${process.env.REACT_APP_API_URL}simulacao`, {
+      fetch('http://localhost:3001/simulacao', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

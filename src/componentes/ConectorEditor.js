@@ -22,6 +22,15 @@ export default class ConectorEditor extends Objeto {
         delete this.settings.position;
       }
     });
+
+    Pubsub.subscribe('valores-simulacao', (topico, dados) => {
+      console.log('Oi, recebi esses dados na EntradaEditor.js', dados);
+      this.setState({filas: dados.filas});
+      this.setState({conectores: dados.conectores});
+      this.setState({entradas: dados.entradas});
+      this.setState({saidas: dados.saidas});
+      this.setState({controlledPositions: dados.controlledPositions});
+    });
   }
 
   _handleDoubleClickOpen(event): void {
@@ -36,8 +45,16 @@ export default class ConectorEditor extends Objeto {
     if (this.props.controlledPositions) {
       this.props.controlledPositions.filter(position => {
         if (position.targetList.length > 0 && position.targetList[0].id === this.state.conector.id) {
+          let numTotalFilas = this.state.filas.length;
+          let numTotalConectores = this.state.conectores.length;
+          let deslocamentoEntrada = 50 + numTotalFilas + (numTotalConectores * 100);
+          let deslocamentoFila = (numTotalFilas * 100) - 100;
           if(position.tipo === 'Entrada'){
-            this.settings.position = {x: position.x + 150, y: position.y};
+            this.settings.position = {x: position.x + deslocamentoEntrada, y: position.y};
+          } else if (position.tipo === 'Fila'){
+            console.log('TIPO - CONECTOREDITOR');
+            console.log('DESLOCAMENTO - CONECTOREDITOR - UNIFORME ', deslocamentoFila);
+            this.settings.position = {x: position.x - deslocamentoFila, y: position.y};
           } else {
             this.settings.position = {x: position.x, y: position.y};
           }

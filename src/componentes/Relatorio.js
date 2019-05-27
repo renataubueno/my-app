@@ -27,17 +27,14 @@ export default class Relatorio extends Component{
  probGraph = () => {
   let data = [];
 
-  console.log('PQ ELE N FUNCIONA DE PRIMEIRA? ', this.state.retornoProb[0]);
-  console.log('PQ ELE N FUNCIONA DE PRIMEIRA? ', this.state.retornoProb[2]);
-
   for(let i = 0; i < this.state.retornoProb.length; i++){
     let estadoAtual = i.toString();
-    let obj = {label: estadoAtual, value: this.state.retornoProb[i]};
-    console.log('O QUE TEM NO OBJ? ', obj);
-    data.push(obj);
+    let valorAtual = this.state.retornoProb[i];
+    if(valorAtual !== 0){
+      let obj = {label: estadoAtual, value: valorAtual};
+      data.push(obj);
+    };
   }
-
-  console.log('O QUE TEM NO DATA? ', data);
 
   return <div> <PieChart data={data} /> /> </div>
  }

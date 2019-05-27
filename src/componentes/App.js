@@ -5,19 +5,38 @@ import Editor from './Editor.js';
 import PersistentDrawerRight from './RightSidebar.js';
 import Typography from '@material-ui/core/Typography';
 
+/* Componente inicial, que renderiza os demais */
 export default class App extends React.Component {
   render(){
     return(
       <div>
-      <AppBar position="fixed">
-      <Typography align="center" variant="h6" color="inherit" noWrap>
-        Queue Network Simulator
-      </Typography>
-        <PersistentDrawerLeft />
-        <PersistentDrawerRight />
+      <AppBar style={appbarStyle} position="fixed">
+        <PersistentDrawerLeft style={leftmenuStyle}/>
+        <Typography align="center" variant="h6" color="inherit" noWrap style={typographyStyle}>
+          Queue Network Simulator
+        </Typography>
+          <PersistentDrawerRight style={rightmenuStyle} />
       </AppBar>
       <Editor />
       </div>
     );
   }
+}
+
+const appbarStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center'
+}
+
+const leftmenuStyle = {
+  flex: '1',
+}
+
+const rightmenuStyle = {
+  flex: '1',
+}
+
+const typographyStyle = {
+  flex: '3',
 }
