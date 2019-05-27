@@ -6,3 +6,11 @@
     padding: 5px 8px 5px 8px;
     margin-bottom: 10px;          /* Caso existam botões de salvar que não estejam no final vai ser preciso alterar */
 }
+
+.save-button:hover {
+    box-shadow: 0px 0px 8px 0px #3f51b5, 0px 0px 0px 0px #3f51b5;
+    transition: box-shadow 0.3s;
+    color: #3f51b5;
+    background-color: rgb(234, 234, 234);
+    cursor: pointer;
+}
