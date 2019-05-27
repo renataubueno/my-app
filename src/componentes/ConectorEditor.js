@@ -52,8 +52,6 @@ export default class ConectorEditor extends Objeto {
           if(position.tipo === 'Entrada'){
             this.settings.position = {x: position.x + deslocamentoEntrada, y: position.y};
           } else if (position.tipo === 'Fila'){
-            console.log('TIPO - CONECTOREDITOR');
-            console.log('DESLOCAMENTO - CONECTOREDITOR - UNIFORME ', deslocamentoFila);
             this.settings.position = {x: position.x - deslocamentoFila, y: position.y};
           } else {
             this.settings.position = {x: position.x, y: position.y};
