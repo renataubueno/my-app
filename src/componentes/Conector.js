@@ -31,6 +31,7 @@ export default class Conector extends Component{
     let conector = {
       id: this.state.id,
       idConectado: 0,
+      targetList: [],
       height: 50,
       width: 100,
       probabilidade: 100,

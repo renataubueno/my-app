@@ -65,14 +65,7 @@ export default class Simulacao extends Component{
       let maxChegada = this.state.filas[i].maxChegada;
       let minServico = this.state.filas[i].minServico;
       let maxServico = this.state.filas[i].maxServico;
-      let targetList;
-
-      this.state.controlledPositions.filter(function(item){
-          if(parseInt(item.id) === parseInt(id)){
-            targetList = item.targetList;
-            return item.targetList;
-          }
-      });
+      let targetList = this.state.filas[i].targetList;
 
       let objTratado = {
         id: id,
@@ -93,14 +86,7 @@ export default class Simulacao extends Component{
       let id = this.state.conectores[i].id;
       let tipo = this.state.conectores[i].tipo;
       let probabilidade = this.state.conectores[i].probabilidade;
-      let targetList;
-
-      this.state.controlledPositions.filter(function(item){
-          if(parseInt(item.id) === parseInt(id)){
-            targetList = item.targetList;
-            return item.targetList;
-          }
-      });
+      let targetList = this.state.conectores[i].targetList;
 
       let objTratado = {
         id: id,
@@ -116,14 +102,7 @@ export default class Simulacao extends Component{
       let id = this.state.entradas[i].id;
       let tipo = this.state.entradas[i].tipo;
       let chegada = this.state.entradas[i].chegada;
-      let targetList; //não seria o caso de deixar ele iniciar vazio e ~auto-popular?
-
-      this.state.controlledPositions.filter(function(item){
-          if(parseInt(item.id) === parseInt(id)){
-            targetList = item.targetList;
-            return item.targetList;
-          }
-      });
+      let targetList = this.state.entradas[i].targetList;
 
       let objTratado = {
         id: id,
@@ -138,14 +117,7 @@ export default class Simulacao extends Component{
     for(let i = 0; i < this.state.saidas.length; i++){
       let id = this.state.saidas[i].id;
       let tipo = this.state.saidas[i].tipo;
-      let targetList;
-
-      this.state.controlledPositions.filter(function(item){
-          if(parseInt(item.id) === parseInt(id)){
-            targetList = item.targetList;
-            return item.targetList;
-          }
-      });
+      let targetList = this.state.saidas[i].targetList;
 
       let objTratado = {
         id: id,

@@ -46,6 +46,7 @@ export default class Fila extends Component{
         maxChegada: 0,
         minServico: 0,
         maxServico: 0,
+        targetList: [],
         height: 60,
         width: 100,
         tipo: 'UNIFORME'
@@ -58,9 +59,7 @@ export default class Fila extends Component{
         idConectado: 0,
         capacidade: 0,
         servidores: 0,
-        conexaoDir: 0,
-        conexaoEsq1: 0,
-        conexaoEsq2: 0,
+        targetList: [],
         media: 0.0,
         height: 60,
         width: 100,

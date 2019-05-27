@@ -32,7 +32,7 @@ export default class Saida extends Component{
       id: this.state.id,
       height: 40,
       width: 50,
-      conexaoEsq: 0,
+      targetList: [],
       tipo: 'SAIDA'
     };
 
@@ -40,7 +40,6 @@ export default class Saida extends Component{
   };
 
   handleClickSaida = control => event => {
-    console.log('Cliquei na Saida');
     this.setState({id: ++this.state.id});
 
     Pubsub.publish('retorno-incremento-id-saida', {

@@ -32,7 +32,8 @@ export default class FilaUniformeDialog extends Component{
     objetoAlterado[parametro] = parseInt(event.target.value);
     this.setState({ objeto: objetoAlterado });
     Pubsub.publish('alteracoes', {
-        objeto: parseInt(event.target.value)
+        id: parseInt(event.target.value),
+        objeto: this.state.objeto
     });
   };
 

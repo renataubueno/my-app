@@ -34,6 +34,7 @@ export default class Entrada extends Component{
     let entrada = {
       id: this.state.id,
       idConectado: 0,
+      targetList: [],
       height: 40,
       width: 50,
       chegada: 0,
