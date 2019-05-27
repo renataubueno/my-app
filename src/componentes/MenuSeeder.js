@@ -36,6 +36,7 @@ export default class MenuSeeder extends Component{
            id="standard-name"
            label="Seeder"
            className={'seeder-text-field'}
+           style={seederInputStyle}
            value={this.state.seeder}
            defaultValue={this.state.seeder}
            onChange={this.handleChange('seeder')}
@@ -49,5 +50,9 @@ export default class MenuSeeder extends Component{
 }
 
 const seederStyle = {
-  padding: '0 15px 15px 15px'
+  padding: '8px 15px 8px 15px',
+}
+
+const seederInputStyle = {
+  margin: '0'
 }
