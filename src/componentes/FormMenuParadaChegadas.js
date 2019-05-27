@@ -17,11 +17,19 @@ export default class FormMenuParadaChegadas extends Component{
 
   handleClick = condicao => event => {
     console.log('Este é o valor salvo no momento (número de chegadas): ' + this.state.condicao);
+    this.testsound();
 
     Pubsub.publish('retorno-condicao-parada-num-chegadas', {
       condicao: this.state.condicao
     });
   }
+
+  testsound = () => {
+    const audio = new Audio("https://www.audiocheck.net/Audio/audiocheck.net_binaural_knocking.mp3")
+    audio.play()
+  }
+
+  handleFocus = (event) => event.target.select();
 
   render(){
     return(
@@ -32,6 +40,7 @@ export default class FormMenuParadaChegadas extends Component{
          className={'condicao-text-field'}
          value={this.state.condicao}
          onChange={this.handleChange('condicao')}
+         onFocus={this.handleFocus}
          margin="normal"
        />
        <button className="save-button" onClick={ this.handleClick('condicao') }>Salvar</button>
