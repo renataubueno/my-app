@@ -54,10 +54,8 @@ export default class FilaEditor extends Objeto {
           } else if (position.tipo === 'Conector'){
             this.settings.position = {x: position.x + deslocamentoConector, y: position.y};
           } else if (position.tipo === 'Fila'){
-            console.log('POSITION DA FILA', position);
             this.settings.position = {x: position.x + 200, y: position.y};
           } else {
-            console.log('POSITION DEFAULT');
             this.settings.position = {x: position.x, y: position.y};
           }
         }
