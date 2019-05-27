@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Pubsub from 'pubsub-js';
+import './Button.css';
 
 export default class FormMenuParadaChegadas extends Component{
   constructor(props) {
@@ -33,7 +34,7 @@ export default class FormMenuParadaChegadas extends Component{
          onChange={this.handleChange('condicao')}
          margin="normal"
        />
-       <button onClick={ this.handleClick('condicao') }>Salvar</button>
+       <button className="save-button" onClick={ this.handleClick('condicao') }>Salvar</button>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
+import './Button.css';
 
 export default class FormMenuParadaTempo extends Component{
   constructor(props) {
@@ -28,7 +29,7 @@ export default class FormMenuParadaTempo extends Component{
          onChange={this.handleChange('condicao')}
          margin="normal"
        />
-       <button onClick={ this.handleClick('condicao') }>Salvar</button>
+       <button className="save-button" onClick={ this.handleClick('condicao') }>Salvar</button>
       </div>
     );
   }
