@@ -23,18 +23,24 @@ export default class DrawerLeftSidebar extends Component{
 
   render(){return(
       <div className={'left-drawer-header'}>
+        <div style={drawerheaderStyle}>
+         <Typography align="center" variant="h6" color="primary" style={headertitleStyle} noWrap>
+          PARÂMETROS
+        </Typography>
         <IconButton color="primary" onClick={this.props.drawerlsb}>
-          <NavigationIcon/>
+          <NavigationIcon style={navigationStyle}/>
         </IconButton>
+        </div>
         <Divider />
         <div>
         <Typography align="center" variant="h6" color="primary" noWrap>
-          <Fila /> <br />
-          <Conector /> <br />
-          <Saida /> <br />
-          <Entrada />
+          <Fila />
+          <Conector /><br />
+          <Entrada /><br />
+          <Saida />
         </Typography>
         </div>
+        <div style={configsStyle}>
         <Divider />
         <MenuSeeder />
         <Divider />
@@ -42,13 +48,44 @@ export default class DrawerLeftSidebar extends Component{
         <Divider />
         <MenuDistribuicao />
         <Divider />
+        </div>
+        <div style={actionButtonsStyle}>
         <Simulacao />
-        <Divider />
         <ResetEditor />
-        <Divider />
         <ExportJSON />
         <ImportJSON />
+        </div>
       </div>
     );
   }
+}
+
+const navigationStyle = {
+  transform: 'rotate(-90deg)',
+}
+
+const drawerheaderStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: '7px 0 7px 0',
+  justifyContent: 'flex-end'
+}
+
+const headertitleStyle = {
+  paddingRight: '5px'
+}
+
+const actionButtonsStyle = {
+  display: 'flex',
+  flex: '1',
+  alignItems: 'center',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  marginTop: '15px',
+  height: '190px'
+}
+
+const configsStyle = {
+  backgroundColor: '#eaeaea'
 }

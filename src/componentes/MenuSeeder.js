@@ -25,7 +25,7 @@ export default class MenuSeeder extends Component{
 
   render(){
     return(
-      <div>
+      <div style={seederStyle}>
         <TextField
            id="standard-name"
            label="Seeder"
@@ -38,4 +38,8 @@ export default class MenuSeeder extends Component{
       </div>
     );
   }
+}
+
+const seederStyle = {
+  padding: '0 15px 15px 15px'
 }

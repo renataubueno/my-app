@@ -13,12 +13,13 @@ import DialogEditor from './DialogEditor.js';
 const styles = theme => ({
   drawerHeader: {
   },root: {
-    width: '800px',
-    height: '450px',
+    width: 'auto',
+    height: '600px',
     alignItems: 'center',
     position: 'relative',
     marginLeft: '245px',
-    marginTop: '175px',
+    marginRight: '245px',
+    marginTop: '75px',
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 4,
     paddingBottom: theme.spacing.unit * 5,

@@ -42,7 +42,7 @@ export default class MenuDistribuicao extends Component{
 
   render(){
     return(
-      <div>
+      <div style={distribuicaoStyle}>
       <InputLabel htmlFor="type-helper">Tipo de Distribuição</InputLabel>
       <Select value={this.state.value} onChange={this.opcoesDistribuicao}>
         <MenuItem value="">
@@ -63,3 +63,7 @@ export default class MenuDistribuicao extends Component{
 //2 para exponencial
 //3 para geométrica
 //4 para binomial
+
+const distribuicaoStyle = {
+  padding: '0 15px 0px 15px'
+}
