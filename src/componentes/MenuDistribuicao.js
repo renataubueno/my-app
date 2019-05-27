@@ -19,7 +19,7 @@ export default class MenuDistribuicao extends Component{
   }
 
   opcoesDistribuicao(event) {
-    this.setState({value: event.target.value});
+    this.setState({value: event.target.value}, this.showForm);
   }
 
   showForm = () => {
@@ -53,7 +53,6 @@ export default class MenuDistribuicao extends Component{
         <MenuItem value={'Geométrica'}>Geométrica</MenuItem>
         <MenuItem value={'Binomial'}>Binomial</MenuItem>
       </Select>
-      <Button onClick={ this.showForm}>Ok</Button>
       </div>
     );
   }

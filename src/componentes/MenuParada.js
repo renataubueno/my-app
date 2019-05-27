@@ -20,25 +20,28 @@ export default class MenuParada extends Component{
     this.showForm = this.showForm.bind(this);
   }
 
-  opcoesParada(event) {
-    this.setState({value: event.target.value});
+  
+  opcoesParada = (event) => {
+    this.setState({value: event.target.value}, this.showForm);
   }
 
   showForm = () => {
-        if(this.state.value === 'Número de Chegadas'){
-          this.setState( { showChegadas : true } )
-          this.setState( { showTempo : false } )
-        } else if (this.state.value === 'Tempo'){
-          this.setState( { showChegadas : false } )
-          this.setState( { showTempo : true } )
-        }
-        else {
-          this.setState( { showChegadas : false } )
-          this.setState( { showTempo : false } )
-        }
+    if (this.state.value === 'Número de Chegadas') {
+      this.setState( {showChegadas: true})
+      this.setState( {showTempo: false})
+    }
+    else if (this.state.value === 'Tempo') {
+      this.setState( {showChegadas: false} )
+      this.setState( {showTempo: true} )
+    }
+    else {
+      this.setState( {showChegadas : false})
+      this.setState( {showTempo : false})
+    }
   }
 
   render(){
+    
     return(
       <div style={paradaStyle}>
       <InputLabel htmlFor="stop-helper">Condição de Parada</InputLabel>
@@ -49,9 +52,8 @@ export default class MenuParada extends Component{
         <MenuItem value={'Tempo'}>Tempo de Simulação</MenuItem>
         <MenuItem value={'Número de Chegadas'}>Número de Chegadas</MenuItem>
       </Select>
-      <Button onClick={ this.showForm}>Ok</Button>
       { this.state.showChegadas && <FormMenuParadaChegadas/>}
-      { this.state.showTempo && <FormMenuParadaTempo/>}
+      { this.state.showTempo && <FormMenuParadaTempo/>} 
       </div>
     );
   }
