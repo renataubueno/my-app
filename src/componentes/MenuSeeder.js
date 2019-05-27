@@ -7,8 +7,12 @@ export default class MenuSeeder extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      seeder: 'valor inteiro'
+      seeder: this.randomSeed()
     };
+  }
+
+  randomSeed = () => {
+    return Math.floor((Math.random() * 100) + 1);
   }
 
   handleChange = seeder => event => {
@@ -31,10 +35,11 @@ export default class MenuSeeder extends Component{
            label="Seeder"
            className={'seeder-text-field'}
            value={this.state.seeder}
+           defaultValue={this.state.seeder}
            onChange={this.handleChange('seeder')}
            margin="normal"
+           onBlur={this.handleClick('seeder')}
          />
-       <button onClick={ this.handleClick('seeder') }>Salvar</button>
       </div>
     );
   }
