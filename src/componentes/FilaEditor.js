@@ -23,7 +23,6 @@ export default class FilaEditor extends Objeto {
     });
 
     Pubsub.subscribe('valores-simulacao', (topico, dados) => {
-      console.log('Oi, recebi esses dados na FilaEditor.js', dados);
       this.setState({filas: dados.filas});
       this.setState({conectores: dados.conectores});
       this.setState({entradas: dados.entradas});
