@@ -15,6 +15,7 @@ export default class Relatorio extends Component{
 
   componentWillMount(){
      Pubsub.subscribe('post-retorno', (topico, data) => {
+       console.log('O QUE TEM NO RETORNO DO RELATÕRIO?' , data);
        this.setState({retorno: []});
        var itemsRetorno = [ ].concat(this.state.retorno);
        itemsRetorno.push(data.retorno);

@@ -20,6 +20,7 @@ export default class Simulacao extends Component{
 
   componentWillMount(){
     Pubsub.subscribe('alteracoes', (topico, dados) => {
+      console.log('Os parâmetros de algum objeto foram alterados');
     });
 
     Pubsub.subscribe('valores-simulacao', (topico, dados) => {
