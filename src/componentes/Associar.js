@@ -18,7 +18,8 @@ export default class Associar extends Component{
       filaFilas: [],
       valueOrigem: 'Valor',
       valueDestino: 'Valor',
-      valuePorcentagem: 0
+      valuePorcentagem: 0,
+      valueChegada: 0
     };
 
     this.filaSelecionadaOrigem = this.filaSelecionadaOrigem.bind(this);
@@ -26,10 +27,6 @@ export default class Associar extends Component{
   }
 
   filaSelecionadaOrigem(event) {
-    if(event.target.value === 'Entrada'){
-      console.log('PRECISO ABRIR UM CAMPO PRA ADICIONAR A OPÇÃO DE COLOCAR O VALOR PRA ENTRADA');
-    }
-
     this.setState({valueOrigem: event.target.value});
   }
 
@@ -46,47 +43,69 @@ export default class Associar extends Component{
     });
   }
 
-  handleChange = parametro => event => {
+  handleChangePorcentagem = parametro => event => {
     console.log('State da Associação', this.state);
     console.log('event.target.value da associação', event.target.value);
     this.setState({valuePorcentagem: event.target.value});
+  };
+
+  handleChangeChegada = parametro => event => {
+    console.log('State da Associação', this.state);
+    console.log('event.target.value da associação', event.target.value);
+    this.setState({valueChegada: event.target.value});
   };
 
   handleClickOpen = () => {
     this.setState({open: true});
   };
 
-  handleCloseSalvar = () => {
-    console.log('FILAS FILAS ASSOCIACAO: ', this.state.filaFilas);
+  handleCloseSalvar = () => {console.log('FILAS FILAS ASSOCIACAO: ', this.state.filaFilas);
     console.log('valueOrigem ASSOCIACAO: ', this.state.valueOrigem);
     console.log('valueDestino ASSOCIACAO: ', this.state.valueDestino);
     console.log('valuePorcentagem ASSOCIACAO: ', this.state.valuePorcentagem);
+    console.log('valueChegada ASSOCIACAO: ', this.state.valueChegada);
 
-    let chegada = {
-      origem: this.state.valueOrigem,
-      porcentagem: this.state.valuePorcentagem
-    };
+    if(this.state.valueOrigem === 'Entrada'){
+      let chegada = {
+        origem: this.state.valueOrigem,
+        porcentagem: this.state.valuePorcentagem,
+        chegada: this.state.valueChegada
+      };
 
-    let saida = {
-      destino: this.state.valueDestino,
-      porcentagem: this.state.valuePorcentagem
-    };
+      let filaDestino = this.state.filaFilas.filter(item => item.id === this.state.valueDestino);
 
-    let filaOrigem = this.state.filaFilas.filter(item => item.id === this.state.valueOrigem);
-    let filaDestino = this.state.filaFilas.filter(item => item.id === this.state.valueDestino);
+      /* Se tiver alguma fila de destino, ela deve ter uma chegada, apontando para que chegada e a probabilidade */
+      if(filaDestino.length > 0){
+        filaDestino[0].chegadas.push(chegada);
+      }
+    } else {
+      let chegada = {
+        origem: this.state.valueOrigem,
+        porcentagem: this.state.valuePorcentagem
+      };
 
-    console.log('filaorigem ASSOCIACAO: ', filaOrigem);
-    console.log('filadestino ASSOCIACAO: ', filaDestino);
+      let saida = {
+        destino: this.state.valueDestino,
+        porcentagem: this.state.valuePorcentagem
+      };
 
-    /* Se tiver alguma fila de origem, ela deve ter uma saída, apontando para que saída e a probabilidade */
-    if(filaOrigem.length > 0){
-      filaOrigem[0].saidas.push(saida);
+      let filaOrigem = this.state.filaFilas.filter(item => item.id === this.state.valueOrigem);
+      let filaDestino = this.state.filaFilas.filter(item => item.id === this.state.valueDestino);
+
+      console.log('filaorigem ASSOCIACAO: ', filaOrigem);
+      console.log('filadestino ASSOCIACAO: ', filaDestino);
+
+      /* Se tiver alguma fila de origem, ela deve ter uma saída, apontando para que saída e a probabilidade */
+      if(filaOrigem.length > 0){
+        filaOrigem[0].saidas.push(saida);
+      }
+
+      /* Se tiver alguma fila de destino, ela deve ter uma chegada, apontando para que chegada e a probabilidade */
+      if(filaDestino.length > 0){
+        filaDestino[0].chegadas.push(chegada);
+      }
     }
 
-    /* Se tiver alguma fila de destino, ela deve ter uma chegada, apontando para que chegada e a probabilidade */
-    if(filaDestino.length > 0){
-      filaDestino[0].chegadas.push(chegada);
-    }
 
     Pubsub.publish('associacoes-feitas', {
         filasAssociadas: this.state.filaFilas
@@ -125,6 +144,16 @@ export default class Associar extends Component{
               <MenuItem value={item.id}>{item.id}</MenuItem>
             ))}
           </Select>
+          <DialogContentText id="alert-dialog-description">
+            Valor da Entrada (se necessário):
+          </DialogContentText>
+          <TextField
+             id="standard-name"
+             className={'chegada-text-field'}
+             chegada={this.state.valueChegada}
+             onChange={this.handleChangeChegada('chegada')}
+             margin="normal"
+           />
            <DialogContentText id="alert-dialog-description">
              Destino:
            </DialogContentText>
@@ -144,7 +173,7 @@ export default class Associar extends Component{
               id="standard-name"
               className={'porcentagem-text-field'}
               porcentagem={this.state.valuePorcentagem}
-              onChange={this.handleChange('porcentagem')}
+              onChange={this.handleChangePorcentagem('porcentagem')}
               margin="normal"
             />
         </DialogContent>
