@@ -39,7 +39,6 @@ export default class Fila extends Component{
     if (this.state.value === 'Uniforme'){
       let filaUniforme = {
         id: this.state.id,
-        idConectado: 0,
         capacidade: 0,
         servidores: 0,
         minChegada: 0,
@@ -47,26 +46,14 @@ export default class Fila extends Component{
         minServico: 0,
         maxServico: 0,
         targetList: [],
+        chegadas: [],
+        saidas: [],
         height: 60,
         width: 100,
         tipo: 'UNIFORME'
       };
 
       return filaUniforme;
-    } else if (this.state.value === 'Exponencial'){
-      let filaExponencial = {
-        id: this.state.id,
-        idConectado: 0,
-        capacidade: 0,
-        servidores: 0,
-        targetList: [],
-        media: 0.0,
-        height: 60,
-        width: 100,
-        tipo: 'EXPONENCIAL'
-      };
-
-      return filaExponencial;
     } else {
         let fila = 0;
         alert('INSERIR TIPO DE DISTRIBUIÇÃO');

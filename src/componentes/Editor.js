@@ -91,29 +91,6 @@ class Editor extends React.Component{
 
     Pubsub.subscribe('alteracoes', (topico, alteracoes) => {
       console.log('ALTERACOES RECEBIDAS: ', alteracoes);
-      console.log('TODOS OBJETOS: ', this.state.todosObjetos);
-
-      let idConectadoValido = this.state.todosObjetos.filter(item => parseInt(item.id) === parseInt(alteracoes.id));
-      console.log('IDCONECTADOVALIDO: ', idConectadoValido);
-
-      if(idConectadoValido.length === 0){
-        Pubsub.publish('id-invalido', {
-          id: 0
-        });
-      } else {
-        let target = {
-          tipo: idConectadoValido[0].tipo,
-          id: parseInt(idConectadoValido[0].id)
-        };
-        console.log('TARGET ESTÁ CORRETO?', target);
-
-        for(let i = 0; i < this.state.todosObjetos.length; i++){
-          if(this.state.todosObjetos[i].id === alteracoes.objeto.id){
-            this.state.todosObjetos[i].targetList.push(target);
-            console.log('TODOSOBJETOS[i]: ', this.state.todosObjetos[i]);
-          }
-        }
-      }
     });
 
     Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {

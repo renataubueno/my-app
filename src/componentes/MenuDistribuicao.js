@@ -44,7 +44,7 @@ export default class MenuDistribuicao extends Component{
     return(
       <div style={distribuicaoStyle}>
       <InputLabel htmlFor="type-helper">Tipo de Distribuição</InputLabel>
-      <Select value={this.state.value} onChange={this.opcoesDistribuicao}>
+      <Select value={this.state.value} onChange={this.opcoesDistribuicao} >
         <MenuItem value="">
           <em>Tipo de Distribuição</em>
         </MenuItem>

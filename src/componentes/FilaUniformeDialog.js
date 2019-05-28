@@ -11,29 +11,12 @@ export default class FilaUniformeDialog extends Component{
     }
   }
 
-  componentWillMount(){
-    Pubsub.subscribe('id-invalido', (topico, id) => {
-      this.state.objeto.idConectado = id.id;
-    });
-  }
-
   handleChange = parametro => event => {
     console.log('State do FilaUniformeDialog', this.state);
     let objetoAlterado = this.state.objeto;
     objetoAlterado[parametro] = parseInt(event.target.value);
     this.setState({ objeto: objetoAlterado });
     Pubsub.publish('alteracoes', {
-    });
-  };
-
-  handleChangeConexao = parametro => event => {
-    console.log('State do FilaUniformeDialog', this.state);
-    let objetoAlterado = this.state.objeto;
-    objetoAlterado[parametro] = parseInt(event.target.value);
-    this.setState({ objeto: objetoAlterado });
-    Pubsub.publish('alteracoes', {
-        id: parseInt(event.target.value),
-        objeto: this.state.objeto
     });
   };
 
@@ -63,14 +46,6 @@ export default class FilaUniformeDialog extends Component{
           value={this.state.objeto.id}
           margin="normal"
         />
-        <TextField
-           id="standard-name"
-           label="Id do objeto conectado"
-           className={'id-conectado-text-field'}
-           value={this.state.objeto.idConectado}
-           onChange={this.handleChangeConexao('idConectado')}
-           margin="normal"
-         />
         <TextField
            id="standard-name"
            label="Número Mínimo de Chegadas"
