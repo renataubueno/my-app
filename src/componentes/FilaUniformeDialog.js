@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import DialogContent from '@material-ui/core/DialogContent';
+import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Pubsub from 'pubsub-js';
 
 export default class FilaUniformeDialog extends Component{
@@ -78,6 +80,28 @@ export default class FilaUniformeDialog extends Component{
               onChange={this.handleChange('maxServico')}
               margin="normal"
             />
+            <Divider />
+            <Typography align="center" variant="subtitle1" color="primary" noWrap >
+              Chegadas Para esta Fila
+            </Typography>
+            {
+              this.state.objeto.chegadas.map(item => (
+                <Typography key={item}  align="center" variant="body1" color="primary" noWrap>
+                  Origem: {item.origem}; Porcentagem: {item.porcentagem}%
+                </Typography>
+              ))
+            }
+            <Divider />
+            <Typography align="center" variant="subtitle1" color="primary" noWrap >
+              Saídas desta Fila
+            </Typography>
+            {
+              this.state.objeto.saidas.map(item => (
+                <Typography key={item}  align="center" variant="body1" color="primary" noWrap>
+                  Destino: {item.destino}; Porcentagem: {item.porcentagem}%
+                </Typography>
+              ))
+            }
       </DialogContent>
     );
   }

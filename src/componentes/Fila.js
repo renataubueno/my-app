@@ -10,7 +10,7 @@ export default class Fila extends Component{
         id: 0,
         height: 60,
         width: 100,
-        value: 'SEM DISTRIBUICAO'
+        value: 'Uniforme'//'SEM DISTRIBUICAO'
     }
   }
   /* Estes métodos de subscribe são realizados para controlar o id global, bem como o tipo de distribuição */
@@ -48,6 +48,9 @@ export default class Fila extends Component{
         targetList: [],
         chegadas: [],
         saidas: [],
+        escalonador: [],
+        probabilidadesEstadosFila: [],
+        condicaoFila: 0,
         height: 60,
         width: 100,
         tipo: 'UNIFORME'

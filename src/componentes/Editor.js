@@ -120,6 +120,54 @@ class Editor extends React.Component{
       }
     });
 
+    /* Remove associações pra evitar inconsistência dos dados */
+    Pubsub.subscribe('deletar-fila', (topico, deletar) => {
+      let filaParaDeletar = this.state.filaFilas.filter(item => item.id === deletar.id);
+      console.log('FILA PARA DELETAR', filaParaDeletar);
+      console.log('FILA PARA DELETAR - saidas', filaParaDeletar[0].saidas);
+
+      /* Remover associações que a tenham como origem */
+      for(let i = 0; i < filaParaDeletar[0].saidas.length; i++){
+        let idDestino = filaParaDeletar[0].saidas[i].destino;
+
+        for(let j = 0; j < this.state.filaFilas.length; j++){
+          if(this.state.filaFilas[j].id === idDestino){
+            for(let k = 0; k < this.state.filaFilas[j].chegadas.length; k++){
+              if(this.state.filaFilas[j].chegadas[k].origem === deletar.id){
+                this.state.filaFilas[j].chegadas.splice(k, 1);
+              }
+            }
+          }
+        }
+      }
+
+      /* Remover associações que a tenham como destino */
+      for(let i = 0; i < filaParaDeletar[0].chegadas.length; i++){
+        let idOrigem = filaParaDeletar[0].chegadas[i].origem;
+
+        for(let j = 0; j < this.state.filaFilas.length; j++){
+          if(this.state.filaFilas[j].id === idOrigem){
+            for(let k = 0; k < this.state.filaFilas[j].saidas.length; k++){
+              if(this.state.filaFilas[j].saidas[k].destino === deletar.id){
+                this.state.filaFilas[j].saidas.splice(k, 1);
+              }
+            }
+          }
+        }
+      }
+
+      /* Remove a fila da UI - not working*/
+      for(let i = 0; i < this.state.filaFilas.length; i++){
+        if (this.state.filaFilas[i].id === deletar.id) {
+          console.log('Achei a fila que queria deletar', this.state.filaFilas[i]);
+          this.state.filaFilas.splice(i, 1);
+          let itensFila = [].concat(this.state.filaFilas);
+          console.log('ITEMS FILA APÓS DELEÇÃO: ', itensFila);
+          console.log('NO FILA FILAS... ', this.state.filaFilas);
+        }
+      }
+    });
+
     Pubsub.subscribe('deletar', (topico, deletar) => {
        console.log('Valor recebido no deletar - ID: ', deletar.id);
        console.log('Valor recebido no deletar - tipoObjeto: ', deletar.tipoObjeto);

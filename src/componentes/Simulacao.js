@@ -21,6 +21,7 @@ export default class Simulacao extends Component{
   componentWillMount(){
     Pubsub.subscribe('associacoes-feitas', (topico, dados) => {
       console.log('Associações recebidas no Simulacao.js: ', dados);
+      this.setState({filas: dados.filas});
     });
 
     Pubsub.subscribe('alteracoes', (topico, dados) => {
@@ -137,7 +138,8 @@ export default class Simulacao extends Component{
 
   handleClick = control => event =>{
     let body = {
-      objSimulacao: this.tratamentoDadosSimulacao(),
+      //objSimulacao: this.tratamentoDadosSimulacao(),
+      objSimulacao: this.state.filas,
       seeder: this.state.seeder,
       condParada: this.state.condParada,
       tipoParada: this.state.tipoParada

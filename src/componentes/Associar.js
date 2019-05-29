@@ -59,7 +59,8 @@ export default class Associar extends Component{
     this.setState({open: true});
   };
 
-  handleCloseSalvar = () => {console.log('FILAS FILAS ASSOCIACAO: ', this.state.filaFilas);
+  handleCloseSalvar = () => {
+    console.log('FILAS FILAS ASSOCIACAO: ', this.state.filaFilas);
     console.log('valueOrigem ASSOCIACAO: ', this.state.valueOrigem);
     console.log('valueDestino ASSOCIACAO: ', this.state.valueDestino);
     console.log('valuePorcentagem ASSOCIACAO: ', this.state.valuePorcentagem);
@@ -108,13 +109,13 @@ export default class Associar extends Component{
 
 
     Pubsub.publish('associacoes-feitas', {
-        filasAssociadas: this.state.filaFilas
+        filas: this.state.filaFilas
     });
 
     this.setState({valueOrigem: 'Valor',});
     this.setState({valueDestino: 'Valor',});
     this.setState({valuePorcentagem: 0});
-    this.setState({open: false});
+    this.setState({valueChegada: 0});
   };
 
   handleClose = () => {
