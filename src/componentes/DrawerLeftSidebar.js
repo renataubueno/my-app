@@ -6,6 +6,7 @@ import ExportJSON from './ExportJSON.js';
 import ImportJSON from './ImportJSON.js';
 import Associar from './Associar.js';
 import Desassociar from './Desassociar.js';
+import ListaAssociacoes from './ListaAssociacoes.js';
 import Simulacao from './Simulacao.js';
 import ResetEditor from './ResetEditor.js';
 import Typography from '@material-ui/core/Typography';
@@ -54,6 +55,7 @@ export default class DrawerLeftSidebar extends Component{
         <div style={actionButtonsStyle}>
         <Associar />
         <Desassociar />
+        <ListaAssociacoes />
         <Simulacao />
         <Divider />
         <ResetEditor />

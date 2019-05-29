@@ -16,6 +16,7 @@ export default class Associar extends Component{
     this.state = {
       open: false,
       filaFilas: [],
+      todasAssociacoes: [],
       valueOrigem: 'Valor',
       valueDestino: 'Valor',
       valuePorcentagem: 0,
@@ -66,6 +67,14 @@ export default class Associar extends Component{
     console.log('valuePorcentagem ASSOCIACAO: ', this.state.valuePorcentagem);
     console.log('valueChegada ASSOCIACAO: ', this.state.valueChegada);
 
+    let associacao = {
+      origem: this.state.valueOrigem,
+      destino: this.state.valueDestino
+    }
+
+    this.state.todasAssociacoes.push(associacao);
+
+
     if(this.state.valueOrigem === 'Entrada'){
       let chegada = {
         origem: this.state.valueOrigem,
@@ -109,7 +118,8 @@ export default class Associar extends Component{
 
 
     Pubsub.publish('associacoes-feitas', {
-        filas: this.state.filaFilas
+        filas: this.state.filaFilas,
+        associacoes: this.state.todasAssociacoes
     });
 
     this.setState({valueOrigem: 'Valor',});

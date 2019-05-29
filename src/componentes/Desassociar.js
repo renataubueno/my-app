@@ -10,7 +10,7 @@ import Pubsub from 'pubsub-js';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
-export default class Associar extends Component{
+export default class Desassociar extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -46,6 +46,11 @@ export default class Associar extends Component{
   };
 
   handleCloseSalvar = () => {
+    Pubsub.publish('dessassociar', {
+        origem: this.state.valueOrigem,
+        destino: this.state.valueDestino
+    });
+
     for(let i = 0; i < this.state.filaFilas.length; i++){
       if(this.state.filaFilas[i].id === this.state.valueOrigem){
         for(let j = 0; j < this.state.filaFilas[i].saidas.length; j++){
