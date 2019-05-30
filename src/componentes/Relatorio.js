@@ -15,12 +15,16 @@ export default class Relatorio extends Component{
 
   componentWillMount(){
      Pubsub.subscribe('post-retorno', (topico, data) => {
-       console.log('O QUE TEM NO RETORNO DO RELATÕRIO?' , data);
        this.setState({retorno: []});
-       var itemsRetorno = [ ].concat(this.state.retorno);
-       itemsRetorno.push(data.retorno);
-       this.setState({retorno: itemsRetorno});
-       this.setState({retornoProb: data.retorno.probabilidadesEstadosFila});
+       this.setState({retorno: data.retorno});
+       console.log('STATUS DO ESTADO: ', this.state);
+       let auxProbEstadosFila = [];
+       for(let i = 0; i < this.state.retorno.length; i++){
+         auxProbEstadosFila.push(this.state.retorno[i].probabilidadesEstadosFila);
+       }
+       console.log('O QUE TEM NO AUX? ', auxProbEstadosFila);
+       this.setState({retornoProb: auxProbEstadosFila});
+       console.log('retornoProb: ', this.state.retornoProb);
     });
  }
 
@@ -28,12 +32,17 @@ export default class Relatorio extends Component{
   let data = [];
 
   for(let i = 0; i < this.state.retornoProb.length; i++){
-    let estadoAtual = i.toString();
-    let valorAtual = this.state.retornoProb[i];
-    if(valorAtual !== 0){
-      let obj = {label: estadoAtual, value: valorAtual};
-      data.push(obj);
-    };
+    let arrayAtual = this.state.retornoProb[i];
+    for(let j = 0; j < arrayAtual.length; j++){
+        let estadoAtual = j.toString();
+        let valorAtual = arrayAtual[j];
+        console.log('ESTADO ATUAL DO RETORNO PROB - graph: ', estadoAtual);
+        console.log('VALOR ATUAL DO RETORNO PROB - graph: ', valorAtual);
+        if(valorAtual !== 0){
+          let obj = {label: estadoAtual, value: valorAtual};
+          data.push(obj);
+        };
+    }  
   }
 
   return <div> <PieChart data={data} /> /> </div>
@@ -75,13 +84,6 @@ export default class Relatorio extends Component{
               </Typography>
               { this.probGraph() }
             </div>
-          ))
-        }
-        {
-          this.state.retornoProb.map(val => (
-            <Typography key={val}  align="center" variant="body1" color="primary" noWrap>
-              {val.toFixed(2)} %
-            </Typography>
           ))
         }
       </div>

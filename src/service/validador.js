@@ -42,6 +42,8 @@ function validaFilaUniforme(filas){
   let maxChegadaDefault = filas.filter(item => item.maxChegada === 0);
   let minServicoDefault = filas.filter(item => item.minServico === 0);
   let maxServicoDefault = filas.filter(item => item.maxServico === 0);
+  let chegadasVazias = filas.filter(item => item.chegadas.length === 0);
+  let saidasVazias = filas.filter(item => item.saidas.length === 0);
 
   if(capacidadeDefault.length > 0){
     alert('Capacidade da Fila está com valor default');
@@ -55,9 +57,18 @@ function validaFilaUniforme(filas){
     alert('Momento Mínimo de Serviço na Fila está com valor default');
   } else if(maxServicoDefault.length > 0){
     alert('Momento Máximo de Serviço na Fila está com valor default');
+  } else if(chegadasVazias.length > 0){
+    alert('Chegadas para a fila estão vazias');
+  } else if(saidasVazias.length > 0){
+    alert('Saidas da fila estão vazias');
   } else {
     return true;
   }
+}
+
+function iniciaSistemaValido(filas){
+  let temEntrada = filas.filter(item => item.chegadas.origem === 'Entrada');
+  console.log('ARRAY TEM ENTRADA: ', temEntrada);
 }
 
 function validaMinMax(filas){
