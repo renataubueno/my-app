@@ -26,8 +26,12 @@ export default class Relatorio extends Component{
        this.setState({retornoProb: auxProbEstadosFila});
        console.log('retornoProb: ', this.state.retornoProb);
     });
- }
+ };
 
+ /* não está funcionando corretamente */
+ /* todas as probabilidades de todas as filas são adicionadas no data, o que cria um só grafico com todos os valores */
+ /* precisaria criar arrays dinamicamente, pra pegar as informações de cada fila separadamente */
+ /* depois, criar um PieChart pra cada um desses novos arrays */
  probGraph = () => {
   let data = [];
 
@@ -42,8 +46,10 @@ export default class Relatorio extends Component{
           let obj = {label: estadoAtual, value: valorAtual};
           data.push(obj);
         };
-    }  
+    }
   }
+
+  console.log('DATA - graph:', data);
 
   return <div> <PieChart data={data} /> /> </div>
  }

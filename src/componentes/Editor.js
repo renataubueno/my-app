@@ -389,7 +389,7 @@ class Editor extends React.Component{
   trataFilas = () => {
    return(
      this.state.filaFilas.map(item => (
-       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions}/>
+       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag}/>
      ))
    );
   };
