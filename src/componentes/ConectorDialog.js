@@ -11,12 +11,29 @@ export default class ConectorDialog extends Component{
     }
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('id-invalido', (topico, id) => {
+      this.state.objeto.idConectado = id.id;
+    });
+  }
+
   handleChange = parametro => event => {
     console.log('State do ConectorDialog', this.state);
     let objetoAlterado = this.state.objeto;
     objetoAlterado[parametro] = parseInt(event.target.value);
     this.setState({ objeto: objetoAlterado });
     Pubsub.publish('alteracoes', {
+    });
+  };
+
+  handleChangeConexao = parametro => event => {
+    console.log('State do Conector', this.state);
+    let objetoAlterado = this.state.objeto;
+    objetoAlterado[parametro] = parseInt(event.target.value);
+    this.setState({ objeto: objetoAlterado });
+    Pubsub.publish('alteracoes', {
+        id: parseInt(event.target.value),
+        objeto: this.state.objeto
     });
   };
 
@@ -33,11 +50,19 @@ export default class ConectorDialog extends Component{
        />
        <TextField
           id="standard-name"
-          label="id do Conector"
+          label="Id do Conector"
           className={'idConector-text-field'}
           value={this.state.objeto.id}
           margin="normal"
         />
+        <TextField
+           id="standard-name"
+           label="Id do objeto conectado"
+           className={'id-conectado-text-field'}
+           value={this.state.objeto.idConectado}
+           onChange={this.handleChangeConexao('idConectado')}
+           margin="normal"
+         />
       </DialogContent>
     );
   }

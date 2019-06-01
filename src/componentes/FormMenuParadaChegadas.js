@@ -20,7 +20,8 @@ export default class FormMenuParadaChegadas extends Component{
     this.testsound();
 
     Pubsub.publish('retorno-condicao-parada-num-chegadas', {
-      condicao: this.state.condicao
+      condicao: this.state.condicao,
+      condParada: 'CHEGADAS'
     });
   }
 

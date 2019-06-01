@@ -34,7 +34,7 @@ export default class MenuSeeder extends Component{
       <div style={seederStyle}>
         <TextField
            id="standard-name"
-           label="Seeder"
+           label="Seed"
            className={'seeder-text-field'}
            style={seederInputStyle}
            value={this.state.seeder}

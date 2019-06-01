@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+/* Objeto genérico default, contém o esqueleto para os outros objetos: id, tamanho, altura */
+/* Além disso, possui os settings, que é um objeto utilizado para fazer as conexões e definir a posição do objeto baseada no objeto à quem se conectou */
+/* Definição genérica também do double-click (utilizada para alterar os valores dos objetos uma vez que eles estejam no editor) */
 export default class Objeto extends Component{
   constructor(props){
     super(props);

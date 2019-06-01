@@ -4,6 +4,9 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 import IconButton from '@material-ui/core/IconButton';
 import ExportJSON from './ExportJSON.js';
 import ImportJSON from './ImportJSON.js';
+import Associar from './Associar.js';
+import Desassociar from './Desassociar.js';
+import ListaAssociacoes from './ListaAssociacoes.js';
 import Simulacao from './Simulacao.js';
 import ResetEditor from './ResetEditor.js';
 import Typography from '@material-ui/core/Typography';
@@ -23,7 +26,7 @@ export default class DrawerLeftSidebar extends Component{
 
   render(){return(
       <div className={'left-drawer-header'}>
-        <div style={drawerheaderStyle}>
+      <div style={drawerheaderStyle}>
          <Typography align="center" variant="h6" color="primary" style={headertitleStyle} noWrap>
           PARÂMETROS
         </Typography>
@@ -36,8 +39,8 @@ export default class DrawerLeftSidebar extends Component{
         <Typography align="center" variant="h6" color="primary" noWrap>
           <Fila />
           <Conector /><br />
-          <Entrada /><br />
-          <Saida />
+          <Saida /> <br />
+          <Entrada />
         </Typography>
         </div>
         <div style={configsStyle}>
@@ -50,8 +53,13 @@ export default class DrawerLeftSidebar extends Component{
         <Divider />
         </div>
         <div style={actionButtonsStyle}>
+        <Associar />
+        <Desassociar />
+        <ListaAssociacoes />
         <Simulacao />
+        <Divider />
         <ResetEditor />
+        <Divider />
         <ExportJSON />
         <ImportJSON />
         </div>

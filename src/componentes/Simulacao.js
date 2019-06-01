@@ -12,12 +12,18 @@ export default class Simulacao extends Component{
       entradas: [],
       saidas: [],
       controlledPositions: [],
-      condParadaNumChegadas: 0,
+      condParada: 0,
+      tipoParada: '',
       seeder: 0
     }
   }
 
   componentWillMount(){
+    Pubsub.subscribe('associacoes-feitas', (topico, dados) => {
+      console.log('Associações recebidas no Simulacao.js: ', dados);
+      this.setState({filas: dados.filas});
+    });
+
     Pubsub.subscribe('alteracoes', (topico, dados) => {
       console.log('Os parâmetros de algum objeto foram alterados');
     });
@@ -33,8 +39,17 @@ export default class Simulacao extends Component{
     });
 
     Pubsub.subscribe('retorno-condicao-parada-num-chegadas', (topico, condParadaNumChegadas) => {
-      console.log('Condicao de parada recebida no Simulacao.js: ', condParadaNumChegadas.condicao);
-      this.setState({condParadaNumChegadas: condParadaNumChegadas.condicao});
+      console.log('Condicao de parada recebida no Simulacao.js: ', condParadaNumChegadas.condParada);
+      console.log('Valor de parada recebida no Simulacao.js: ', condParadaNumChegadas.condicao);
+      this.setState({condParada: condParadaNumChegadas.condicao});
+      this.setState({tipoParada: condParadaNumChegadas.condParada});
+    });
+
+    Pubsub.subscribe('retorno-condicao-parada-tempo-simulacao', (topico, condParadaTempo) => {
+      console.log('Condicao de parada recebida no Simulacao.js: ', condParadaTempo.condParada);
+      console.log('Valor de parada recebida no Simulacao.js: ', condParadaTempo.condicao);
+      this.setState({condParada: condParadaTempo.condicao});
+      this.setState({tipoParada: condParadaTempo.condParada});
     });
 
     Pubsub.subscribe('retorno-seeder', (topico, seeder) => {
@@ -55,14 +70,7 @@ export default class Simulacao extends Component{
       let maxChegada = this.state.filas[i].maxChegada;
       let minServico = this.state.filas[i].minServico;
       let maxServico = this.state.filas[i].maxServico;
-      let targetList;
-
-      this.state.controlledPositions.filter(function(item){
-          if(parseInt(item.id) === parseInt(id)){
-            targetList = item.targetList;
-            return item.targetList;
-          }
-      });
+      let targetList = this.state.filas[i].targetList;
 
       let objTratado = {
         id: id,
@@ -83,14 +91,7 @@ export default class Simulacao extends Component{
       let id = this.state.conectores[i].id;
       let tipo = this.state.conectores[i].tipo;
       let probabilidade = this.state.conectores[i].probabilidade;
-      let targetList;
-
-      this.state.controlledPositions.filter(function(item){
-          if(parseInt(item.id) === parseInt(id)){
-            targetList = item.targetList;
-            return item.targetList;
-          }
-      });
+      let targetList = this.state.conectores[i].targetList;
 
       let objTratado = {
         id: id,
@@ -106,14 +107,7 @@ export default class Simulacao extends Component{
       let id = this.state.entradas[i].id;
       let tipo = this.state.entradas[i].tipo;
       let chegada = this.state.entradas[i].chegada;
-      let targetList; //não seria o caso de deixar ele iniciar vazio e ~auto-popular?
-
-      this.state.controlledPositions.filter(function(item){
-          if(parseInt(item.id) === parseInt(id)){
-            targetList = item.targetList;
-            return item.targetList;
-          }
-      });
+      let targetList = this.state.entradas[i].targetList;
 
       let objTratado = {
         id: id,
@@ -128,14 +122,7 @@ export default class Simulacao extends Component{
     for(let i = 0; i < this.state.saidas.length; i++){
       let id = this.state.saidas[i].id;
       let tipo = this.state.saidas[i].tipo;
-      let targetList;
-
-      this.state.controlledPositions.filter(function(item){
-          if(parseInt(item.id) === parseInt(id)){
-            targetList = item.targetList;
-            return item.targetList;
-          }
-      });
+      let targetList = this.state.saidas[i].targetList;
 
       let objTratado = {
         id: id,
@@ -151,14 +138,20 @@ export default class Simulacao extends Component{
 
   handleClick = control => event =>{
     let body = {
-      objSimulacao: this.tratamentoDadosSimulacao(),
+      //objSimulacao: this.tratamentoDadosSimulacao(),
+      objSimulacao: this.state.filas,
       seeder: this.state.seeder,
-      condParadaNumChegadas: this.state.condParadaNumChegadas
+      condParada: this.state.condParada,
+      tipoParada: this.state.tipoParada
     };
+
+    console.log('O QUE TEM NO BODY? ', body);
+    console.log('O que tem no state? ', this.state.condParada);
 
     if(Validador.validar(body)){
       //POST
-      fetch(`${process.env.REACT_APP_API_URL}simulacao`, {
+      //fetch(`${process.env.REACT_APP_API_URL}simulacao`, {
+      fetch('http://localhost:3001/simulacao', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

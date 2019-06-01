@@ -22,6 +22,15 @@ export default class SaidaEditor extends Objeto {
         delete this.settings.position;
       }
     });
+
+    Pubsub.subscribe('valores-simulacao', (topico, dados) => {
+      console.log('Oi, recebi esses dados na EntradaEditor.js', dados);
+      this.setState({filas: dados.filas});
+      this.setState({conectores: dados.conectores});
+      this.setState({entradas: dados.entradas});
+      this.setState({saidas: dados.saidas});
+      this.setState({controlledPositions: dados.controlledPositions});
+    });
   }
 
   _handleDoubleClickOpen(event): void {
@@ -39,7 +48,21 @@ export default class SaidaEditor extends Objeto {
         if (position.targetList.length > 0) {
           for(let i = 0; i < position.targetList.length; i++){
             if(position.targetList[i].id === this.state.saida.id){
-              this.settings.position = {x: position.x, y: position.y};
+              let numTotalFilas = this.state.filas.length;
+              let numTotalConectores = this.state.conectores.length;
+              let numTotalEntradas = this.state.entradas.length;
+              let deslocamentoFila = (numTotalFilas * 100) + (numTotalConectores * 100) - 100;
+              let deslocamentoConector = 100;
+              if(position.tipo === 'Fila'){
+                console.log('DESLOCAMENTO SAIDAEDITOR - FILA', deslocamentoFila);
+                this.settings.position = {x: position.x - deslocamentoFila, y: position.y};
+              } else if (position.tipo === 'Conector'){
+                console.log('DESLOCAMENTO SAIDAEDITOR - CONECTOR', deslocamentoConector);
+                this.settings.position = {x: position.x - deslocamentoConector, y: position.y};
+              } else {
+                console.log('DESLOCAMENTO SAIDAEDITOR - ELSE');
+                this.settings.position = {x: position.x + 200, y: position.y};
+              }
             }
           }
         }

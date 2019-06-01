@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import './Button.css';
+import Pubsub from 'pubsub-js';
 
 export default class FormMenuParadaTempo extends Component{
   constructor(props) {
@@ -16,6 +17,11 @@ export default class FormMenuParadaTempo extends Component{
 
   handleClick = condicao => event => {
     console.log('Este é o valor salvo no momento (tempo de simulação): ' + this.state.condicao);
+
+    Pubsub.publish('retorno-condicao-parada-tempo-simulacao', {
+      condicao: this.state.condicao,
+      condParada: 'TEMPO'
+    });
   }
 
   handleFocus = (event) => event.target.select();

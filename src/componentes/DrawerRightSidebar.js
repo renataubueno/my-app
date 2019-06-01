@@ -14,16 +14,16 @@ export default class DrawerRightSidebar extends Component{
   render(){
     return(
       <div className={'right-drawer-header'}>
-        <div style={drawerheaderStyle}>
+      <div style={drawerheaderStyle}>
         <IconButton color="primary" onClick={this.props.buttonrsbclose}>
           <NavigationIcon style={navigationStyle}/>
         </IconButton>
+        <Divider />
         <Typography align="center" variant="h6" color="primary" style={headertitleStyle} noWrap>
           RELATÓRIO
         </Typography>
         </div>
         <Divider />
-
         <Divider />
         <Relatorio />
       </div>

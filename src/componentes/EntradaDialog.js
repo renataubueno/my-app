@@ -11,6 +11,12 @@ export default class EntradaDialog extends Component{
     }
   }
 
+  componentWillMount(){
+    Pubsub.subscribe('id-invalido', (topico, id) => {
+      this.state.objeto.idConectado = id.id;
+    });
+  }
+
   handleChange = parametro => event => {
     console.log('State do EntradaDialog', this.state);
     let objetoAlterado = this.state.objeto;
@@ -21,6 +27,17 @@ export default class EntradaDialog extends Component{
   };
 
   handleFocus = (event) => event.target.select();
+  
+  handleChangeConexao = parametro => event => {
+    console.log('State do Entrada', this.state);
+    let objetoAlterado = this.state.objeto;
+    objetoAlterado[parametro] = parseInt(event.target.value);
+    this.setState({ objeto: objetoAlterado });
+    Pubsub.publish('alteracoes', {
+        id: parseInt(event.target.value),
+        objeto: this.state.objeto
+    });
+  };
 
   render(){
     return(
@@ -42,6 +59,14 @@ export default class EntradaDialog extends Component{
           onFocus={this.handleFocus}
           margin="normal"
         />
+        <TextField
+           id="standard-name"
+           label="Id do objeto conectado"
+           className={'id-conectado-text-field'}
+           value={this.state.objeto.idConectado}
+           onChange={this.handleChangeConexao('idConectado')}
+           margin="normal"
+         />
       </DialogContent>
     );
   }

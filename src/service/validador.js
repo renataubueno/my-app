@@ -4,8 +4,14 @@ exports.validar = function(dado){
   console.log('Dados sendo validados: ', dado);
 
   objetos = [].concat(dado);
+  console.log('O QUE TEM NA CONDPARADA: ', objetos[0].condParada);
+
+  console.log('OBJETOSSS: ', objetos[0])
 
   let filaUniformeValida = validaFilaUniforme(
+    filtraObj('UNIFORME')
+  );
+  let minMaxValidos = validaMinMax(
     filtraObj('UNIFORME')
   );
   let conectorValido = validaConector(
@@ -17,8 +23,10 @@ exports.validar = function(dado){
   let saidaValida = validaSaida(
     filtraObj('SAIDA')
   );
+  let seedValida = validaSeed(objetos[0].seeder);
+  let condParadaValida = validaCondParada(objetos[0].condParada);
 
-  return filaUniformeValida && conectorValido && entradaValida && saidaValida;
+  return filaUniformeValida && conectorValido && entradaValida && saidaValida && seedValida && condParadaValida && minMaxValidos;
 }
 
 function filtraObj(tipo){
@@ -34,6 +42,8 @@ function validaFilaUniforme(filas){
   let maxChegadaDefault = filas.filter(item => item.maxChegada === 0);
   let minServicoDefault = filas.filter(item => item.minServico === 0);
   let maxServicoDefault = filas.filter(item => item.maxServico === 0);
+  let chegadasVazias = filas.filter(item => item.chegadas.length === 0);
+  let saidasVazias = filas.filter(item => item.saidas.length === 0);
 
   if(capacidadeDefault.length > 0){
     alert('Capacidade da Fila está com valor default');
@@ -47,9 +57,28 @@ function validaFilaUniforme(filas){
     alert('Momento Mínimo de Serviço na Fila está com valor default');
   } else if(maxServicoDefault.length > 0){
     alert('Momento Máximo de Serviço na Fila está com valor default');
+  } else if(chegadasVazias.length > 0){
+    alert('Chegadas para a fila estão vazias');
+  } else if(saidasVazias.length > 0){
+    alert('Saidas da fila estão vazias');
   } else {
     return true;
   }
+}
+
+function iniciaSistemaValido(filas){
+  let temEntrada = filas.filter(item => item.chegadas.origem === 'Entrada');
+  console.log('ARRAY TEM ENTRADA: ', temEntrada);
+}
+
+function validaMinMax(filas){
+  for(let i = 0; i < filas.length; i++){
+    if(filas[i].minChegada >= filas[i].maxChegada || filas[i].minServico >= filas[i].maxServico){
+      alert('Valor Mínimo (chegada e/ou serviço) maior do que Valor Máximo.');
+      return false;
+    }
+  }
+  return true;
 }
 
 function validaConector(conectores){
@@ -73,10 +102,35 @@ function validaEntrada(entradas){
 function validaSaida(saidas){
   console.log('SAIDA - VALIDADOR', saidas);
 
-  let targetListSaida = saidas.filter(item => item.targetList.length !== 0);
+  let targetListSaidaUndefined = saidas.filter(item => item.targetList === undefined);
 
-  if(targetListSaida.length > 0){
-    alert('Target List da Saída está diferente de zero');
+  if(targetListSaidaUndefined.length > 0){
+    alert('Target List da Saída está undefined');
+    return false;
+  } else {
+    let targetListSaida = saidas.filter(item => item.targetList.length !== 0);
+
+    if(targetListSaida.length > 0){
+      alert('Target List da Saída está diferente de zero');
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+
+function validaSeed(seed){
+  if(seed <= 0){
+    alert('Seed menor ou igual zero - alterar o valor');
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function validaCondParada(condParada){
+  if(condParada <= 0){
+    alert('Condição de Parada menor ou igual zero - alterar o valor');
     return false;
   } else {
     return true;
