@@ -116,7 +116,6 @@ export default class Associar extends Component{
       }
     }
 
-
     Pubsub.publish('associacoes-feitas', {
         filas: this.state.filaFilas,
         associacoes: this.state.todasAssociacoes
