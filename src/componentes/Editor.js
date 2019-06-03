@@ -10,6 +10,9 @@ import SaidaEditor from './SaidaEditor.js';
 import EntradaEditor from './EntradaEditor.js';
 import DialogEditor from './DialogEditor.js';
 
+import DrawingCanvas from './ArrowDrawer/DrawingCanvas.js';
+import ReactDOM from "react-dom";
+
 const styles = theme => ({
   drawerHeader: {
   },root: {
@@ -35,12 +38,15 @@ class Editor extends React.Component{
       filaSaida: [],
       filaEntrada: [],
       todosObjetos: [],
-      controlledPositions: []
+      controlledPositions: [],
+      paper: {x: 0, y: 0}  // Valores de inicialização, eles são atualizados após o mounting para encontrar o DOM do Paper e pegar suas coordenadas
     }
-
+    this.paper = React.createRef();
+    
   }
 
   componentWillMount(){
+    console.log('Paper', this.paper)
     Pubsub.subscribe('retorno-fila', (topico, dadosDaFila) => {
         var itemsFila = [ ].concat(this.state.filaFilas);
         var items = [].concat(this.state.todosObjetos);
@@ -389,7 +395,7 @@ class Editor extends React.Component{
   trataFilas = () => {
    return(
      this.state.filaFilas.map(item => (
-       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag}/>
+       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag} paper={this.state.paper}/>
      ))
    );
   };
@@ -418,6 +424,15 @@ class Editor extends React.Component{
    );
  };
 
+  componentDidMount() {
+    this.paperInsides = ReactDOM.findDOMNode(this.paper.current)
+    this.setState({paper: {
+      x: this.paperInsides.getBoundingClientRect().x,
+      y: this.paperInsides.getBoundingClientRect().y,}
+    })
+    console.log(this.state.paper)
+  } 
+
   render(){
     const { classes } = this.props;
 
@@ -433,11 +448,12 @@ class Editor extends React.Component{
     return(
       <main>
         <div className={classes.drawerHeader} />
-        <Paper className={classes.root} elevation={2}>
-        { this.trataFilas() }
-        { this.trataConector() }
-        { this.trataSaida() }
-        { this.trataEntrada() }
+        <Paper className={classes.root} elevation={2} ref={this.paper}>
+            { this.trataFilas() }
+            { this.trataConector() }
+            { this.trataSaida() }
+            { this.trataEntrada() }
+          {/* <DrawingCanvas/> */}
         <DialogEditor/>
       </Paper>
       </main>

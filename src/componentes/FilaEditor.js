@@ -4,15 +4,19 @@ import Draggable from 'react-draggable';
 import Pubsub from 'pubsub-js';
 
 import FilaImage from '../images/fila.png';
+import ReactDOM from "react-dom";
 
 export default class FilaEditor extends Objeto {
   constructor(props){
     super(props);
     this.state = {
-      fila: this.props.objeto
+      fila: this.props.objeto,
+      x: 0,
+      y: 0,
     }
 
     this._handleDoubleClickOpen = this._handleDoubleClickOpen.bind(this);
+
   }
 
   componentWillMount(){
@@ -32,11 +36,29 @@ export default class FilaEditor extends Objeto {
     });
   }
 
-  _handleDoubleClickOpen(event): void {
+  _handleDoubleClickOpen(event) {
     Pubsub.publish('double-click', {
       tipoObjeto: this.state.fila.tipo,
       objeto: this.state.fila,
     });
+  }
+
+  handleRelCoordinates() {
+    let filaDOM = ReactDOM.findDOMNode(this)
+    
+    this.setState({
+      x: filaDOM.getBoundingClientRect().x - this.props.paper.x,
+      y: filaDOM.getBoundingClientRect().x - this.props.paper.y
+    })
+  }
+
+
+  componentDidMount(){
+    this.handleRelCoordinates();    // Primeiro valor de coordenadas após criação do objeto
+  }
+
+  componentWillReceiveProps(){
+    this.handleRelCoordinates();    // Atualização das coordenadas em tempo real
   }
 
   connection(){
@@ -69,7 +91,7 @@ export default class FilaEditor extends Objeto {
     this.connection();
 
     return(
-      <Draggable {...this.settings} >
+      <Draggable {...this.settings}>
         <img id={this.state.fila.id} src={FilaImage} alt="Fila" {...this.dadosDoObjeto} onDoubleClick={this._handleDoubleClickOpen}/>
       </Draggable>
 
