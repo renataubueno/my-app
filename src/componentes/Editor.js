@@ -10,7 +10,7 @@ import SaidaEditor from './SaidaEditor.js';
 import EntradaEditor from './EntradaEditor.js';
 import DialogEditor from './DialogEditor.js';
 
-import DrawingCanvas from './ArrowDrawer/DrawingCanvas.js';
+import Arrow from './ArrowDrawer/Arrow.js';
 import ReactDOM from "react-dom";
 
 const styles = theme => ({
@@ -453,7 +453,7 @@ class Editor extends React.Component{
             { this.trataConector() }
             { this.trataSaida() }
             { this.trataEntrada() }
-          {/* <DrawingCanvas/> */}
+          {/* <Arrow/> */}
         <DialogEditor/>
       </Paper>
       </main>
