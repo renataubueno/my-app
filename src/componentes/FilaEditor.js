@@ -24,11 +24,6 @@ export default class FilaEditor extends Objeto {
 
     Pubsub.subscribe('valores-simulacao', (topico, dados) => {
       this.setState({filas: dados.filas});
-      this.setState({conectores: dados.conectores});
-      this.setState({entradas: dados.entradas});
-      this.setState({saidas: dados.saidas});
-      this.setState({todosObjetos: dados.todosObjetos});
-      this.setState({controlledPositions: dados.controlledPositions});
     });
   }
 
