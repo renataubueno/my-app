@@ -35,18 +35,7 @@ export default class DialogEditor extends Component {
   }
 
   handleDelete = event => {
-    /*Pubsub.publish('deletar', {
-      id: this.state.objeto.id,
-      tipoObjeto: this.state.tipoObjeto
-    });*/
-
     Pubsub.publish('deletar-fila', {
-      id: this.state.objeto.id
-    });
-  };
-
-  handleDesconectar = event => {
-    Pubsub.publish('desconectar', {
       id: this.state.objeto.id
     });
   };
@@ -121,9 +110,6 @@ export default class DialogEditor extends Component {
           </Button>
           <Button onClick={this.handleDelete} color="primary">
             Deletar Objeto
-          </Button>
-          <Button onClick={this.handleDesconectar} color="primary">
-            Desconectar Objeto
           </Button>
         </DialogActions>
       </Dialog>

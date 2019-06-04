@@ -74,11 +74,11 @@ export default class ListaAssociacao extends Component{
     return(
       <div>
       <Button variant="contained" onClick={this.handleClickOpen} /*className={classes.button}*/>
-        Todas Associações Existentes
+        Todas Associações
       </Button>
       <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">
-          {"Todas Associações Existentes"}
+          {"Todas Associações"}
         </DialogTitle>
         <DialogContent>
           {

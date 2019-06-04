@@ -10,8 +10,6 @@ export default class MenuDistribuicao extends Component{
     super(props);
     this.state = {
       value: 'Tipo de Distribuição',
-      showUniforme: false,
-      showExponencial: false
     };
 
     this.opcoesDistribuicao = this.opcoesDistribuicao.bind(this);
@@ -23,18 +21,6 @@ export default class MenuDistribuicao extends Component{
   }
 
   showForm = () => {
-        if(this.state.value === 'Uniforme'){
-          this.setState( { showUniforme: true } )
-          this.setState( { showExponencial: false } )
-        } else if (this.state.value === 'Exponencial'){
-          this.setState( { showUniforme: false } )
-          this.setState( { showExponencial: true } )
-        } else {
-          this.setState( { showUniforme: false } )
-          this.setState( { showExponencial: false } )
-        }
-        console.log('Distribuicao escolhida: ', this.state.value);
-
         Pubsub.publish('retorno-tipo-distribuicao', {
             distribuicao: this.state.value
         });
@@ -50,8 +36,6 @@ export default class MenuDistribuicao extends Component{
         </MenuItem>
         <MenuItem value={'Uniforme'}>Uniforme</MenuItem>
         <MenuItem value={'Exponencial'}>Exponencial</MenuItem>
-        <MenuItem value={'Geométrica'}>Geométrica</MenuItem>
-        <MenuItem value={'Binomial'}>Binomial</MenuItem>
       </Select>
       <Button onClick={ this.showForm}>Ok</Button>
       </div>

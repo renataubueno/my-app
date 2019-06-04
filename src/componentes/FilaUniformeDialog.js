@@ -25,6 +25,13 @@ export default class FilaUniformeDialog extends Component{
   render(){
     return(
       <DialogContent>
+     <TextField
+        id="standard-name"
+        label="Id da Fila"
+        className={'idFila-text-field'}
+        value={this.state.objeto.id}
+        margin="normal"
+      />
       <TextField
          id="standard-name"
          label="Servidores:"
@@ -39,13 +46,6 @@ export default class FilaUniformeDialog extends Component{
           className={'capacidade-text-field'}
           value={this.state.objeto.capacidade}
           onChange={this.handleChange('capacidade')}
-          margin="normal"
-        />
-       <TextField
-          id="standard-name"
-          label="Id da Fila"
-          className={'idFila-text-field'}
-          value={this.state.objeto.id}
           margin="normal"
         />
         <TextField
