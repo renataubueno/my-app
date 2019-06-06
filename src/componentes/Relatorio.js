@@ -32,14 +32,19 @@ export default class Relatorio extends Component{
  /* todas as probabilidades de todas as filas são adicionadas no data, o que cria um só grafico com todos os valores */
  /* precisaria criar arrays dinamicamente, pra pegar as informações de cada fila separadamente */
  /* depois, criar um PieChart pra cada um desses novos arrays */
- probGraph = () => {
+ probGraph = (contador) => {
   let data = [];
+  let arrayAtual = this.state.retorno.filter(item => parseInt(item.id) === parseInt(contador));
+  console.log('ARRAY ATUAL: ', arrayAtual);
+  console.log('CONTADOR: ', contador);
+  console.log('ARRAY ATUAL PROB ESTADOS: ',arrayAtual[0].probabilidadesEstadosFila );
 
-  for(let i = 0; i < this.state.retornoProb.length; i++){
-    let arrayAtual = this.state.retornoProb[i];
-    for(let j = 0; j < arrayAtual.length; j++){
+
+  //for(let i = 0; i < this.state.retornoProb.length; i++){
+    //let arrayAtual = this.state.retornoProb[contador];
+    for(let j = 0; j < arrayAtual[0].probabilidadesEstadosFila.length; j++){
         let estadoAtual = j.toString();
-        let valorAtual = arrayAtual[j];
+        let valorAtual = arrayAtual[0].probabilidadesEstadosFila[j];
         console.log('ESTADO ATUAL DO RETORNO PROB - graph: ', estadoAtual);
         console.log('VALOR ATUAL DO RETORNO PROB - graph: ', valorAtual);
         if(valorAtual !== 0){
@@ -47,7 +52,7 @@ export default class Relatorio extends Component{
           data.push(obj);
         };
     }
-  }
+  //}
 
   console.log('DATA - graph:', data);
 
@@ -91,7 +96,7 @@ export default class Relatorio extends Component{
               <Typography key={item.id + 10} align="center" variant="subtitle1" color="primary" noWrap >
                 Probabilidades da Fila {item.id}
               </Typography>
-              { this.probGraph() }
+              { this.probGraph(item.id) }
             </div>
           ))
         }
