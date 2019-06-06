@@ -5,9 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import Pubsub from 'pubsub-js';
 
 import FilaEditor from './FilaEditor.js';
-import ConectorEditor from './ConectorEditor.js';
-import SaidaEditor from './SaidaEditor.js';
-import EntradaEditor from './EntradaEditor.js';
 import DialogEditor from './DialogEditor.js';
 
 const styles = theme => ({
@@ -31,9 +28,6 @@ class Editor extends React.Component{
     super(props);
     this.state = {
       filaFilas: [],
-      filaConector: [],
-      filaSaida: [],
-      filaEntrada: [],
       todosObjetos: [],
       controlledPositions: []
     }
@@ -51,42 +45,9 @@ class Editor extends React.Component{
         console.log('TODOSOBJETOS: ', this.state.todosObjetos);
     });
 
-    Pubsub.subscribe('retorno-conector', (topico, dadosDoConector) => {
-       var itemsConector = [ ].concat(this.state.filaConector);
-       var items = [].concat(this.state.todosObjetos);
-       itemsConector.push(dadosDoConector.conector);
-       items.push(dadosDoConector.conector);
-       this.setState({filaConector: itemsConector});
-       this.setState({todosObjetos: items});
-       console.log('TODOSOBJETOS: ', this.state.todosObjetos);
-    });
-
-    Pubsub.subscribe('retorno-saida', (topico, dadosDaSaida) => {
-      var itemsSaida = [ ].concat(this.state.filaSaida);
-      var items = [].concat(this.state.todosObjetos);
-      itemsSaida.push(dadosDaSaida.saida);
-      items.push(dadosDaSaida.saida);
-      this.setState({filaSaida: itemsSaida});
-      this.setState({todosObjetos: items});
-      console.log('TODOSOBJETOS: ', this.state.todosObjetos);
-    });
-
-    Pubsub.subscribe('retorno-entrada', (topico, dadosDaEntrada) => {
-      var itemsEntrada = [ ].concat(this.state.filaEntrada);
-      var items = [].concat(this.state.todosObjetos);
-      itemsEntrada.push(dadosDaEntrada.entrada);
-      items.push(dadosDaEntrada.entrada);
-      this.setState({filaEntrada: itemsEntrada});
-      this.setState({todosObjetos: items});
-      console.log('TODOSOBJETOS: ', this.state.todosObjetos);
-    });
-
     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
       console.log('Vamos');
       this.setState({filaFilas: []});
-      this.setState({filaConector: []});
-      this.setState({filaSaida: []});
-      this.setState({filaEntrada: []});
     });
 
     Pubsub.subscribe('alteracoes', (topico, alteracoes) => {
@@ -182,30 +143,6 @@ class Editor extends React.Component{
    );
   };
 
-  trataConector = () => {
-   return(
-     this.state.filaConector.map(item => (
-       <ConectorEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
-     ))
-   );
- };
-
-  trataSaida = () => {
-   return(
-     this.state.filaSaida.map(item => (
-       <SaidaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
-     ))
-   );
- };
-
-  trataEntrada = () => {
-   return(
-     this.state.filaEntrada.map(item => (
-       <EntradaEditor objeto={item} onControlledDrag={this.onControlledDrag} controlledPositions={this.state.controlledPositions} />
-     ))
-   );
- };
-
   render(){
     const { classes } = this.props;
 
@@ -218,9 +155,6 @@ class Editor extends React.Component{
         <div className={classes.drawerHeader} />
         <Paper className={classes.root} elevation={2}>
         { this.trataFilas() }
-        { this.trataConector() }
-        { this.trataSaida() }
-        { this.trataEntrada() }
         <DialogEditor/>
       </Paper>
       </main>

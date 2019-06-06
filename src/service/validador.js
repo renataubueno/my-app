@@ -14,19 +14,10 @@ exports.validar = function(dado){
   let minMaxValidos = validaMinMax(
     filtraObj('UNIFORME')
   );
-  let conectorValido = validaConector(
-    filtraObj('CONECTOR')
-  );
-  let entradaValida = validaEntrada(
-    filtraObj('ENTRADA')
-  );
-  let saidaValida = validaSaida(
-    filtraObj('SAIDA')
-  );
   let seedValida = validaSeed(objetos[0].seeder);
   let condParadaValida = validaCondParada(objetos[0].condParada);
 
-  return filaUniformeValida && conectorValido && entradaValida && saidaValida && seedValida && condParadaValida && minMaxValidos;
+  return filaUniformeValida && seedValida && condParadaValida && minMaxValidos;
 }
 
 function filtraObj(tipo){
@@ -79,44 +70,6 @@ function validaMinMax(filas){
     }
   }
   return true;
-}
-
-function validaConector(conectores){
-  console.log('CONECTOR - VALIDADOR', conectores);
-  return true;
-}
-
-function validaEntrada(entradas){
-  console.log('ENTRADA - VALIDADOR', entradas);
-
-  let chegadaDefaultEntrada = entradas.filter(item => item.chegada === 0);
-
-  if(chegadaDefaultEntrada.length > 0){
-    alert('Chegada está com valor default');
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function validaSaida(saidas){
-  console.log('SAIDA - VALIDADOR', saidas);
-
-  let targetListSaidaUndefined = saidas.filter(item => item.targetList === undefined);
-
-  if(targetListSaidaUndefined.length > 0){
-    alert('Target List da Saída está undefined');
-    return false;
-  } else {
-    let targetListSaida = saidas.filter(item => item.targetList.length !== 0);
-
-    if(targetListSaida.length > 0){
-      alert('Target List da Saída está diferente de zero');
-      return false;
-    } else {
-      return true;
-    }
-  }
 }
 
 function validaSeed(seed){

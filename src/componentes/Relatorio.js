@@ -69,6 +69,9 @@ export default class Relatorio extends Component{
               <Typography key={item.numAtendimentos + item.id} align="center" variant="body1" color="primary" noWrap>
                 Número de Atendimentos: {item.numAtendimentos}
               </Typography>
+              <Typography key={item.numPerdas + item.id} align="center" variant="body1" color="primary" noWrap>
+                Número de Perdas: {item.numPerdas}
+              </Typography>
               <Typography key={item.tempoOcupada + item.id} align="center" variant="body1" color="primary" noWrap>
                 Tempo Ocupada: {item.tempoOcupada.toFixed(2)}
               </Typography>

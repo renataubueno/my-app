@@ -15,18 +15,6 @@ export default class Fila extends Component{
   }
   /* Estes métodos de subscribe são realizados para controlar o id global, bem como o tipo de distribuição */
   componentWillMount(){
-    Pubsub.subscribe('retorno-incremento-id-conector', (topico, dadosDoID) => {
-      this.setState({id: ++this.state.id});
-   });
-
-    Pubsub.subscribe('retorno-incremento-id-entrada', (topico, dadosDoID) => {
-      this.setState({id: ++this.state.id});
-   });
-
-    Pubsub.subscribe('retorno-incremento-id-saida', (topico, dadosDoID) => {
-      this.setState({id: ++this.state.id});
-   });
-
    Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
       this.setState({value: dadosDaDistribuicao.distribuicao});
   });
@@ -54,6 +42,7 @@ export default class Fila extends Component{
         escalonador: [],
         probabilidadesEstadosFila: [],
         condicaoFila: 0,
+        perdas: 0,
         height: 60,
         width: 100,
         tipo: 'UNIFORME'

@@ -14,9 +14,6 @@ import MenuDistribuicao from './MenuDistribuicao.js';
 import MenuParada from './MenuParada.js';
 import MenuSeeder from './MenuSeeder.js';
 import Fila from './Fila.js';
-import Conector from './Conector.js';
-import Saida from './Saida.js';
-import Entrada from './Entrada.js';
 
 export default class DrawerLeftSidebar extends Component{
   constructor(props){
@@ -38,9 +35,6 @@ export default class DrawerLeftSidebar extends Component{
         <div>
         <Typography align="center" variant="h6" color="primary" noWrap>
           <Fila />
-          <Conector /><br />
-          <Saida /> <br />
-          <Entrada />
         </Typography>
         </div>
         <div style={configsStyle}>
