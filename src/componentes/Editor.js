@@ -11,6 +11,7 @@ import EntradaEditor from './EntradaEditor.js';
 import DialogEditor from './DialogEditor.js';
 
 import Arrow from './ArrowDrawer/Arrow.js';
+import ArrowDrawer from './ArrowDrawer/ArrowDrawer.js'
 import ReactDOM from "react-dom";
 
 const styles = theme => ({
@@ -217,6 +218,11 @@ class Editor extends React.Component{
     });
  }
 
+
+ onUpdateCoordinates = (x, y) => {
+   this.setState()
+ }
+
  onControlledDrag = (e, position) => {
    let newControlledPosition = [].concat(this.state.controlledPositions);
 
@@ -395,7 +401,11 @@ class Editor extends React.Component{
   trataFilas = () => {
    return(
      this.state.filaFilas.map(item => (
-       <FilaEditor objeto={item} onControlledDrag={this.onControlledDrag} paper={this.state.paper}/>
+       <FilaEditor 
+        objeto={item} 
+        onControlledDrag={this.onControlledDrag} 
+        paper={this.state.paper} 
+        onUpdateCoordinates={this.handleUpdatecoordinates}/>
      ))
    );
   };
@@ -454,6 +464,7 @@ class Editor extends React.Component{
             { this.trataSaida() }
             { this.trataEntrada() }
           {/* <Arrow/> */}
+        <ArrowDrawer filas={this.state.filaFilas}/>
         <DialogEditor/>
       </Paper>
       </main>

@@ -27,7 +27,7 @@ export default class Fila extends Component{
       this.setState({id: ++this.state.id});
    });
 
-   Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
+    Pubsub.subscribe('retorno-tipo-distribuicao', (topico, dadosDaDistribuicao) => {
       this.setState({value: dadosDaDistribuicao.distribuicao});
   });
   }
@@ -56,7 +56,9 @@ export default class Fila extends Component{
         condicaoFila: 0,
         height: 60,
         width: 100,
-        tipo: 'UNIFORME'
+        tipo: 'UNIFORME',
+        x: 0,
+        y: 0,
       };
 
       return filaUniforme;

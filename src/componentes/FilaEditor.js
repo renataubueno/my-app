@@ -48,8 +48,14 @@ export default class FilaEditor extends Objeto {
     
     this.setState({
       x: filaDOM.getBoundingClientRect().x - this.props.paper.x,
-      y: filaDOM.getBoundingClientRect().x - this.props.paper.y
+      y: filaDOM.getBoundingClientRect().y - this.props.paper.y
     })
+
+    let objetoAlterado = this.props.objeto;
+    objetoAlterado.x = this.state.x
+    objetoAlterado.y = this.state.y
+    this.setState({ objeto: objetoAlterado })
+    Pubsub.publish('alteracoes', objetoAlterado)
   }
 
 

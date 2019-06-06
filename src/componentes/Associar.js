@@ -122,11 +122,15 @@ export default class Associar extends Component{
         associacoes: this.state.todasAssociacoes
     });
 
+    Pubsub.publish('lista-conexoes', {})
+
     this.setState({valueOrigem: 'Valor',});
     this.setState({valueDestino: 'Valor',});
     this.setState({valuePorcentagem: 0});
     this.setState({valueChegada: 0});
   };
+
+  
 
   handleClose = () => {
     this.setState({open: false});
