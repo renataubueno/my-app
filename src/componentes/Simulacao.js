@@ -57,6 +57,8 @@ export default class Simulacao extends Component{
 
     if(Validador.validar(body)){
       //POST
+      console.log('PROCESS ENV:', process.env.REACT_APP_API_URL);
+      console.log('DOUBLE CHECK: ', `${process.env.REACT_APP_API_URL}simulacao`);
       fetch(`${process.env.REACT_APP_API_URL}simulacao`, {
       //fetch('http://localhost:3001/simulacao', {
         headers: {
