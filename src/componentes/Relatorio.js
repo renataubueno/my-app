@@ -28,10 +28,6 @@ export default class Relatorio extends Component{
     });
  };
 
- /* não está funcionando corretamente */
- /* todas as probabilidades de todas as filas são adicionadas no data, o que cria um só grafico com todos os valores */
- /* precisaria criar arrays dinamicamente, pra pegar as informações de cada fila separadamente */
- /* depois, criar um PieChart pra cada um desses novos arrays */
  probGraph = (contador) => {
   let data = [];
   let arrayAtual = this.state.retorno.filter(item => parseInt(item.id) === parseInt(contador));
@@ -39,20 +35,16 @@ export default class Relatorio extends Component{
   console.log('CONTADOR: ', contador);
   console.log('ARRAY ATUAL PROB ESTADOS: ',arrayAtual[0].probabilidadesEstadosFila );
 
-
-  //for(let i = 0; i < this.state.retornoProb.length; i++){
-    //let arrayAtual = this.state.retornoProb[contador];
-    for(let j = 0; j < arrayAtual[0].probabilidadesEstadosFila.length; j++){
-        let estadoAtual = j.toString();
-        let valorAtual = arrayAtual[0].probabilidadesEstadosFila[j];
-        console.log('ESTADO ATUAL DO RETORNO PROB - graph: ', estadoAtual);
-        console.log('VALOR ATUAL DO RETORNO PROB - graph: ', valorAtual);
-        if(valorAtual !== 0){
-          let obj = {label: estadoAtual, value: valorAtual};
-          data.push(obj);
-        };
-    }
-  //}
+  for(let j = 0; j < arrayAtual[0].probabilidadesEstadosFila.length; j++){
+      let estadoAtual = j.toString();
+      let valorAtual = arrayAtual[0].probabilidadesEstadosFila[j];
+      console.log('ESTADO ATUAL DO RETORNO PROB - graph: ', estadoAtual);
+      console.log('VALOR ATUAL DO RETORNO PROB - graph: ', valorAtual);
+      if(valorAtual !== 0){
+        let obj = {label: estadoAtual, value: valorAtual};
+        data.push(obj);
+      };
+  }
 
   console.log('DATA - graph:', data);
 

@@ -60,6 +60,11 @@ export default class ListaAssociacao extends Component{
         }
       }
     });
+
+    Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
+      console.log('Vamos');
+      this.setState({todasAssociacoes: []});
+    });
   }
 
   handleClickOpen = () => {

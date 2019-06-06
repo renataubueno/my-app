@@ -42,6 +42,12 @@ export default class Associar extends Component{
         this.setState({filaFilas: itemsFila});
         console.log('RETORNO DA FILA NA ASSOCIACAO: ', this.state.filaFilas);
     });
+
+    Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
+      console.log('Vamos');
+      this.setState({todasAssociacoes: []});
+      this.setState({filaFilas: []});
+    });
   }
 
   handleChangePorcentagem = parametro => event => {
