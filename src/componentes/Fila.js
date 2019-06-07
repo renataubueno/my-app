@@ -45,7 +45,8 @@ export default class Fila extends Component{
         perdas: 0,
         height: 60,
         width: 100,
-        tipo: 'UNIFORME'
+        tipo: 'UNIFORME',
+        jaPassou: false
       };
 
       return filaUniforme;

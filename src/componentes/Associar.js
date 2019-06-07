@@ -73,59 +73,72 @@ export default class Associar extends Component{
     console.log('valuePorcentagem ASSOCIACAO: ', this.state.valuePorcentagem);
     console.log('valueChegada ASSOCIACAO: ', this.state.valueChegada);
 
-    let associacao = {
-      origem: this.state.valueOrigem,
-      destino: this.state.valueDestino
-    }
+    let jaExiste = false;
 
-    this.state.todasAssociacoes.push(associacao);
+    for(let i = 0; i < this.state.todasAssociacoes.length; i++){
+    	if(this.state.todasAssociacoes[i].origem === this.state.valueOrigem && this.state.todasAssociacoes[i].destino === this.state.valueDestino){
+    		jaExiste = true;
+    		break;
+    	}
+    };
 
-
-    if(this.state.valueOrigem === 'Entrada'){
-      let chegada = {
-        origem: this.state.valueOrigem,
-        porcentagem: this.state.valuePorcentagem,
-        chegada: this.state.valueChegada
-      };
-
-      let filaDestino = this.state.filaFilas.filter(item => item.id === this.state.valueDestino);
-
-      /* Se tiver alguma fila de destino, ela deve ter uma chegada, apontando para que chegada e a probabilidade */
-      if(filaDestino.length > 0){
-        filaDestino[0].chegadas.push(chegada);
-      }
+    if(jaExiste){
+	     alert('Associação inserida já existe');
     } else {
-      let chegada = {
+      let associacao = {
         origem: this.state.valueOrigem,
-        porcentagem: this.state.valuePorcentagem
-      };
-
-      let saida = {
-        destino: this.state.valueDestino,
-        porcentagem: this.state.valuePorcentagem
-      };
-
-      let filaOrigem = this.state.filaFilas.filter(item => item.id === this.state.valueOrigem);
-      let filaDestino = this.state.filaFilas.filter(item => item.id === this.state.valueDestino);
-
-      console.log('filaorigem ASSOCIACAO: ', filaOrigem);
-      console.log('filadestino ASSOCIACAO: ', filaDestino);
-
-      /* Se tiver alguma fila de origem, ela deve ter uma saída, apontando para que saída e a probabilidade */
-      if(filaOrigem.length > 0){
-        filaOrigem[0].saidas.push(saida);
+        destino: this.state.valueDestino
       }
 
-      /* Se tiver alguma fila de destino, ela deve ter uma chegada, apontando para que chegada e a probabilidade */
-      if(filaDestino.length > 0){
-        filaDestino[0].chegadas.push(chegada);
+      this.state.todasAssociacoes.push(associacao);
+
+
+      if(this.state.valueOrigem === 'Entrada'){
+        let chegada = {
+          origem: this.state.valueOrigem,
+          porcentagem: this.state.valuePorcentagem,
+          chegada: this.state.valueChegada
+        };
+
+        let filaDestino = this.state.filaFilas.filter(item => item.id === this.state.valueDestino);
+
+        /* Se tiver alguma fila de destino, ela deve ter uma chegada, apontando para que chegada e a probabilidade */
+        if(filaDestino.length > 0){
+          filaDestino[0].chegadas.push(chegada);
+        }
+      } else {
+        let chegada = {
+          origem: this.state.valueOrigem,
+          porcentagem: this.state.valuePorcentagem
+        };
+
+        let saida = {
+          destino: this.state.valueDestino,
+          porcentagem: this.state.valuePorcentagem
+        };
+
+        let filaOrigem = this.state.filaFilas.filter(item => item.id === this.state.valueOrigem);
+        let filaDestino = this.state.filaFilas.filter(item => item.id === this.state.valueDestino);
+
+        console.log('filaorigem ASSOCIACAO: ', filaOrigem);
+        console.log('filadestino ASSOCIACAO: ', filaDestino);
+
+        /* Se tiver alguma fila de origem, ela deve ter uma saída, apontando para que saída e a probabilidade */
+        if(filaOrigem.length > 0){
+          filaOrigem[0].saidas.push(saida);
+        }
+
+        /* Se tiver alguma fila de destino, ela deve ter uma chegada, apontando para que chegada e a probabilidade */
+        if(filaDestino.length > 0){
+          filaDestino[0].chegadas.push(chegada);
+        }
       }
+
+      Pubsub.publish('associacoes-feitas', {
+          filas: this.state.filaFilas,
+          associacoes: this.state.todasAssociacoes
+      });
     }
-
-    Pubsub.publish('associacoes-feitas', {
-        filas: this.state.filaFilas,
-        associacoes: this.state.todasAssociacoes
-    });
 
     this.setState({valueOrigem: 'Valor',});
     this.setState({valueDestino: 'Valor',});

@@ -6,7 +6,7 @@ exports.validar = function(dado){
   objetos = [].concat(dado);
   console.log('O QUE TEM NA CONDPARADA: ', objetos[0].condParada);
 
-  console.log('OBJETOSSS: ', objetos[0])
+  console.log('OBJETOSSS: ', objetos[0].objSimulacao)
 
   let filaUniformeValida = validaFilaUniforme(
     filtraObj('UNIFORME')
@@ -16,8 +16,80 @@ exports.validar = function(dado){
   );
   let seedValida = validaSeed(objetos[0].seeder);
   let condParadaValida = validaCondParada(objetos[0].condParada);
+  let sistemaValido = sistValido(objetos[0].objSimulacao);
 
-  return filaUniformeValida && seedValida && condParadaValida && minMaxValidos;
+  return filaUniformeValida && seedValida && condParadaValida && minMaxValidos && sistemaValido;
+}
+
+function sistValido(filas){
+  let temEntExt = false;
+	let filaEntExt = {};
+	let temSaiExt = false;
+	let idFilaSaiExt = 0;
+	let entradaSaida = false;
+
+  for(let i = 0; i < filas.length; i++){
+		for(let j = 0; j < filas[i].chegadas.length; j++){
+			if(filas[i].chegadas[j].origem === 'Entrada'){
+				temEntExt = true;
+				filaEntExt = filas[i];
+				break;
+			}
+		}
+	}
+
+	for(let i = 0; i < filas.length; i++){
+		for(let j = 0; j < filas[i].saidas.length; j++){
+			if(filas[i].saidas[j].destino === 'Saída'){
+				temSaiExt = true;
+				idFilaSaiExt = filas[i].id;
+				break;
+			}
+		}
+	}
+
+  if(temEntExt && temSaiExt){
+    if(filaEntExt.id === idFilaSaiExt){
+			entradaSaida = true;
+		} else {
+      console.log('FILA ENT EXT: ', filaEntExt);
+			entradaSaida = procuraSaida(filaEntExt, idFilaSaiExt)
+		};
+  } else {
+    alert('FALTA ENTRADA E/OU SAÍDA EXTERNA');
+  }
+
+  for(let i = 0; i < filas.length; i++){
+		filas[i].jaPassou = false;
+	};
+
+  return entradaSaida;
+}
+
+function procuraSaida(filaOrigem, idFilaSaiExt){
+  console.log('ENTREI NO PROCURA SAIDA', filaOrigem);
+  let temConexao = false;
+  if(filaOrigem.jaPassou){
+		console.log('JÁ PASSEI POR ESSA FILA');
+	} else{
+    console.log('VOU PROCURAR SE TENHO A SAIDA');
+    filaOrigem.jaPassou = true;
+		let conexaoEntSai = filaOrigem.saidas.filter(item => item.destino === idFilaSaiExt);
+		if(conexaoEntSai.length > 0){
+			temConexao = true;
+		} else {
+			for(let i = 0; i < filaOrigem.saidas.length; i++){
+				let novaFilaOrigemID = filaOrigem.saidas[i].destino;
+				let novaFilaOrigem = objetos[0].objSimulacao.filter(item => item.id === novaFilaOrigemID);
+        console.log('NOVA FILA ORIGEM: ', novaFilaOrigem);
+				temConexao = procuraSaida(novaFilaOrigem[0], idFilaSaiExt);
+				if(temConexao){
+					break;
+				}
+			};
+		};
+  }
+  return temConexao;
 }
 
 function filtraObj(tipo){
