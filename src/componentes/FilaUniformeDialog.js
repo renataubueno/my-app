@@ -25,8 +25,7 @@ export default class FilaUniformeDialog extends Component{
     let objetoAlterado = this.state.objeto;
     objetoAlterado[parametro] = parseInt(event.target.value);
     this.setState({ objeto: objetoAlterado });
-    Pubsub.publish('alteracoes', {
-    });
+    Pubsub.publish('alteracoes', this.state.objeto);
   };
 
   handleFocus = (event) => event.target.select();

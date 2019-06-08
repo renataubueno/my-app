@@ -17,6 +17,7 @@ import Fila from './Fila.js';
 import Conector from './Conector.js';
 import Saida from './Saida.js';
 import Entrada from './Entrada.js';
+import GerarFlechas from './GerarFlechas.js'
 
 export default class DrawerLeftSidebar extends Component{
   constructor(props){
@@ -54,6 +55,7 @@ export default class DrawerLeftSidebar extends Component{
         </div>
         <div style={actionButtonsStyle}>
         <Associar />
+        <GerarFlechas />
         <Desassociar />
         <ListaAssociacoes />
         <Simulacao />

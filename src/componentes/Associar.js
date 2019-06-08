@@ -122,12 +122,21 @@ export default class Associar extends Component{
         associacoes: this.state.todasAssociacoes
     });
 
-    Pubsub.publish('lista-conexoes', {})
+    Pubsub.publish('atualizar-coordenadas', {
+    });
+
+    Pubsub.publish('lista-conexoes', {
+    });
+
+    Pubsub.publish('atualizar-flechas', {
+    });
+
 
     this.setState({valueOrigem: 'Valor',});
     this.setState({valueDestino: 'Valor',});
     this.setState({valuePorcentagem: 0});
     this.setState({valueChegada: 0});
+
   };
 
   

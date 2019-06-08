@@ -13,15 +13,15 @@ export default class ArrowDrawer extends Component {
 		this.canvas = React.createRef();
 }
 
-	// handleConexoes = () => {
-	// 		this.state.conexoes.map(conexao => (
-	// 			<Arrow conexao={conexao} filasCoordenadas={this.filasCoordenadas}/>
-	// 		)
-	// 	);
-	// };
+	handleAtualizarFlechas = () => {
+		Pubsub.publish('atualizar-flechas', {
+		});
+	}
 
+	// Cria uma lista de conexões para usar ao mapear as flechas
 
 	handleCurrentConexoes = () => {
+		
 		console.log('Filas', this.props.filas)
 
 		let fila;
@@ -38,7 +38,7 @@ export default class ArrowDrawer extends Component {
 				let filaY = this.props.filas[fila].y
 				let filaCoordenadas = {id: filaId, x: filaX, y: filaY}
 				filasCoordenadas.push(filaCoordenadas)
-				this.setState({filasCoordenadas: filasCoordenadas})
+				this.setState({filasCoordenadas: filasCoordenadas}, this.handleAtualizarFlechas())
 
 
 				console.log(`Fila ${fila}`)
@@ -55,36 +55,14 @@ export default class ArrowDrawer extends Component {
 					conexao = {origem, destino}
 					conexoes.push(conexao)
 					console.log(conexoes)
-					this.setState({conexoes: conexoes})
+					this.setState({conexoes: conexoes}, this.handleAtualizarFlechas())
 				}
-
-				// for (chegada in this.props.filas[fila].chegadas)
-				// if (chegada != '') {
-				// 	console.log(`Chegadas ${chegada}`)
-				// 	console.log(`Origem ${this.props.filas[fila].chegadas[chegada].origem}`)
-				// }
 			}
 		}
 
+	
 
 
-		// let i = 0;
-		
-		// for (i = 0; i < this.props.filas.length; i++) {
-		// 	try {
-		// 		console.log(`Fila ${i} Destino`, this.props.filas[i].saidas[i].destino)
-		// 	}
-		// 	catch (e) {
-		// 		console.error("inner", e.message);
-		// 	}
-
-		// 	try {
-		// 		console.log(`Fila ${i} Origem`, this.props.filas[i].chegadas[i].origem)
-		// 	}
-		// 	catch (e) {
-		// 		console.error("inner", e.message);
-		// 	}	
-		// }
 	}
 
 	componentWillMount() {
@@ -100,11 +78,6 @@ export default class ArrowDrawer extends Component {
 		this.handleCurrentConexoes();
 	}
 
-	componentWillReceiveProps() {
-		this.handleCurrentConexoes();
-		// this.handleConexoes();
-	}
-	
 
     render() {
 			return (
@@ -114,9 +87,7 @@ export default class ArrowDrawer extends Component {
 						key={this.state.conexoes[conexao]}
 						conexao={conexao}
 						filasCoordenadas={this.state.filasCoordenadas}
-
-          />
-          )}
+					/>)}
 				</React.Fragment>
 		)
 	}

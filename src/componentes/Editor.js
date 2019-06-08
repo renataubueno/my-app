@@ -10,7 +10,6 @@ import SaidaEditor from './SaidaEditor.js';
 import EntradaEditor from './EntradaEditor.js';
 import DialogEditor from './DialogEditor.js';
 
-import Arrow from './ArrowDrawer/Arrow.js';
 import ArrowDrawer from './ArrowDrawer/ArrowDrawer.js'
 import ReactDOM from "react-dom";
 
@@ -235,6 +234,8 @@ class Editor extends React.Component{
      tipo: e.target.alt,
      targetList: []
    }
+
+
 
    let objetoColidido = this.verificarColisao(newPosition);
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { string } from 'prop-types';
+import Pubsub from 'pubsub-js';
 
 export default class Arrow extends Component {
     constructor(props){
@@ -22,7 +23,7 @@ export default class Arrow extends Component {
 					y: this.props.filasCoordenadas[fila].y,
 					id: this.props.conexao.origem
 				}
-				this.setState({origem: origemCoordenadas})
+				this.setState({origem: origemCoordenadas}, this.handlePathDrawing())
 			}
 			
 			else if (this.props.filasCoordenadas[fila].id === this.props.conexao.destino) {
@@ -31,52 +32,61 @@ export default class Arrow extends Component {
 					y: this.props.filasCoordenadas[fila].y,
 					id: this.props.conexao.destino
 				}
-				this.setState({destino: destinoCoordenadas})
+				this.setState({destino: destinoCoordenadas}, this.handlePathDrawing())
 			}
 
 	}
+
+	
 
     handleTestDrawing = () => {
         console.log(this.canvas)
     }
 
     componentWillMount() {
-        this.handleTestDrawing();
+		this.handleTestDrawing();
+		
+
+		Pubsub.subscribe('atualizar-flechas', (topico, dados) => {
+			this.handleCoordenadas()
+			
+		});
+
 		}
 		
-		handlePathDrawing = () => {
-			let _startPoint = `M ${this.state.origem.x + 100} ${this.state.origem.y + 30}`
-			let _endPoint = `L ${this.state.destino.x} ${this.state.destino.y + 30}`
-			if (this.state.origem.y === this.state.destino.y) {
-				return `${_startPoint} ${_endPoint}`
-			}
-			else {
-				let _middleX = (this.state.destino.x + this.state.origem.x) / 2
-				let _middlePath = `L ${_middleX} ${this.state.origem.y + 30} L ${_middleX} ${this.state.destino.y + 30}`
-				console.log(`${_startPoint} ${_middlePath} ${_endPoint}`)
-				return `${_startPoint} ${_middlePath} ${_endPoint}`
-			}
-			
+	handlePathDrawing = () => {
+		let _startPoint = `M ${this.state.origem.x + 100} ${this.state.origem.y + 30}`
+		let _endPoint = `L ${this.state.destino.x} ${this.state.destino.y + 30}`
+		if (this.state.origem.y === this.state.destino.y) {
+			this.setState({d: `${_startPoint} ${_endPoint}`});
 		}
+		else {
+			let _middleX = (this.state.destino.x + this.state.origem.x) / 2
+			let _middlePath = `L ${_middleX} ${this.state.origem.y + 30} L ${_middleX} ${this.state.destino.y + 30}`
+			console.log(`${_startPoint} ${_middlePath} ${_endPoint}`)
+			this.setState({d: `${_startPoint} ${_middlePath} ${_endPoint}`});
+		}
+		
+		
+	}
 
-		componentDidMount = () => {
-			// this.handleCoordenadas()
-			this.setState({d: this.handlePathDrawing()})
-			
-		}
+	componentDidMount = () => {
+		// this.handleCoordenadas()
+		this.handleCoordenadas()
+		
+	};
 
-		componentWillReceiveProps = () => {
-			this.handleCoordenadas();
-			this.setState({d: this.handlePathDrawing()});
-		}
+
+	
+
 
     render() {
         return (
-				  <svg style={canvasStyle}>
+					<svg style={canvasStyle}>
 						<g>
 							<marker id="red-arrowhead" viewBox="0 0 10 10" refX="7" refY="5" markerUnits="strokeWidth" markerWidth="4" markerHeight="3" orient="auto">
-        				<path d="M 0 0 L 10 5 L 0 10 z" stroke="none" fill='red'/>
-  						</marker>
+								<path d="M 0 0 L 10 5 L 0 10 z" stroke="none" fill='red'/>
+							</marker>
 							<path 
 								id="lineAB" 
 								d={this.state.d}
