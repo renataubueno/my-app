@@ -138,6 +138,15 @@ export default class Associar extends Component{
           filas: this.state.filaFilas,
           associacoes: this.state.todasAssociacoes
       });
+
+      Pubsub.publish('atualizar-coordenadas', {
+      });
+
+      Pubsub.publish('lista-conexoes', {
+      });
+
+      Pubsub.publish('atualizar-flechas', {
+      });
     }
 
     this.setState({valueOrigem: 'Valor',});
