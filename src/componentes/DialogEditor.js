@@ -56,9 +56,9 @@ export default class DialogEditor extends Component {
       );
     } else if (this.state.tipoObjeto === 'EXPONENCIAL'){
       return(
-        this.handleFilaExponencial()
+        this.handleFilaUniforme()
       );
-    } 
+    }
     return(
       'fila'
     );

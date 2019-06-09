@@ -50,6 +50,32 @@ export default class Fila extends Component{
       };
 
       return filaUniforme;
+    } else if (this.state.value === 'Exponencial') {
+      let filaExponencial = {
+        id: this.state.id,
+        capacidade: 0,
+        servidores: 0,
+        minChegada: 0,
+        maxChegada: 0,
+        minServico: 0,
+        maxServico: 0,
+        numChegadas: 0,
+        numAtendimentos: 0,
+        tempoOcupada: 0,
+        tempoTotal: 0,
+        chegadas: [],
+        saidas: [],
+        escalonador: [],
+        probabilidadesEstadosFila: [],
+        condicaoFila: 0,
+        perdas: 0,
+        height: 60,
+        width: 100,
+        tipo: 'EXPONENCIAL',
+        jaPassou: false
+      };
+
+      return filaExponencial;
     } else {
         let fila = 0;
         alert('INSERIR TIPO DE DISTRIBUIÇÃO');
