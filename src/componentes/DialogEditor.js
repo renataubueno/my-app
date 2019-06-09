@@ -6,9 +6,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import FilaUniformeDialog from './FilaUniformeDialog.js';
 import FilaExponencialDialog from './FilaExponencialDialog.js';
-import ConectorDialog from './ConectorDialog.js';
-import SaidaDialog from './SaidaDialog.js';
-import EntradaDialog from './EntradaDialog.js';
 
 export default class DialogEditor extends Component {
   constructor(props){
@@ -40,21 +37,10 @@ export default class DialogEditor extends Component {
   }
 
   handleDelete = event => {
-    /*Pubsub.publish('deletar', {
-      id: this.state.objeto.id,
-      tipoObjeto: this.state.tipoObjeto
-    });*/
-
     Pubsub.publish('deletar-fila', {
       id: this.state.objeto.id
     });
     this.setState({open: false})
-  };
-
-  handleDesconectar = event => {
-    Pubsub.publish('desconectar', {
-      id: this.state.objeto.id
-    });
   };
 
   handleFilaUniforme = () => {
@@ -69,24 +55,6 @@ export default class DialogEditor extends Component {
     );
   }
 
-  handleConector = () => {
-    return (
-      <ConectorDialog objeto={this.state.objeto}/>
-    );
-  };
-
-  handleSaida = () => {
-    return (
-      <SaidaDialog objeto={this.state.objeto}/>
-    );
-  };
-
-  handleEntrada = () => {
-    return (
-      <EntradaDialog objeto={this.state.objeto}/>
-    );
-  };
-
   handleDialog = () => {
     if (this.state.tipoObjeto === 'UNIFORME'){
       return(
@@ -94,23 +62,11 @@ export default class DialogEditor extends Component {
       );
     } else if (this.state.tipoObjeto === 'EXPONENCIAL'){
       return(
-        this.handleFilaExponencial()
-      );
-    } else if (this.state.tipoObjeto === 'CONECTOR'){
-      return(
-        this.handleConector()
-      );
-    } else if (this.state.tipoObjeto === 'SAIDA'){
-      return(
-        this.handleSaida()
-      );
-    } else if (this.state.tipoObjeto === 'ENTRADA'){
-      return(
-        this.handleEntrada()
+        this.handleFilaUniforme()
       );
     }
     return(
-      'avocado'
+      'fila'
     );
   };
 
@@ -127,9 +83,6 @@ export default class DialogEditor extends Component {
           </Button>
           <Button onClick={this.handleDelete} color="primary">
             Deletar Objeto
-          </Button>
-          <Button onClick={this.handleDesconectar} color="primary">
-            Desconectar Objeto
           </Button>
         </DialogActions>
       </Dialog>

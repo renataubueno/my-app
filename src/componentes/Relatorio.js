@@ -28,25 +28,22 @@ export default class Relatorio extends Component{
     });
  };
 
- /* não está funcionando corretamente */
- /* todas as probabilidades de todas as filas são adicionadas no data, o que cria um só grafico com todos os valores */
- /* precisaria criar arrays dinamicamente, pra pegar as informações de cada fila separadamente */
- /* depois, criar um PieChart pra cada um desses novos arrays */
- probGraph = () => {
+ probGraph = (contador) => {
   let data = [];
+  let arrayAtual = this.state.retorno.filter(item => parseInt(item.id) === parseInt(contador));
+  console.log('ARRAY ATUAL: ', arrayAtual);
+  console.log('CONTADOR: ', contador);
+  console.log('ARRAY ATUAL PROB ESTADOS: ',arrayAtual[0].probabilidadesEstadosFila );
 
-  for(let i = 0; i < this.state.retornoProb.length; i++){
-    let arrayAtual = this.state.retornoProb[i];
-    for(let j = 0; j < arrayAtual.length; j++){
-        let estadoAtual = j.toString();
-        let valorAtual = arrayAtual[j];
-        console.log('ESTADO ATUAL DO RETORNO PROB - graph: ', estadoAtual);
-        console.log('VALOR ATUAL DO RETORNO PROB - graph: ', valorAtual);
-        if(valorAtual !== 0){
-          let obj = {label: estadoAtual, value: valorAtual};
-          data.push(obj);
-        };
-    }
+  for(let j = 0; j < arrayAtual[0].probabilidadesEstadosFila.length; j++){
+      let estadoAtual = j.toString();
+      let valorAtual = arrayAtual[0].probabilidadesEstadosFila[j];
+      console.log('ESTADO ATUAL DO RETORNO PROB - graph: ', estadoAtual);
+      console.log('VALOR ATUAL DO RETORNO PROB - graph: ', valorAtual);
+      if(valorAtual !== 0){
+        let obj = {label: estadoAtual, value: valorAtual};
+        data.push(obj);
+      };
   }
 
   console.log('DATA - graph:', data);
@@ -69,6 +66,9 @@ export default class Relatorio extends Component{
               <Typography key={item.numAtendimentos + item.id} align="center" variant="body1" color="primary" noWrap>
                 Número de Atendimentos: {item.numAtendimentos}
               </Typography>
+              <Typography key={item.numPerdas + item.id} align="center" variant="body1" color="primary" noWrap>
+                Número de Perdas: {item.numPerdas}
+              </Typography>
               <Typography key={item.tempoOcupada + item.id} align="center" variant="body1" color="primary" noWrap>
                 Tempo Ocupada: {item.tempoOcupada.toFixed(2)}
               </Typography>
@@ -88,7 +88,7 @@ export default class Relatorio extends Component{
               <Typography key={item.id + 10} align="center" variant="subtitle1" color="primary" noWrap >
                 Probabilidades da Fila {item.id}
               </Typography>
-              { this.probGraph() }
+              { this.probGraph(item.id) }
             </div>
           ))
         }
