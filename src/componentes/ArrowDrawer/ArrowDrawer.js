@@ -41,13 +41,23 @@ export default class ArrowDrawer extends Component {
 				this.setState({filasCoordenadas: filasCoordenadas}, this.handleAtualizarFlechas())
 
 
-				console.log(`Fila ${fila}`)
+		
+				let conexao;
+
+				for (chegada in this.props.filas[fila].chegadas) {
+					let origem;
+					let destino;
+					origem = this.props.filas[fila].chegadas[chegada].origem
+					destino = this.props.filas[fila].chegadas[chegada].chegada
+					conexao = {origem, destino}
+					conexoes.push(conexao)
+					this.setState({conexoes: conexoes}, this.handleAtualizarFlechas())
+				}
+				
 				for (saida in this.props.filas[fila].saidas)
 				if (saida != '') {
 					let origem;
 					let destino;
-					let conexao;
-
 					console.log(`Saída ${saida}`)
 					console.log(`Destino ${this.props.filas[fila].saidas[saida].destino}`)
 					origem = this.props.filas[fila].id
@@ -56,6 +66,9 @@ export default class ArrowDrawer extends Component {
 					conexoes.push(conexao)
 					console.log(conexoes)
 					this.setState({conexoes: conexoes}, this.handleAtualizarFlechas())
+
+				
+
 				}
 			}
 		}
