@@ -14,9 +14,6 @@ import MenuDistribuicao from "./MenuDistribuicao.js";
 import MenuParada from "./MenuParada.js";
 import MenuSeeder from "./MenuSeeder.js";
 import Fila from "./Fila.js";
-import Conector from "./Conector.js";
-import Saida from "./Saida.js";
-import Entrada from "./Entrada.js";
 import GerarFlechas from "./GerarFlechas.js";
 
 export default class DrawerLeftSidebar extends Component {
@@ -63,9 +60,7 @@ export default class DrawerLeftSidebar extends Component {
           <Desassociar />
           <ListaAssociacoes />
           <Simulacao />
-          <Divider />
           <ResetEditor />
-          <Divider />
           <ExportJSON />
           <ImportJSON />
         </div>
@@ -97,7 +92,7 @@ const actionButtonsStyle = {
   flexDirection: "column",
   justifyContent: "space-between",
   marginTop: "15px",
-  height: "190px"
+  height: "400px"
 };
 
 const configsStyle = {

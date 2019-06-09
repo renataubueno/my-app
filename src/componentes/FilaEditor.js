@@ -5,7 +5,6 @@ import Pubsub from "pubsub-js";
 import ReactDOM from "react-dom";
 
 import FilaImage from "../images/fila.png";
-import ReactDOM from "react-dom";
 
 export default class FilaEditor extends Objeto {
   constructor(props) {

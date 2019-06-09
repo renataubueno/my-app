@@ -9,9 +9,6 @@ import DialogEditor from "./DialogEditor.js";
 import ArrowDrawer from "./ArrowDrawer.js";
 import ReactDOM from "react-dom";
 
-import ArrowDrawer from "./ArrowDrawer/ArrowDrawer.js";
-import ReactDOM from "react-dom";
-
 const styles = theme => ({
   drawerHeader: {},
   root: {
