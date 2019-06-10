@@ -53,9 +53,9 @@ export default class DrawerLeftSidebar extends Component{
         <Desassociar />
         <ListaAssociacoes />
         <Simulacao />
-        <Divider />
+
         <ResetEditor />
-        <Divider />
+
         <ExportJSON />
         <ImportJSON />
         </div>
@@ -87,7 +87,7 @@ const actionButtonsStyle = {
   flexDirection: 'column',
   justifyContent: 'space-between',
   marginTop: '15px',
-  height: '190px'
+  height: '400px'
 }
 
 const configsStyle = {
