@@ -45,9 +45,9 @@ export default class Arrow extends Component {
 
   handlePathDrawing = () => {
     if (this.props.conexao.origem === "Entrada") {
-      let _startPoint = `M ${this.state.origem.x - 100} ${this.state.origem.y +
-        30}`;
-      let _endPoint = `L ${this.state.origem.x} ${this.state.origem.y + 30}`;
+      let _startPoint = `M ${this.state.destino.x - 100} ${this.state.destino
+        .y + 30}`;
+      let _endPoint = `L ${this.state.destino.x} ${this.state.destino.y + 30}`;
       this.setState(
         { d: `${_startPoint} ${_endPoint}` },
         console.log(this.state.d)
