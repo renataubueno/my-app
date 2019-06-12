@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Pubsub from "pubsub-js";
 
-import FilaImage from "../images/fila.png";
+// import FilaImage from "../images/fila.png";
+import { ReactComponent as FilaImage } from "../images/fila.svg";
 
 export default class Fila extends Component {
   constructor(props) {
@@ -110,14 +111,21 @@ export default class Fila extends Component {
   render() {
     return (
       <div>
-        <img
-          src={FilaImage}
+        <FilaImage
           alt="Fila"
           id={this.state.id}
           height={this.state.height}
           width={this.state.width}
           onClick={this.handleClickFila("control")}
         />
+        {/* <img
+          src={FilaImage}
+          alt="Fila"
+          id={this.state.id}
+          height={this.state.height}
+          width={this.state.width}
+          onClick={this.handleClickFila("control")}
+        /> */}
       </div>
     );
   }

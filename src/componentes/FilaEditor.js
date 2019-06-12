@@ -4,7 +4,8 @@ import Draggable from "react-draggable";
 import Pubsub from "pubsub-js";
 import ReactDOM from "react-dom";
 
-import FilaImage from "../images/fila.png";
+// import FilaImage from "../images/fila.png";
+import { ReactComponent as FilaImage } from "../images/fila.svg";
 
 export default class FilaEditor extends Objeto {
   constructor(props) {
@@ -87,14 +88,23 @@ export default class FilaEditor extends Objeto {
 
     return (
       <Draggable {...this.settings}>
-        <img
+        <FilaImage
+          alt="Fila"
+          id={this.state.id}
+          height={this.state.height}
+          width={this.state.width}
+          {...this.dadosDoObjeto}
+          bounds="parent"
+          onDoubleClick={this._handleDoubleClickOpen}
+        />
+        {/* <img
           id={this.state.fila.id}
           src={FilaImage}
           alt="Fila"
           {...this.dadosDoObjeto}
           onDoubleClick={this._handleDoubleClickOpen}
           bounds="parent"
-        />
+        /> */}
       </Draggable>
     );
   }
