@@ -14,6 +14,9 @@ export default class ImportJSON extends Component{
     this.state = {open: false};
   }
 
+  //tratamento onChange
+  //função para popular tópicos -> publish tudo que o editor precisa
+
   handleClickOpen = () => {
     this.setState({open: true});
   };

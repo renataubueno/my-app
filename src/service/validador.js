@@ -17,8 +17,9 @@ exports.validar = function(dado){
   let seedValida = validaSeed(objetos[0].seeder);
   let condParadaValida = validaCondParada(objetos[0].condParada);
   let sistemaValido = sistValido(objetos[0].objSimulacao);
+  let excPorcentagem = excessoPorcentagem(objetos[0].objSimulacao);
 
-  return filaUniformeValida && seedValida && condParadaValida && minMaxValidos && sistemaValido;
+  return filaUniformeValida && seedValida && condParadaValida && minMaxValidos && sistemaValido && excPorcentagem;
 }
 
 function sistValido(filas){
@@ -96,6 +97,25 @@ function filtraObj(tipo){
   return objetos[0].objSimulacao.filter(item => item.tipo === tipo);
 }
 
+function excessoPorcentagem(filas){
+	let contador = 0;
+	let retornoPorc = true;
+
+	for(let i = 0; i < filas.length; i++){
+		for(let j = 0; j < filas[i].saidas.length; j++){
+			contador += filas[i].saidas[j].porcentagem;
+			if(contador > 100){
+				retornoPorc = false;
+        alert('Fila com saídas acima de 100%: ' + filas[i].id);
+				break;
+			}
+		}
+		contador = 0;
+	}
+
+	return retornoPorc;
+}
+
 function validaFilaUniforme(filas){
   console.log('FILA - VALIDADOR: ', filas);
 
@@ -131,7 +151,7 @@ function iniciaSistemaValido(filas){
 function validaMinMax(filas){
   for(let i = 0; i < filas.length; i++){
     if(filas[i].minChegada >= filas[i].maxChegada || filas[i].minServico >= filas[i].maxServico){
-      alert('Valor Mínimo (chegada e/ou serviço) maior do que Valor Máximo.');
+      alert('Valor Mínimo (chegada e/ou serviço) maior do que Valor Máximo: ' + filas[i].id);
       return false;
     }
   }
