@@ -87,7 +87,7 @@ export default class FilaEditor extends Objeto {
     this.connection();
 
     return (
-      <Draggable {...this.settings}>
+      <Draggable {...this.settings} grid={[20, 20]}>
         <FilaImage
           alt="Fila"
           id={this.state.id}
