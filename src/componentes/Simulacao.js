@@ -15,6 +15,12 @@ export default class Simulacao extends Component{
   }
 
   componentWillMount(){
+    Pubsub.subscribe('import-json', (topico, importJson) => {
+      console.log('IMPORT JSON NO SIMULACAO: ', importJson);
+      this.setState({filas: importJson.filas});
+      //console.log('FILAS APÓS IMPORT JSON: ', this.state.filaFilas);
+    });
+
     Pubsub.subscribe('associacoes-feitas', (topico, dados) => {
       console.log('Associações recebidas no Simulacao.js: ', dados);
       this.setState({filas: dados.filas});

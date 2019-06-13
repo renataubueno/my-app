@@ -28,9 +28,13 @@ function sistValido(filas){
 	let temSaiExt = false;
 	let idFilaSaiExt = 0;
 	let entradaSaida = false;
+  console.log('JSON - ENTREI NO SISTVALIDO', filas);
 
   for(let i = 0; i < filas.length; i++){
 		for(let j = 0; j < filas[i].chegadas.length; j++){
+      console.log('JSON - CHEGADAS: ', filas[i].chegadas[j]);
+      console.log('JSON - CHEGADAS - TIPO: ', typeof(filas[i].chegadas[j]));
+      console.log('JSON TYPE OF ENTRADA', typeof('Entrada'));
 			if(filas[i].chegadas[j].origem === 'Entrada'){
 				temEntExt = true;
 				filaEntExt = filas[i];
@@ -41,6 +45,9 @@ function sistValido(filas){
 
 	for(let i = 0; i < filas.length; i++){
 		for(let j = 0; j < filas[i].saidas.length; j++){
+      console.log('JSON - SAIDAS: ', filas[i].saidas[j]);
+      console.log('JSON - SAIDAS - TIPO: ', typeof(filas[i].saidas[j]));
+      console.log('JSON TYPE OF SAIDA', typeof('Saída'));
 			if(filas[i].saidas[j].destino === 'Saída'){
 				temSaiExt = true;
 				idFilaSaiExt = filas[i].id;
@@ -103,7 +110,9 @@ function excessoPorcentagem(filas){
 
 	for(let i = 0; i < filas.length; i++){
 		for(let j = 0; j < filas[i].saidas.length; j++){
-			contador += filas[i].saidas[j].porcentagem;
+			contador += parseInt(filas[i].saidas[j].porcentagem);
+      console.log('QUAL FILA CONTADOR: ', filas[i].id);
+      console.log('CONTADOR: ', contador);
 			if(contador > 100){
 				retornoPorc = false;
         alert('Fila com saídas acima de 100%: ' + filas[i].id);

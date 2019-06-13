@@ -50,6 +50,12 @@ class Editor extends React.Component{
         console.log('TODOSOBJETOS: ', this.state.todosObjetos);
     });
 
+    Pubsub.subscribe('import-json', (topico, importJson) => {
+      console.log('IMPORT JSON: ', importJson);
+      this.setState({filaFilas: importJson.filas});
+      console.log('FILAS APÓS IMPORT JSON: ', this.state.filaFilas);
+    });
+
     Pubsub.subscribe('retorno-limpar-editor', (topico, limparEditor) => {
       console.log('Vamos');
       this.setState({filaFilas: []});

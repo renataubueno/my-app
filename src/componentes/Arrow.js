@@ -45,32 +45,153 @@ export default class Arrow extends Component {
 
   handlePathDrawing = () => {
     if (this.props.conexao.origem === "Entrada") {
-      let _startPoint = `M ${this.state.destino.x - 100} ${this.state.destino
-        .y + 30}`;
-      let _endPoint = `L ${this.state.destino.x} ${this.state.destino.y + 30}`;
-      this.setState(
-        { d: `${_startPoint} ${_endPoint}` },
-        console.log(this.state.d)
-      );
+      this.handleEntrada();
     } else if (this.props.conexao.destino === "Saída") {
-      let _startPoint = `M ${this.state.origem.x + 100} ${this.state.origem.y +
-        30}`;
-      let _endPoint = `L ${this.state.origem.x + 200} ${this.state.origem.y +
-        30}`;
+      this.handleSaida();
+    } else if (this.props.conexao.origem === this.props.conexao.destino) {
+      this.handleSelfTarget();
+    } else {
+      if (this.state.origem.x > this.state.destino.x) {
+        this.handleLowerXTarget();
+      } else {
+        this.handleHigherXTarget();
+      }
+    }
+  };
+
+  offsetYEntrada = () => {
+    let offsetEntrada;
+    for (let fila in this.props.filasCoordenadas) {
+      if (this.props.filasCoordenadas[fila].id === this.state.destino.id) {
+        if (this.props.filasCoordenadas[fila].numChegadas > 1) {
+          offsetEntrada = 20;
+          return offsetEntrada;
+        } else {
+          offsetEntrada = 0;
+          return offsetEntrada;
+        }
+      }
+    }
+  };
+
+  offsetYSaida = () => {
+    let offsetSaida;
+    for (let fila in this.props.filasCoordenadas) {
+      if (this.props.filasCoordenadas[fila].id === this.state.origem.id) {
+        if (this.props.filasCoordenadas[fila].numSaidas > 1) {
+          offsetSaida = 20;
+          return offsetSaida;
+        } else {
+          offsetSaida = 0;
+          return offsetSaida;
+        }
+      }
+    }
+  };
+
+  offsetYSelfTargetSaida = () => {
+    let _offsetY;
+    for (let fila in this.props.filasCoordenadas) {
+      if (this.props.filasCoordenadas[fila].id === this.state.origem.id) {
+        if (this.props.filasCoordenadas[fila].numSaidas > 1) {
+          _offsetY = -20;
+          return _offsetY;
+        } else {
+          _offsetY = 0;
+          return _offsetY;
+        }
+      }
+    }
+  };
+
+  offsetYSelfTargetEntrada = () => {
+    let _offsetY;
+    for (let fila in this.props.filasCoordenadas) {
+      if (this.props.filasCoordenadas[fila].id === this.state.origem.id) {
+        if (this.props.filasCoordenadas[fila].numChegadas > 1) {
+          _offsetY = -20;
+          return _offsetY;
+        } else {
+          _offsetY = 0;
+          return _offsetY;
+        }
+      }
+    }
+  };
+
+  handleEntrada = () => {
+    let offsetYEntrada = this.offsetYEntrada();
+    let _startPoint = `M ${this.state.destino.x - 100} ${this.state.destino.y +
+      30 +
+      offsetYEntrada}`;
+    console.log("offset", offsetYEntrada);
+    let _endPoint = `L ${this.state.destino.x} ${this.state.destino.y +
+      30 +
+      offsetYEntrada}`;
+    console.log("offset", offsetYEntrada);
+    this.setState(
+      { d: `${_startPoint} ${_endPoint}` },
+      console.log(this.state.d)
+    );
+  };
+
+  handleSaida = () => {
+    let offsetSaida = this.offsetYSaida();
+    let _startPoint = `M ${this.state.origem.x + 100} ${this.state.origem.y +
+      30 +
+      offsetSaida}`;
+    let _endPoint = `L ${this.state.origem.x + 200} ${this.state.origem.y +
+      30 +
+      offsetSaida}`;
+    this.setState({ d: `${_startPoint} ${_endPoint}` });
+  };
+
+  handleSelfTarget = () => {
+    let _offsetYEntrada = this.offsetYSelfTargetEntrada();
+    let _offsetYSaida = this.offsetYSelfTargetSaida();
+    let _startPoint = `M ${this.state.origem.x + 100} ${this.state.origem.y +
+      30 +
+      _offsetYSaida}`;
+    let _middlePath = `L ${this.state.origem.x + 115} ${this.state.origem.y +
+      30 +
+      _offsetYSaida}
+      L ${this.state.origem.x + 115} ${this.state.origem.y - 10}
+      L ${this.state.origem.x - 15} ${this.state.origem.y - 10}
+      L ${this.state.origem.x - 15} ${this.state.origem.y +
+      30 +
+      _offsetYEntrada}`;
+    let _endPoint = `L ${this.state.origem.x} ${this.state.origem.y +
+      30 +
+      _offsetYEntrada}`;
+    this.setState({ d: `${_startPoint} ${_middlePath} ${_endPoint}` });
+  };
+
+  handleLowerXTarget = () => {
+    let _startPoint = `M ${this.state.origem.x + 100} ${this.state.origem.y +
+      30}`;
+    let _offsetY = () =>
+      this.state.origem.y > this.state.destino.y ? -30 : +90;
+    let _middlePath = `L ${this.state.origem.x + 130} ${this.state.origem.y +
+      30}
+    L ${this.state.origem.x + 130} ${this.state.origem.y + _offsetY()}
+    L ${this.state.destino.x - 30} ${this.state.origem.y + _offsetY()}
+    L ${this.state.destino.x - 30} ${this.state.destino.y + 30}`;
+    let _endPoint = `L ${this.state.destino.x} ${this.state.destino.y + 30}`;
+    this.setState({ d: `${_startPoint} ${_middlePath} ${_endPoint}` });
+  };
+
+  handleHigherXTarget = () => {
+    let _startPoint = `M ${this.state.origem.x + 100} ${this.state.origem.y +
+      30}`;
+    let _endPoint = `L ${this.state.destino.x} ${this.state.destino.y + 30}`;
+    if (this.state.origem.y === this.state.destino.y) {
       this.setState({ d: `${_startPoint} ${_endPoint}` });
     } else {
-      let _startPoint = `M ${this.state.origem.x + 100} ${this.state.origem.y +
-        30}`;
-      let _endPoint = `L ${this.state.destino.x} ${this.state.destino.y + 30}`;
-      if (this.state.origem.y === this.state.destino.y) {
-        this.setState({ d: `${_startPoint} ${_endPoint}` });
-      } else {
-        let _middleX = (this.state.destino.x + this.state.origem.x) / 2;
-        let _middlePath = `L ${_middleX} ${this.state.origem.y +
-          30} L ${_middleX} ${this.state.destino.y + 30}`;
-        console.log(`${_startPoint} ${_middlePath} ${_endPoint}`);
-        this.setState({ d: `${_startPoint} ${_middlePath} ${_endPoint}` });
-      }
+      let _middleX = (this.state.destino.x + this.state.origem.x) / 2;
+      let _middlePath = `L ${_middleX} ${this.state.origem.y +
+        30} L ${_middleX} ${this.state.destino.y + 30}`;
+      console.log(`${_startPoint} ${_middlePath} ${_endPoint}`);
+      this.setState({ d: `${_startPoint} ${_middlePath} ${_endPoint}` });
     }
   };
 

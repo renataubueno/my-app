@@ -38,6 +38,11 @@ export default class ListaAssociacao extends Component{
       console.log('Associações após a criação de uma nova: ', this.state.todasAssociacoes);
     });
 
+    Pubsub.subscribe('import-json', (topico, importJson) => {
+      console.log('IMPORT JSON: ', importJson);
+      console.log('ASSOCIACOES APÓS IMPORT JSON: ', this.state.todasAssociacoes);
+    });
+
     Pubsub.subscribe('dessassociar', (topico, dados) => {
       console.log('Desassociar no ListaASsociacoes.js: ', dados);
 

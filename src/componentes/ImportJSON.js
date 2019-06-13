@@ -5,16 +5,53 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Pubsub from 'pubsub-js';
 
 /* Componente que trigga a janela para importar um arquivo JSON */
-/* No momento: não-funcional */
 export default class ImportJSON extends Component{
   constructor(props){
     super(props);
     this.state = {open: false};
-  }
+  };
 
-  //tratamento onChange
+  onChange = (event) => {
+    //console.log(event.target.files);
+
+    let files = [];
+    let jsonFile = null;
+    let reader = new FileReader();
+
+    if (event.target.files) {
+      files = event.target.files;
+      reader.readAsText(files[0]);
+
+      let file = null;
+      reader.onload = (ev) => {
+        //console.log(ev.target.result);
+        file = ev.target.result;
+
+        if (file) {
+          //console.log(file);
+          //console.log(typeof(file));
+
+          try {
+            jsonFile = JSON.parse(file);
+          } catch(error) {
+            console.log('Erro ao ler arquivo', error);
+          }
+
+          console.log(jsonFile);
+          console.log(typeof(jsonFile));
+          console.log(JSON.stringify(jsonFile));
+
+          Pubsub.publish('import-json', {
+            filas: jsonFile.objSimulacao,
+          });
+        }
+      };
+    }
+
+  };
   //função para popular tópicos -> publish tudo que o editor precisa
 
   handleClickOpen = () => {
@@ -44,9 +81,9 @@ export default class ImportJSON extends Component{
           <Button onClick={this.handleClose} color="primary">
             Fechar Janela
           </Button>
-          <Button onClick={this.handleClose} color="primary">
-            Procurar
-          </Button>
+          <div>
+            <input type='file' name='file' onChange={(event) => this.onChange(event)}/>
+          </div>
         </DialogActions>
       </Dialog>
       </div>
