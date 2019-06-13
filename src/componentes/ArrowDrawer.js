@@ -31,7 +31,15 @@ export default class ArrowDrawer extends Component {
         let filaId = this.props.filas[fila].id;
         let filaX = this.props.filas[fila].x;
         let filaY = this.props.filas[fila].y;
-        let filaCoordenadas = { id: filaId, x: filaX, y: filaY };
+        let numChegadas = this.props.filas[fila].chegadas.length;
+        let numSaidas = this.props.filas[fila].saidas.length;
+        let filaCoordenadas = {
+          id: filaId,
+          x: filaX,
+          y: filaY,
+          numChegadas: numChegadas,
+          numSaidas: numSaidas
+        };
         filasCoordenadas.push(filaCoordenadas);
         this.setState(
           { filasCoordenadas: filasCoordenadas },
@@ -59,15 +67,10 @@ export default class ArrowDrawer extends Component {
           if (saida != "") {
             let origem;
             let destino;
-            console.log(`Saída ${saida}`);
-            console.log(
-              `Destino ${this.props.filas[fila].saidas[saida].destino}`
-            );
             origem = this.props.filas[fila].id;
             destino = this.props.filas[fila].saidas[saida].destino;
             conexao = { origem, destino };
             conexoes.push(conexao);
-            console.log(conexoes);
             this.setState(
               { conexoes: conexoes },
               this.handleAtualizarFlechas()
