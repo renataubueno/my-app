@@ -45,7 +45,7 @@ export default class ImportJSON extends Component{
           console.log(JSON.stringify(jsonFile));
 
           Pubsub.publish('import-json', {
-            filas: jsonFile.objSimulacao,
+            filas: jsonFile.fila,
           });
         }
       };
