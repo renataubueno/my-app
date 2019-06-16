@@ -45,20 +45,22 @@ export default class FilaEditor extends Objeto {
 
   handleRelCoordinates() {
     let filaDOM = ReactDOM.findDOMNode(this);
+    let filaX = filaDOM.getBoundingClientRect().x - this.props.paper.x;
+    let filaY = filaDOM.getBoundingClientRect().y - this.props.paper.y;
 
     this.setState(
       {
-        x: filaDOM.getBoundingClientRect().x - this.props.paper.x,
-        y: filaDOM.getBoundingClientRect().y - this.props.paper.y
+        x: filaX,
+        y: filaY
       },
-      this.handleCoordinatesUpdate()
+      this.handleCoordinatesUpdate(filaX, filaY)
     );
   }
 
-  handleCoordinatesUpdate = () => {
+  handleCoordinatesUpdate = (filaX, filaY) => {
     let objetoAlterado = this.props.objeto;
-    objetoAlterado.x = this.state.x;
-    objetoAlterado.y = this.state.y;
+    objetoAlterado.x = filaX;
+    objetoAlterado.y = filaY;
     this.setState({ objeto: objetoAlterado }, this.handleConexoesUpdate());
 
     console.log("Coordinates Updating");
@@ -90,7 +92,7 @@ export default class FilaEditor extends Objeto {
       <Draggable {...this.settings} grid={[20, 20]}>
         <FilaImage
           alt="Fila"
-          id={this.state.id}
+          id={this.state.fila.id}
           height={this.state.height}
           width={this.state.width}
           {...this.dadosDoObjeto}
