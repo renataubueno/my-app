@@ -52,6 +52,7 @@ class Editor extends React.Component {
     Pubsub.subscribe("retorno-limpar-editor", (topico, limparEditor) => {
       console.log("Vamos");
       this.setState({ filaFilas: [] });
+      Pubsub.publish("limpar-conexoes", {});
     });
 
     Pubsub.subscribe("alteracoes", (topico, alteracoes) => {

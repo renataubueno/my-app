@@ -76,11 +76,6 @@ export default class FilaEditor extends Objeto {
     this.handleRelCoordinates(); // Primeiro valor de coordenadas após criação do objeto
   }
 
-  componentWillReceiveProps() {
-    // this.handleRelCoordinates();    // Atualização das coordenadas em tempo real
-    // this.connection();
-  }
-
   connection() {
     this.settings.onDrag = this.props.onControlledDrag;
   }
