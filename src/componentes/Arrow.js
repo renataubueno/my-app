@@ -51,7 +51,7 @@ export default class Arrow extends Component {
     } else if (this.props.conexao.origem === this.props.conexao.destino) {
       this.handleSelfTarget();
     } else {
-      if (this.state.origem.x > this.state.destino.x) {
+      if (this.state.origem.x >= this.state.destino.x) {
         this.handleLowerXTarget();
       } else {
         this.handleHigherXTarget();
