@@ -80,10 +80,18 @@ export default class ArrowDrawer extends Component {
     }
   };
 
+  handleLimparConexoes = () => {
+    this.setState({ conexoes: [] }, this.handleAtualizarFlechas());
+  };
+
   componentWillMount() {
     Pubsub.subscribe("lista-conexoes", (topico, dados) => {
       console.log("Atualizar lista de conexões");
       this.handleCurrentConexoes();
+    });
+    Pubsub.subscribe("limpar-conexoes", (topico, dados) => {
+      console.log("Limpar lista de conexões");
+      this.handleLimparConexoes();
     });
   }
 
