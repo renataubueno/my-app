@@ -51,7 +51,7 @@ export default class Arrow extends Component {
     } else if (this.props.conexao.origem === this.props.conexao.destino) {
       this.handleSelfTarget();
     } else {
-      if (this.state.origem.x > this.state.destino.x) {
+      if (this.state.origem.x >= this.state.destino.x) {
         this.handleLowerXTarget();
       } else {
         this.handleHigherXTarget();
@@ -154,7 +154,7 @@ export default class Arrow extends Component {
       _offsetYSaida}`;
     let _middlePath = `L ${this.state.origem.x + 115} ${this.state.origem.y +
       30 +
-      _offsetYSaida}
+      _offsetYSaida} 
       L ${this.state.origem.x + 115} ${this.state.origem.y - 10}
       L ${this.state.origem.x - 15} ${this.state.origem.y - 10}
       L ${this.state.origem.x - 15} ${this.state.origem.y +
