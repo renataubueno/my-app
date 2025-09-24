@@ -6,7 +6,7 @@
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "cors": "^2.8.5",
-    "pubsub-js": "^1.7.0",
+    "pubsub-js": "^1.9.5",
     "react": "^16.8.4",
     "react-charts-d3": "^2.4.1",
     "react-dom": "^16.8.4",
